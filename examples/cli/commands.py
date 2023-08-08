@@ -1,7 +1,7 @@
 import ipaddress
 import datetime
 
-from . import uhppote
+from uhppoted import uhppote
 from pprint import pprint
 
 

@@ -2,3 +2,5 @@
 
 ## Unreleased
 
+### Added
+1. Initial release

@@ -5,8 +5,8 @@ import sys
 import traceback
 
 from trace import Trace
-from uhppoted.commands import commands
-from uhppoted.commands import exec
+from commands import commands
+from commands import exec
 
 
 def main():
