@@ -6,7 +6,7 @@
 
 Python API for the UHPPOTE TCP/IP access controllers. 
 
-An example CLI illustrating the API can be found in the [examples/cli](https://github.com/uhppoted/uhppoted-python/examples/cli) folder.
+An example CLI illustrating the API can be found in the [examples/cli](https://github.com/uhppoted/uhppoted-python/tree/main/examples/cli) folder.
 
 ## API
 
