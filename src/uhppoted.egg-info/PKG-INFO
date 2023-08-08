@@ -1,0 +1,19 @@
+Metadata-Version: 2.1
+Name: uhppoted
+Version: 0.8.1
+Summary: Python API for the UHPPOTE TCP/IP access controllers
+Author-email: uhppoted <uhppoted.development@gmail.com>
+Project-URL: Homepage, https://github.com/uhppoted/uhppoted-python
+Project-URL: Bug Tracker, https://github.com/uhppoted/uhppoted-python/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+# uhppoted-python
+
+**(IN PROGRESS)**
+
+PyPI package for the UHPPOTED Python API

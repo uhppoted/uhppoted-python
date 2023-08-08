@@ -1,0 +1,12 @@
+LICENSE
+README.md
+pyproject.toml
+src/uhppoted/commands.py
+src/uhppoted/decode.py
+src/uhppoted/encode.py
+src/uhppoted/udp.py
+src/uhppoted/uhppote.py
+src/uhppoted.egg-info/PKG-INFO
+src/uhppoted.egg-info/SOURCES.txt
+src/uhppoted.egg-info/dependency_links.txt
+src/uhppoted.egg-info/top_level.txt

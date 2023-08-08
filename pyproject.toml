@@ -1,0 +1,22 @@
+[project]
+name = "uhppoted"
+version = "0.8.1"
+authors = [
+  { name="uhppoted", email="uhppoted.development@gmail.com" },
+]
+description = "Python API for the UHPPOTE TCP/IP access controllers"
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/uhppoted/uhppoted-python"
+"Bug Tracker" = "https://github.com/uhppoted/uhppoted-python/issues"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
