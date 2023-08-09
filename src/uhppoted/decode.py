@@ -14,7 +14,8 @@ def get_controller_response(packet):
 
     # Ref. v6.62 firmware event
     if packet[0] != 0x17 and (packet[0] != 0x19 or packet[1] != 0x20):
-        raise ValueError(f'invalid reply start of message byte ({packet[0]:02x})')
+        raise ValueError(
+            f'invalid reply start of message byte ({packet[0]:02x})')
 
     if packet[1] != 0x94:
         raise ValueError(f'invalid reply function code ({packet[1]:02x})')
@@ -36,7 +37,8 @@ def get_time_response(packet):
 
     # Ref. v6.62 firmware event
     if packet[0] != 0x17 and (packet[0] != 0x19 or packet[1] != 0x20):
-        raise ValueError(f'invalid reply start of message byte ({packet[0]:02x})')
+        raise ValueError(
+            f'invalid reply start of message byte ({packet[0]:02x})')
 
     if packet[1] != 0x32:
         raise ValueError(f'invalid reply function code ({packet[1]:02x})')
@@ -53,7 +55,8 @@ def set_time_response(packet):
 
     # Ref. v6.62 firmware event
     if packet[0] != 0x17 and (packet[0] != 0x19 or packet[1] != 0x20):
-        raise ValueError(f'invalid reply start of message byte ({packet[0]:02x})')
+        raise ValueError(
+            f'invalid reply start of message byte ({packet[0]:02x})')
 
     if packet[1] != 0x30:
         raise ValueError(f'invalid reply function code ({packet[1]:02x})')
@@ -70,7 +73,8 @@ def get_status_response(packet):
 
     # Ref. v6.62 firmware event
     if packet[0] != 0x17 and (packet[0] != 0x19 or packet[1] != 0x20):
-        raise ValueError(f'invalid reply start of message byte ({packet[0]:02x})')
+        raise ValueError(
+            f'invalid reply start of message byte ({packet[0]:02x})')
 
     if packet[1] != 0x20:
         raise ValueError(f'invalid reply function code ({packet[1]:02x})')
@@ -109,7 +113,8 @@ def get_listener_response(packet):
 
     # Ref. v6.62 firmware event
     if packet[0] != 0x17 and (packet[0] != 0x19 or packet[1] != 0x20):
-        raise ValueError(f'invalid reply start of message byte ({packet[0]:02x})')
+        raise ValueError(
+            f'invalid reply start of message byte ({packet[0]:02x})')
 
     if packet[1] != 0x92:
         raise ValueError(f'invalid reply function code ({packet[1]:02x})')
@@ -127,7 +132,8 @@ def set_listener_response(packet):
 
     # Ref. v6.62 firmware event
     if packet[0] != 0x17 and (packet[0] != 0x19 or packet[1] != 0x20):
-        raise ValueError(f'invalid reply start of message byte ({packet[0]:02x})')
+        raise ValueError(
+            f'invalid reply start of message byte ({packet[0]:02x})')
 
     if packet[1] != 0x90:
         raise ValueError(f'invalid reply function code ({packet[1]:02x})')
@@ -144,7 +150,8 @@ def get_door_control_response(packet):
 
     # Ref. v6.62 firmware event
     if packet[0] != 0x17 and (packet[0] != 0x19 or packet[1] != 0x20):
-        raise ValueError(f'invalid reply start of message byte ({packet[0]:02x})')
+        raise ValueError(
+            f'invalid reply start of message byte ({packet[0]:02x})')
 
     if packet[1] != 0x82:
         raise ValueError(f'invalid reply function code ({packet[1]:02x})')
@@ -163,7 +170,8 @@ def set_door_control_response(packet):
 
     # Ref. v6.62 firmware event
     if packet[0] != 0x17 and (packet[0] != 0x19 or packet[1] != 0x20):
-        raise ValueError(f'invalid reply start of message byte ({packet[0]:02x})')
+        raise ValueError(
+            f'invalid reply start of message byte ({packet[0]:02x})')
 
     if packet[1] != 0x80:
         raise ValueError(f'invalid reply function code ({packet[1]:02x})')
@@ -182,7 +190,8 @@ def open_door_response(packet):
 
     # Ref. v6.62 firmware event
     if packet[0] != 0x17 and (packet[0] != 0x19 or packet[1] != 0x20):
-        raise ValueError(f'invalid reply start of message byte ({packet[0]:02x})')
+        raise ValueError(
+            f'invalid reply start of message byte ({packet[0]:02x})')
 
     if packet[1] != 0x40:
         raise ValueError(f'invalid reply function code ({packet[1]:02x})')
@@ -199,7 +208,8 @@ def get_cards_response(packet):
 
     # Ref. v6.62 firmware event
     if packet[0] != 0x17 and (packet[0] != 0x19 or packet[1] != 0x20):
-        raise ValueError(f'invalid reply start of message byte ({packet[0]:02x})')
+        raise ValueError(
+            f'invalid reply start of message byte ({packet[0]:02x})')
 
     if packet[1] != 0x58:
         raise ValueError(f'invalid reply function code ({packet[1]:02x})')
@@ -216,7 +226,8 @@ def get_card_response(packet):
 
     # Ref. v6.62 firmware event
     if packet[0] != 0x17 and (packet[0] != 0x19 or packet[1] != 0x20):
-        raise ValueError(f'invalid reply start of message byte ({packet[0]:02x})')
+        raise ValueError(
+            f'invalid reply start of message byte ({packet[0]:02x})')
 
     if packet[1] != 0x5a:
         raise ValueError(f'invalid reply function code ({packet[1]:02x})')
@@ -240,7 +251,8 @@ def get_card_by_index_response(packet):
 
     # Ref. v6.62 firmware event
     if packet[0] != 0x17 and (packet[0] != 0x19 or packet[1] != 0x20):
-        raise ValueError(f'invalid reply start of message byte ({packet[0]:02x})')
+        raise ValueError(
+            f'invalid reply start of message byte ({packet[0]:02x})')
 
     if packet[1] != 0x5c:
         raise ValueError(f'invalid reply function code ({packet[1]:02x})')
@@ -264,7 +276,8 @@ def put_card_response(packet):
 
     # Ref. v6.62 firmware event
     if packet[0] != 0x17 and (packet[0] != 0x19 or packet[1] != 0x20):
-        raise ValueError(f'invalid reply start of message byte ({packet[0]:02x})')
+        raise ValueError(
+            f'invalid reply start of message byte ({packet[0]:02x})')
 
     if packet[1] != 0x50:
         raise ValueError(f'invalid reply function code ({packet[1]:02x})')
@@ -281,7 +294,8 @@ def delete_card_response(packet):
 
     # Ref. v6.62 firmware event
     if packet[0] != 0x17 and (packet[0] != 0x19 or packet[1] != 0x20):
-        raise ValueError(f'invalid reply start of message byte ({packet[0]:02x})')
+        raise ValueError(
+            f'invalid reply start of message byte ({packet[0]:02x})')
 
     if packet[1] != 0x52:
         raise ValueError(f'invalid reply function code ({packet[1]:02x})')
@@ -298,7 +312,8 @@ def delete_all_cards_response(packet):
 
     # Ref. v6.62 firmware event
     if packet[0] != 0x17 and (packet[0] != 0x19 or packet[1] != 0x20):
-        raise ValueError(f'invalid reply start of message byte ({packet[0]:02x})')
+        raise ValueError(
+            f'invalid reply start of message byte ({packet[0]:02x})')
 
     if packet[1] != 0x54:
         raise ValueError(f'invalid reply function code ({packet[1]:02x})')
@@ -315,7 +330,8 @@ def get_event_response(packet):
 
     # Ref. v6.62 firmware event
     if packet[0] != 0x17 and (packet[0] != 0x19 or packet[1] != 0x20):
-        raise ValueError(f'invalid reply start of message byte ({packet[0]:02x})')
+        raise ValueError(
+            f'invalid reply start of message byte ({packet[0]:02x})')
 
     if packet[1] != 0xb0:
         raise ValueError(f'invalid reply function code ({packet[1]:02x})')
@@ -339,7 +355,8 @@ def get_event_index_response(packet):
 
     # Ref. v6.62 firmware event
     if packet[0] != 0x17 and (packet[0] != 0x19 or packet[1] != 0x20):
-        raise ValueError(f'invalid reply start of message byte ({packet[0]:02x})')
+        raise ValueError(
+            f'invalid reply start of message byte ({packet[0]:02x})')
 
     if packet[1] != 0xb4:
         raise ValueError(f'invalid reply function code ({packet[1]:02x})')
@@ -356,7 +373,8 @@ def set_event_index_response(packet):
 
     # Ref. v6.62 firmware event
     if packet[0] != 0x17 and (packet[0] != 0x19 or packet[1] != 0x20):
-        raise ValueError(f'invalid reply start of message byte ({packet[0]:02x})')
+        raise ValueError(
+            f'invalid reply start of message byte ({packet[0]:02x})')
 
     if packet[1] != 0xb2:
         raise ValueError(f'invalid reply function code ({packet[1]:02x})')
@@ -373,7 +391,8 @@ def record_special_events_response(packet):
 
     # Ref. v6.62 firmware event
     if packet[0] != 0x17 and (packet[0] != 0x19 or packet[1] != 0x20):
-        raise ValueError(f'invalid reply start of message byte ({packet[0]:02x})')
+        raise ValueError(
+            f'invalid reply start of message byte ({packet[0]:02x})')
 
     if packet[1] != 0x8e:
         raise ValueError(f'invalid reply function code ({packet[1]:02x})')
@@ -390,7 +409,8 @@ def get_time_profile_response(packet):
 
     # Ref. v6.62 firmware event
     if packet[0] != 0x17 and (packet[0] != 0x19 or packet[1] != 0x20):
-        raise ValueError(f'invalid reply start of message byte ({packet[0]:02x})')
+        raise ValueError(
+            f'invalid reply start of message byte ({packet[0]:02x})')
 
     if packet[1] != 0x98:
         raise ValueError(f'invalid reply function code ({packet[1]:02x})')
@@ -423,7 +443,8 @@ def set_time_profile_response(packet):
 
     # Ref. v6.62 firmware event
     if packet[0] != 0x17 and (packet[0] != 0x19 or packet[1] != 0x20):
-        raise ValueError(f'invalid reply start of message byte ({packet[0]:02x})')
+        raise ValueError(
+            f'invalid reply start of message byte ({packet[0]:02x})')
 
     if packet[1] != 0x88:
         raise ValueError(f'invalid reply function code ({packet[1]:02x})')
@@ -440,7 +461,8 @@ def delete_all_time_profiles_response(packet):
 
     # Ref. v6.62 firmware event
     if packet[0] != 0x17 and (packet[0] != 0x19 or packet[1] != 0x20):
-        raise ValueError(f'invalid reply start of message byte ({packet[0]:02x})')
+        raise ValueError(
+            f'invalid reply start of message byte ({packet[0]:02x})')
 
     if packet[1] != 0x8a:
         raise ValueError(f'invalid reply function code ({packet[1]:02x})')
@@ -457,7 +479,8 @@ def add_task_response(packet):
 
     # Ref. v6.62 firmware event
     if packet[0] != 0x17 and (packet[0] != 0x19 or packet[1] != 0x20):
-        raise ValueError(f'invalid reply start of message byte ({packet[0]:02x})')
+        raise ValueError(
+            f'invalid reply start of message byte ({packet[0]:02x})')
 
     if packet[1] != 0xa8:
         raise ValueError(f'invalid reply function code ({packet[1]:02x})')
@@ -474,7 +497,8 @@ def refresh_tasklist_response(packet):
 
     # Ref. v6.62 firmware event
     if packet[0] != 0x17 and (packet[0] != 0x19 or packet[1] != 0x20):
-        raise ValueError(f'invalid reply start of message byte ({packet[0]:02x})')
+        raise ValueError(
+            f'invalid reply start of message byte ({packet[0]:02x})')
 
     if packet[1] != 0xac:
         raise ValueError(f'invalid reply function code ({packet[1]:02x})')
@@ -491,7 +515,8 @@ def clear_tasklist_response(packet):
 
     # Ref. v6.62 firmware event
     if packet[0] != 0x17 and (packet[0] != 0x19 or packet[1] != 0x20):
-        raise ValueError(f'invalid reply start of message byte ({packet[0]:02x})')
+        raise ValueError(
+            f'invalid reply start of message byte ({packet[0]:02x})')
 
     if packet[1] != 0xa6:
         raise ValueError(f'invalid reply function code ({packet[1]:02x})')
@@ -508,7 +533,8 @@ def set_pc_control_response(packet):
 
     # Ref. v6.62 firmware event
     if packet[0] != 0x17 and (packet[0] != 0x19 or packet[1] != 0x20):
-        raise ValueError(f'invalid reply start of message byte ({packet[0]:02x})')
+        raise ValueError(
+            f'invalid reply start of message byte ({packet[0]:02x})')
 
     if packet[1] != 0xa0:
         raise ValueError(f'invalid reply function code ({packet[1]:02x})')
@@ -525,7 +551,8 @@ def set_interlock_response(packet):
 
     # Ref. v6.62 firmware event
     if packet[0] != 0x17 and (packet[0] != 0x19 or packet[1] != 0x20):
-        raise ValueError(f'invalid reply start of message byte ({packet[0]:02x})')
+        raise ValueError(
+            f'invalid reply start of message byte ({packet[0]:02x})')
 
     if packet[1] != 0xa2:
         raise ValueError(f'invalid reply function code ({packet[1]:02x})')
@@ -542,7 +569,8 @@ def activate_keypads_response(packet):
 
     # Ref. v6.62 firmware event
     if packet[0] != 0x17 and (packet[0] != 0x19 or packet[1] != 0x20):
-        raise ValueError(f'invalid reply start of message byte ({packet[0]:02x})')
+        raise ValueError(
+            f'invalid reply start of message byte ({packet[0]:02x})')
 
     if packet[1] != 0xa4:
         raise ValueError(f'invalid reply function code ({packet[1]:02x})')
@@ -559,7 +587,8 @@ def event(packet):
 
     # Ref. v6.62 firmware event
     if packet[0] != 0x17 and (packet[0] != 0x19 or packet[1] != 0x20):
-        raise ValueError(f'invalid reply start of message byte ({packet[0]:02x})')
+        raise ValueError(
+            f'invalid reply start of message byte ({packet[0]:02x})')
 
     if packet[1] != 0x20:
         raise ValueError(f'invalid reply function code ({packet[1]:02x})')
@@ -874,7 +903,8 @@ def unpack_ipv4(packet, offset):
 
 
 def unpack_mac(packet, offset):
-    return '{:02x}:{:02x}:{:02x}:{:02x}::{:02x}:{:02x}'.format(*packet[offset:offset + 7])
+    return '{:02x}:{:02x}:{:02x}:{:02x}::{:02x}:{:02x}'.format(
+        *packet[offset:offset + 7])
 
 
 def unpack_version(packet, offset):
@@ -903,13 +933,15 @@ def unpack_optional_date(packet, offset):
 
 
 def unpack_datetime(packet, offset):
-    bcd = '{:02x}{:02x}{:02x}{:02x}{:02x}{:02x}{:02x}'.format(*packet[offset:offset + 7])
+    bcd = '{:02x}{:02x}{:02x}{:02x}{:02x}{:02x}{:02x}'.format(
+        *packet[offset:offset + 7])
 
     return datetime.datetime.strptime(bcd, '%Y%m%d%H%M%S')
 
 
 def unpack_optional_datetime(packet, offset):
-    bcd = '{:02x}{:02x}{:02x}{:02x}{:02x}{:02x}{:02x}'.format(*packet[offset:offset + 7])
+    bcd = '{:02x}{:02x}{:02x}{:02x}{:02x}{:02x}{:02x}'.format(
+        *packet[offset:offset + 7])
 
     try:
         return datetime.datetime.strptime(bcd, '%Y%m%d%H%M%S')

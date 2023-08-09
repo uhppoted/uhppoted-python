@@ -29,8 +29,10 @@ class UDP:
         try:
             sock.bind(self._bind)
             sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-            sock.setsockopt(socket.SOL_SOCKET, socket.SO_SNDTIMEO, WRITE_TIMEOUT)
-            sock.setsockopt(socket.SOL_SOCKET, socket.SO_RCVTIMEO, READ_TIMEOUT)
+            sock.setsockopt(socket.SOL_SOCKET, socket.SO_SNDTIMEO,
+                            WRITE_TIMEOUT)
+            sock.setsockopt(socket.SOL_SOCKET, socket.SO_RCVTIMEO,
+                            READ_TIMEOUT)
 
             sock.sendto(request, self._broadcast)
 
@@ -47,8 +49,10 @@ class UDP:
         try:
             sock.bind(self._bind)
             sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-            sock.setsockopt(socket.SOL_SOCKET, socket.SO_SNDTIMEO, WRITE_TIMEOUT)
-            sock.setsockopt(socket.SOL_SOCKET, socket.SO_RCVTIMEO, READ_TIMEOUT)
+            sock.setsockopt(socket.SOL_SOCKET, socket.SO_SNDTIMEO,
+                            WRITE_TIMEOUT)
+            sock.setsockopt(socket.SOL_SOCKET, socket.SO_RCVTIMEO,
+                            READ_TIMEOUT)
 
             sock.sendto(request, self._broadcast)
 

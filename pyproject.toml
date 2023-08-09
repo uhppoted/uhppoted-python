@@ -17,6 +17,19 @@ classifiers = [
 "Homepage" = "https://github.com/uhppoted/uhppoted-python"
 "Bug Tracker" = "https://github.com/uhppoted/uhppoted-python/issues"
 
+[project.optional-dependencies]
+dev = [
+    "toml ~=0.10.2",
+    "yapf ~=0.32.0",
+]
+test = [
+]
+
+
 [build-system]
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
+
+[tool.yapfignore]
+based_on_style = "pep8"
+column_limit = 100

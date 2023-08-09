@@ -158,8 +158,8 @@ def get_card_by_index_request(device_id, card_index):
     return packet
 
 
-def put_card_request(device_id, card_number, start_date, end_date, door_1, door_2, door_3, door_4,
-                     pin):
+def put_card_request(device_id, card_number, start_date, end_date, door_1,
+                     door_2, door_3, door_4, pin):
     packet = bytearray(64)
 
     packet[0] = 0x17
@@ -262,9 +262,10 @@ def get_time_profile_request(device_id, profile_id):
     return packet
 
 
-def set_time_profile_request(device_id, profile_id, start_date, end_date, monday, tuesday,
-                             wednesday, thursday, friday, saturday, sunday, segment_1_start,
-                             segment_1_end, segment_2_start, segment_2_end, segment_3_start,
+def set_time_profile_request(device_id, profile_id, start_date, end_date,
+                             monday, tuesday, wednesday, thursday, friday,
+                             saturday, sunday, segment_1_start, segment_1_end,
+                             segment_2_start, segment_2_end, segment_3_start,
                              segment_3_end, linked_profile_id):
     packet = bytearray(64)
 
@@ -305,8 +306,9 @@ def delete_all_time_profiles_request(device_id):
     return packet
 
 
-def add_task_request(device_id, start_date, end_date, monday, tuesday, wednesday, thursday, friday,
-                     saturday, sunday, start_time, door, task_type, more_cards):
+def add_task_request(device_id, start_date, end_date, monday, tuesday,
+                     wednesday, thursday, friday, saturday, sunday, start_time,
+                     door, task_type, more_cards):
     packet = bytearray(64)
 
     packet[0] = 0x17
@@ -379,7 +381,8 @@ def set_interlock_request(device_id, interlock):
     return packet
 
 
-def activate_keypads_request(device_id, reader_1, reader_2, reader_3, reader_4):
+def activate_keypads_request(device_id, reader_1, reader_2, reader_3,
+                             reader_4):
     packet = bytearray(64)
 
     packet[0] = 0x17

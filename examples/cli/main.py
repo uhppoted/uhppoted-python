@@ -23,15 +23,17 @@ def main():
                         default='0.0.0.0',
                         help='UDP IPv4 bind address. Defaults to 0.0.0.0:0')
 
-    parser.add_argument('--broadcast',
-                        type=str,
-                        default='255.255.255.255:60000',
-                        help='UDP IPv4 broadcast address. Defaults to 255.255.255.255:60000')
+    parser.add_argument(
+        '--broadcast',
+        type=str,
+        default='255.255.255.255:60000',
+        help='UDP IPv4 broadcast address. Defaults to 255.255.255.255:60000')
 
-    parser.add_argument('--listen',
-                        type=str,
-                        default='0.0.0.0:60001',
-                        help='UDP IPv4 event listener bind address. Defaults to 0.0.0.0:60001')
+    parser.add_argument(
+        '--listen',
+        type=str,
+        default='0.0.0.0:60001',
+        help='UDP IPv4 event listener bind address. Defaults to 0.0.0.0:60001')
 
     parser.add_argument('--debug',
                         action=argparse.BooleanOptionalAction,

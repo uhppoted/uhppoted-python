@@ -6,7 +6,9 @@ from . import encode
 from . import decode
 from . import udp
 
+
 class Uhppote:
+
     def __init__(self,
                  bind='0.0.0.0',
                  broadcast='255.255.255.255:60000',
@@ -240,7 +242,8 @@ class Uhppote:
             Raises:
                Exception  If the response from the access controller cannot be decoded.
         '''
-        request = encode.set_door_control_request(controller, door, mode, delay)
+        request = encode.set_door_control_request(controller, door, mode,
+                                                  delay)
         reply = self._udp.send(request)
 
         if reply != None:
@@ -333,8 +336,8 @@ class Uhppote:
 
         return None
 
-    def put_card(self, controller, card_number, start_date, end_date, door_1, door_2, door_3, door_4,
-                 pin):
+    def put_card(self, controller, card_number, start_date, end_date, door_1,
+                 door_2, door_3, door_4, pin):
         '''
         Adds (or updates) a card record stored on the access controller.
             Parameters:
@@ -353,8 +356,9 @@ class Uhppote:
             Raises:
                Exception  If the response from the access controller cannot be decoded.
         '''
-        request = encode.put_card_request(controller, card_number, start_date, end_date, door_1,
-                                          door_2, door_3, door_4, pin)
+        request = encode.put_card_request(controller, card_number, start_date,
+                                          end_date, door_1, door_2, door_3,
+                                          door_4, pin)
         reply = self._udp.send(request)
 
         if reply != None:
@@ -516,9 +520,10 @@ class Uhppote:
 
         return None
 
-    def set_time_profile(self, controller, profile_id, start_date, end_date, monday, tuesday,
-                         wednesday, thursday, friday, saturday, sunday, segment_1_start,
-                         segment_1_end, segment_2_start, segment_2_end, segment_3_start,
+    def set_time_profile(self, controller, profile_id, start_date, end_date,
+                         monday, tuesday, wednesday, thursday, friday,
+                         saturday, sunday, segment_1_start, segment_1_end,
+                         segment_2_start, segment_2_end, segment_3_start,
                          segment_3_end, linked_profile_id):
         '''
         Creates (or updates) a time profile on an access conntroller.
@@ -549,11 +554,11 @@ class Uhppote:
             Raises:
                Exception  If the response from the access controller cannot be decoded.
         '''
-        request = encode.set_time_profile_request(controller, profile_id, start_date, end_date,
-                                                  monday, tuesday, wednesday, thursday, friday,
-                                                  saturday, sunday, segment_1_start, segment_1_end,
-                                                  segment_2_start, segment_2_end, segment_3_start,
-                                                  segment_3_end, linked_profile_id)
+        request = encode.set_time_profile_request(
+            controller, profile_id, start_date, end_date, monday, tuesday,
+            wednesday, thursday, friday, saturday, sunday, segment_1_start,
+            segment_1_end, segment_2_start, segment_2_end, segment_3_start,
+            segment_3_end, linked_profile_id)
         reply = self._udp.send(request)
 
         if reply != None:
@@ -582,8 +587,9 @@ class Uhppote:
 
         return None
 
-    def add_task(self, controller, start_date, end_date, monday, tuesday, wednesday, thursday,
-                 friday, saturday, sunday, start_time, door, task_type, more_cards):
+    def add_task(self, controller, start_date, end_date, monday, tuesday,
+                 wednesday, thursday, friday, saturday, sunday, start_time,
+                 door, task_type, more_cards):
         '''
         Creates a scheduled task on an access conntroller.
 
@@ -622,8 +628,9 @@ class Uhppote:
             Raises:
                Exception  If the response from the access controller cannot be decoded.
         '''
-        request = encode.add_task_request(controller, start_date, end_date, monday, tuesday,
-                                          wednesday, thursday, friday, saturday, sunday, start_time,
+        request = encode.add_task_request(controller, start_date, end_date,
+                                          monday, tuesday, wednesday, thursday,
+                                          friday, saturday, sunday, start_time,
                                           door, task_type, more_cards)
         reply = self._udp.send(request)
 
@@ -727,7 +734,8 @@ class Uhppote:
 
         return None
 
-    def activate_keypads(self, controller, reader_1, reader_2, reader_3, reader_4):
+    def activate_keypads(self, controller, reader_1, reader_2, reader_3,
+                         reader_4):
         '''
         Enables (or disables) the keypad associated with an access reader.
 
@@ -744,7 +752,8 @@ class Uhppote:
             Raises:
                Exception  If the response from the access controller cannot be decoded.
         '''
-        request = encode.activate_keypads_request(controller, reader_1, reader_2, reader_3, reader_4)
+        request = encode.activate_keypads_request(controller, reader_1,
+                                                  reader_2, reader_3, reader_4)
         reply = self._udp.send(request)
 
         if reply != None:
@@ -769,4 +778,3 @@ class Uhppote:
 
     def __events(packet, onEvent):
         onEvent(decode.event(packet))
-
