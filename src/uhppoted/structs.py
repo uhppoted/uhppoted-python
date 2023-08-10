@@ -14,6 +14,18 @@ PIN = NewType('PIN', int)
 
 @dataclass
 class GetControllerResponse:
+    '''
+    Container class for the decoded response from a get-controller request.
+
+       Fields:
+          controller   (uint32)       Serial number.
+          ip_address   (IPv4Address)  IP address.
+          subnet_mask  (IPv4Address)  Subnet mask.
+          gateway      (IPv4Address)  Gateway IP address.
+          mac_address  (string)       MAC address (XX:XX:XX:XX:XX:XX).
+          version      (string)       Firmware version (vN.NN).
+          date         (date)         Release date (YYYY-MM-DD).
+    '''
     controller: int
     ip_address: IPv4Address
     subnet_mask: IPv4Address

@@ -28,8 +28,8 @@ class Uhppote:
                Initialised Uhppote object.
 
             Raises:
-               Exception  If any of the supplied IPv4 values cannot be translated to a valid IPv4 
-                          address:port combination.
+               ValueError  If any of the supplied IPv4 values cannot be translated to a valid IPv4 
+                           address:port combination.
         '''
         self._udp = udp.UDP(bind, broadcast, listen, debug)
 

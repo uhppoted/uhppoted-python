@@ -5,9 +5,10 @@
 - [ ] README
 - [ ] docstrings
       - [x] uhppote.py
-      - [ ] encode.py
-      - [ ] decode.py
+      - [x] encode.py
+      - [x] decode.py
       - [ ] udp.py
+      - [ ] structs.py
 
 - [ ] Unit/integration tests
 
