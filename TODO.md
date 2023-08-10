@@ -1,13 +1,13 @@
 # TODO
 
-- [ ] github workflow
-- [ ] Rework code-generation to use DataClass
+- [x] github workflow
+- (?) DataClass wrappers
 - [ ] README
 - [ ] docstrings
       - [x] uhppote.py
       - [ ] encode.py
       - [ ] decode.py
       - [ ] udp.py
-- [ ] Include in uhppoted umbrella release
-- [ ] Integration tests
+
+- [ ] Unit/integration tests
 

@@ -79,10 +79,10 @@ class Uhppote:
         Sets the controller IPv4 address, netmask and gateway address.
 
             Parameters:
-               controller (uint32)  Controller serial number (expected to be greater than 0).
-               address    (string)  Controller IPv4 address.
-               netmask    (string)  Controller IPv4 subnet mask.
-               gateway    (string)  Controller IPv4 gateway address.
+               controller (uint32)       Controller serial number (expected to be greater than 0).
+               address    (IPv4Address)  Controller IPv4 address.
+               netmask    (IPv4Address)  Controller IPv4 subnet mask.
+               gateway    (IPv4Address)  Controller IPv4 gateway address.
 
             Returns:
                True  For (probably) internal reasons the access controller does not respond to this command.
@@ -186,9 +186,9 @@ class Uhppote:
         Sets an access controller event listener IPv4 address and port.
 
             Parameters:
-               controller (uint32)  Controller serial number (expected to be greater than 0).
-               address    (string)  IPv4 address of event listener.
-               port       (uint16)  UDP port of event listener.
+               controller (uint32)       Controller serial number (expected to be greater than 0).
+               address    (IPv4Address)  IPv4 address of event listener.
+               port       (uint16)       UDP port of event listener.
 
             Returns:
                set_listener_response  Success/fail response from controller.
@@ -343,12 +343,13 @@ class Uhppote:
             Parameters:
                controller  (uint32)  Controller serial number (expected to be greater than 0).
                card_number (uint32)  Access card number.
-               start_date  (string)  Card 'valid from' date (YYYYMMDD).
-               end_date    (string)  Card 'valid until' date (YYYYMMDD).
+               start_date  (date)    Card 'valid from' date (YYYYMMDD).
+               end_date    (date)    Card 'valid until' date (YYYYMMDD).
                door_1      (uint8)   Card access permissions for door 1 (0: none, 1: all, 2-254: time profile ID)
                door_2      (uint8)   Card access permissions for door 2 (0: none, 1: all, 2-254: time profile ID)
                door_3      (uint8)   Card access permissions for door 3 (0: none, 1: all, 2-254: time profile ID)
                door_4      (uint8)   Card access permissions for door 4 (0: none, 1: all, 2-254: time profile ID)
+               pin         (uint24)  Card access keypad PIN code (0 for none)
 
             Returns:
                put_card_response  Card record add/update success/fail.
@@ -529,25 +530,25 @@ class Uhppote:
         Creates (or updates) a time profile on an access conntroller.
 
             Parameters:
-               controller        (uint32)    Controller serial number (expected to be greater than 0).
-               profile_id        (uint8)     Time profile ID [2..254] to retrieve.
-               start_date        (datetime)  Time profile 'valid from' date.
-               end_date          (datetime)  Time profile 'valid until' date.
-               monday            (bool)      Time profile enabled on Monday.
-               tuesday           (bool)      Time profile enabled on Tuesday.
-               wednesday         (bool)      Time profile enabled on Wednesday.
-               thursday          (bool)      Time profile enabled on Thursday.
-               friday            (bool)      Time profile enabled on Friday.
-               saturday          (bool)      Time profile enabled on Saturday.
-               sunday            (bool)      Time profile enabled on Sunday.
-               segment_1_start   (datetime)  Time profile segment 1 start time (HHmm).
-               segment_1_end     (datetime)  Time profile segment 1 end time (HHmm).
-               segment_2_start   (datetime)  Time profile segment 2 start time (HHmm).
-               segment_2_end     (datetime)  Time profile segment 2 end time (HHmm).
-               segment_3_start   (datetime)  Time profile segment 3 start time (HHmm).
-               segment_3_end     (datetime)  Time profile segment 3 end time (HHmm).
-               linked_profile_id (uint8)     Next profile ID in chain (0 if none).
-
+               controller        (uint32)  Controller serial number (expected to be greater than 0).
+               profile_id        (uint8)   Time profile ID [2..254] to retrieve.
+               start_date        (date)    Time profile 'valid from' date.
+               end_date          (date)    Time profile 'valid until' date.
+               monday            (bool)    Time profile enabled on Monday.
+               tuesday           (bool)    Time profile enabled on Tuesday.
+               wednesday         (bool)    Time profile enabled on Wednesday.
+               thursday          (bool)    Time profile enabled on Thursday.
+               friday            (bool)    Time profile enabled on Friday.
+               saturday          (bool)    Time profile enabled on Saturday.
+               sunday            (bool)    Time profile enabled on Sunday.
+               segment_1_start   (time)    Time profile segment 1 start time (HHmm).
+               segment_1_end     (time)    Time profile segment 1 end time (HHmm).
+               segment_2_start   (time)    Time profile segment 2 start time (HHmm).
+               segment_2_end     (time)    Time profile segment 2 end time (HHmm).
+               segment_3_start   (time)    Time profile segment 3 start time (HHmm).
+               segment_3_end     (time)    Time profile segment 3 end time (HHmm).
+               linked_profile_id (uint8)   Next profile ID in chain (0 if none).
+ 
             Returns:
                set_time_profile_response  Set time profile success/fail response.
 
@@ -604,7 +605,7 @@ class Uhppote:
                friday      (bool)      Task enabled on Friday.
                saturday    (bool)      Task enabled on Saturday.
                sunday      (bool)      Task enabled on Sunday.
-               start_time  (datetime)  Task 'run at' time (HHmm).
+               start_time  (time)      Task 'run at' time (HHmm).
                door        (uint8)     Door [1..4] to which task is assigned.
                task_type   (uint8)     Task type
                                        0:  door controlled
@@ -620,7 +621,7 @@ class Uhppote:
                                        10: trigger once
                                        11: disable pushbutton
                                        12: enable pushbutton
-               more_cards  (uint8)     Number of card for the 'more cards' task.
+               more_cards  (uint8)     Number of cards for the 'more cards' task.
 
             Returns:
                add_task_response  Add task success/fail response.
