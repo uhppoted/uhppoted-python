@@ -1,14 +1,61 @@
+'''
+UHPPOTE request packet decoder.
+
+Decodes a UHPPOTE access controller 64 byte UDP response packet into the
+equivalent Python object.
+'''
+
 import datetime
 import struct
 
 from ipaddress import IPv4Address
 from dataclasses import dataclass
-from typing import NewType
 
-PIN = NewType('PIN', int)
-
+from .structs import GetControllerResponse
+from .structs import GetTimeResponse
+from .structs import SetTimeResponse
+from .structs import GetStatusResponse
+from .structs import GetListenerResponse
+from .structs import SetListenerResponse
+from .structs import GetDoorControlResponse
+from .structs import SetDoorControlResponse
+from .structs import OpenDoorResponse
+from .structs import GetCardsResponse
+from .structs import GetCardResponse
+from .structs import GetCardByIndexResponse
+from .structs import PutCardResponse
+from .structs import DeleteCardResponse
+from .structs import DeleteAllCardsResponse
+from .structs import GetEventResponse
+from .structs import GetEventIndexResponse
+from .structs import SetEventIndexResponse
+from .structs import RecordSpecialEventsResponse
+from .structs import GetTimeProfileResponse
+from .structs import SetTimeProfileResponse
+from .structs import DeleteAllTimeProfilesResponse
+from .structs import AddTaskResponse
+from .structs import RefreshTasklistResponse
+from .structs import ClearTasklistResponse
+from .structs import SetPcControlResponse
+from .structs import SetInterlockResponse
+from .structs import ActivateKeypadsResponse
+from .structs import Event
+from .structs import PIN
 
 def get_controller_response(packet):
+    '''
+    Decodes a get-controller response.
+
+        Parameters:
+            packet  (bytearray)  64 byte UDP packet.
+
+        Returns:
+            GetControllerResponse initialised from the UDP packet.
+
+        Raises:
+            ValueError If the packet is not 64 bytes, has an invalid start-of-message byte or has
+                       the incorrect message type.
+    '''
     if len(packet) != 64:
         raise ValueError(f'invalid reply packet length ({len(packet)})')
 
@@ -32,6 +79,19 @@ def get_controller_response(packet):
 
 
 def get_time_response(packet):
+    '''
+    Decodes a get-time response.
+
+        Parameters:
+            packet  (bytearray)  64 byte UDP packet.
+
+        Returns:
+            GetTimeResponse initialised from the UDP packet.
+
+        Raises:
+            ValueError If the packet is not 64 bytes, has an invalid start-of-message byte or has
+                       the incorrect message type.
+    '''
     if len(packet) != 64:
         raise ValueError(f'invalid reply packet length ({len(packet)})')
 
@@ -50,6 +110,19 @@ def get_time_response(packet):
 
 
 def set_time_response(packet):
+    '''
+    Decodes a set-time response.
+
+        Parameters:
+            packet  (bytearray)  64 byte UDP packet.
+
+        Returns:
+            SetTimeResponse initialised from the UDP packet.
+
+        Raises:
+            ValueError If the packet is not 64 bytes, has an invalid start-of-message byte or has
+                       the incorrect message type.
+    '''
     if len(packet) != 64:
         raise ValueError(f'invalid reply packet length ({len(packet)})')
 
@@ -68,6 +141,19 @@ def set_time_response(packet):
 
 
 def get_status_response(packet):
+    '''
+    Decodes a get-status response.
+
+        Parameters:
+            packet  (bytearray)  64 byte UDP packet.
+
+        Returns:
+            GetStatusResponse initialised from the UDP packet.
+
+        Raises:
+            ValueError If the packet is not 64 bytes, has an invalid start-of-message byte or has
+                       the incorrect message type.
+    '''
     if len(packet) != 64:
         raise ValueError(f'invalid reply packet length ({len(packet)})')
 
@@ -108,6 +194,19 @@ def get_status_response(packet):
 
 
 def get_listener_response(packet):
+    '''
+    Decodes a get-listener response.
+
+        Parameters:
+            packet  (bytearray)  64 byte UDP packet.
+
+        Returns:
+            GetListenerResponse initialised from the UDP packet.
+
+        Raises:
+            ValueError If the packet is not 64 bytes, has an invalid start-of-message byte or has
+                       the incorrect message type.
+    '''
     if len(packet) != 64:
         raise ValueError(f'invalid reply packet length ({len(packet)})')
 
@@ -127,6 +226,19 @@ def get_listener_response(packet):
 
 
 def set_listener_response(packet):
+    '''
+    Decodes a set-listener response.
+
+        Parameters:
+            packet  (bytearray)  64 byte UDP packet.
+
+        Returns:
+            SetListenerResponse initialised from the UDP packet.
+
+        Raises:
+            ValueError If the packet is not 64 bytes, has an invalid start-of-message byte or has
+                       the incorrect message type.
+    '''
     if len(packet) != 64:
         raise ValueError(f'invalid reply packet length ({len(packet)})')
 
@@ -145,6 +257,19 @@ def set_listener_response(packet):
 
 
 def get_door_control_response(packet):
+    '''
+    Decodes a get-door-control response.
+
+        Parameters:
+            packet  (bytearray)  64 byte UDP packet.
+
+        Returns:
+            GetDoorControlResponse initialised from the UDP packet.
+
+        Raises:
+            ValueError If the packet is not 64 bytes, has an invalid start-of-message byte or has
+                       the incorrect message type.
+    '''
     if len(packet) != 64:
         raise ValueError(f'invalid reply packet length ({len(packet)})')
 
@@ -165,6 +290,19 @@ def get_door_control_response(packet):
 
 
 def set_door_control_response(packet):
+    '''
+    Decodes a set-door-control response.
+
+        Parameters:
+            packet  (bytearray)  64 byte UDP packet.
+
+        Returns:
+            SetDoorControlResponse initialised from the UDP packet.
+
+        Raises:
+            ValueError If the packet is not 64 bytes, has an invalid start-of-message byte or has
+                       the incorrect message type.
+    '''
     if len(packet) != 64:
         raise ValueError(f'invalid reply packet length ({len(packet)})')
 
@@ -185,6 +323,19 @@ def set_door_control_response(packet):
 
 
 def open_door_response(packet):
+    '''
+    Decodes an open-door response.
+
+        Parameters:
+            packet  (bytearray)  64 byte UDP packet.
+
+        Returns:
+            OpenDoorResponse initialised from the UDP packet.
+
+        Raises:
+            ValueError If the packet is not 64 bytes, has an invalid start-of-message byte or has
+                       the incorrect message type.
+    '''
     if len(packet) != 64:
         raise ValueError(f'invalid reply packet length ({len(packet)})')
 
@@ -203,6 +354,19 @@ def open_door_response(packet):
 
 
 def get_cards_response(packet):
+    '''
+    Decodes a get-cards response.
+
+        Parameters:
+            packet  (bytearray)  64 byte UDP packet.
+
+        Returns:
+            GetCardsResponse initialised from the UDP packet.
+
+        Raises:
+            ValueError If the packet is not 64 bytes, has an invalid start-of-message byte or has
+                       the incorrect message type.
+    '''
     if len(packet) != 64:
         raise ValueError(f'invalid reply packet length ({len(packet)})')
 
@@ -221,6 +385,19 @@ def get_cards_response(packet):
 
 
 def get_card_response(packet):
+    '''
+    Decodes a get-card response.
+
+        Parameters:
+            packet  (bytearray)  64 byte UDP packet.
+
+        Returns:
+            GetCardResponse initialised from the UDP packet.
+
+        Raises:
+            ValueError If the packet is not 64 bytes, has an invalid start-of-message byte or has
+                       the incorrect message type.
+    '''
     if len(packet) != 64:
         raise ValueError(f'invalid reply packet length ({len(packet)})')
 
@@ -246,6 +423,19 @@ def get_card_response(packet):
 
 
 def get_card_by_index_response(packet):
+    '''
+    Decodes a get-card-by-index response.
+
+        Parameters:
+            packet  (bytearray)  64 byte UDP packet.
+
+        Returns:
+            GetCardByIndexResponse initialised from the UDP packet.
+
+        Raises:
+            ValueError If the packet is not 64 bytes, has an invalid start-of-message byte or has
+                       the incorrect message type.
+    '''
     if len(packet) != 64:
         raise ValueError(f'invalid reply packet length ({len(packet)})')
 
@@ -271,6 +461,19 @@ def get_card_by_index_response(packet):
 
 
 def put_card_response(packet):
+    '''
+    Decodes a put-card response.
+
+        Parameters:
+            packet  (bytearray)  64 byte UDP packet.
+
+        Returns:
+            PutCardResponse initialised from the UDP packet.
+
+        Raises:
+            ValueError If the packet is not 64 bytes, has an invalid start-of-message byte or has
+                       the incorrect message type.
+    '''
     if len(packet) != 64:
         raise ValueError(f'invalid reply packet length ({len(packet)})')
 
@@ -289,6 +492,19 @@ def put_card_response(packet):
 
 
 def delete_card_response(packet):
+    '''
+    Decodes a delete-card response.
+
+        Parameters:
+            packet  (bytearray)  64 byte UDP packet.
+
+        Returns:
+            DeleteCardResponse initialised from the UDP packet.
+
+        Raises:
+            ValueError If the packet is not 64 bytes, has an invalid start-of-message byte or has
+                       the incorrect message type.
+    '''
     if len(packet) != 64:
         raise ValueError(f'invalid reply packet length ({len(packet)})')
 
@@ -307,6 +523,19 @@ def delete_card_response(packet):
 
 
 def delete_all_cards_response(packet):
+    '''
+    Decodes a delete-all-cards response.
+
+        Parameters:
+            packet  (bytearray)  64 byte UDP packet.
+
+        Returns:
+            DeleteAllCardsResponse initialised from the UDP packet.
+
+        Raises:
+            ValueError If the packet is not 64 bytes, has an invalid start-of-message byte or has
+                       the incorrect message type.
+    '''
     if len(packet) != 64:
         raise ValueError(f'invalid reply packet length ({len(packet)})')
 
@@ -325,6 +554,19 @@ def delete_all_cards_response(packet):
 
 
 def get_event_response(packet):
+    '''
+    Decodes a get-event response.
+
+        Parameters:
+            packet  (bytearray)  64 byte UDP packet.
+
+        Returns:
+            GetEventResponse initialised from the UDP packet.
+
+        Raises:
+            ValueError If the packet is not 64 bytes, has an invalid start-of-message byte or has
+                       the incorrect message type.
+    '''
     if len(packet) != 64:
         raise ValueError(f'invalid reply packet length ({len(packet)})')
 
@@ -350,6 +592,19 @@ def get_event_response(packet):
 
 
 def get_event_index_response(packet):
+    '''
+    Decodes a get-event-index response.
+
+        Parameters:
+            packet  (bytearray)  64 byte UDP packet.
+
+        Returns:
+            GetEventIndexResponse initialised from the UDP packet.
+
+        Raises:
+            ValueError If the packet is not 64 bytes, has an invalid start-of-message byte or has
+                       the incorrect message type.
+    '''
     if len(packet) != 64:
         raise ValueError(f'invalid reply packet length ({len(packet)})')
 
@@ -368,6 +623,19 @@ def get_event_index_response(packet):
 
 
 def set_event_index_response(packet):
+    '''
+    Decodes a set-event-index response.
+
+        Parameters:
+            packet  (bytearray)  64 byte UDP packet.
+
+        Returns:
+            SetEventIndexResponse initialised from the UDP packet.
+
+        Raises:
+            ValueError If the packet is not 64 bytes, has an invalid start-of-message byte or has
+                       the incorrect message type.
+    '''
     if len(packet) != 64:
         raise ValueError(f'invalid reply packet length ({len(packet)})')
 
@@ -386,6 +654,19 @@ def set_event_index_response(packet):
 
 
 def record_special_events_response(packet):
+    '''
+    Decodes a record-special-events response.
+
+        Parameters:
+            packet  (bytearray)  64 byte UDP packet.
+
+        Returns:
+            RecordSpecialEventsResponse initialised from the UDP packet.
+
+        Raises:
+            ValueError If the packet is not 64 bytes, has an invalid start-of-message byte or has
+                       the incorrect message type.
+    '''
     if len(packet) != 64:
         raise ValueError(f'invalid reply packet length ({len(packet)})')
 
@@ -404,6 +685,19 @@ def record_special_events_response(packet):
 
 
 def get_time_profile_response(packet):
+    '''
+    Decodes a get-time-profile response.
+
+        Parameters:
+            packet  (bytearray)  64 byte UDP packet.
+
+        Returns:
+            GetTimeProfileResponse initialised from the UDP packet.
+
+        Raises:
+            ValueError If the packet is not 64 bytes, has an invalid start-of-message byte or has
+                       the incorrect message type.
+    '''
     if len(packet) != 64:
         raise ValueError(f'invalid reply packet length ({len(packet)})')
 
@@ -438,6 +732,19 @@ def get_time_profile_response(packet):
 
 
 def set_time_profile_response(packet):
+    '''
+    Decodes a set-time-profile response.
+
+        Parameters:
+            packet  (bytearray)  64 byte UDP packet.
+
+        Returns:
+            SetTimeProfileResponse initialised from the UDP packet.
+
+        Raises:
+            ValueError If the packet is not 64 bytes, has an invalid start-of-message byte or has
+                       the incorrect message type.
+    '''
     if len(packet) != 64:
         raise ValueError(f'invalid reply packet length ({len(packet)})')
 
@@ -456,6 +763,19 @@ def set_time_profile_response(packet):
 
 
 def delete_all_time_profiles_response(packet):
+    '''
+    Decodes a delete-all-time-profiles response.
+
+        Parameters:
+            packet  (bytearray)  64 byte UDP packet.
+
+        Returns:
+            DeleteAllTimeProfilesResponse initialised from the UDP packet.
+
+        Raises:
+            ValueError If the packet is not 64 bytes, has an invalid start-of-message byte or has
+                       the incorrect message type.
+    '''
     if len(packet) != 64:
         raise ValueError(f'invalid reply packet length ({len(packet)})')
 
@@ -474,6 +794,19 @@ def delete_all_time_profiles_response(packet):
 
 
 def add_task_response(packet):
+    '''
+    Decodes an add-task response.
+
+        Parameters:
+            packet  (bytearray)  64 byte UDP packet.
+
+        Returns:
+            AddTaskResponse initialised from the UDP packet.
+
+        Raises:
+            ValueError If the packet is not 64 bytes, has an invalid start-of-message byte or has
+                       the incorrect message type.
+    '''
     if len(packet) != 64:
         raise ValueError(f'invalid reply packet length ({len(packet)})')
 
@@ -492,6 +825,19 @@ def add_task_response(packet):
 
 
 def refresh_tasklist_response(packet):
+    '''
+    Decodes a refresh-tasklist response.
+
+        Parameters:
+            packet  (bytearray)  64 byte UDP packet.
+
+        Returns:
+            RefreshTasklistResponse initialised from the UDP packet.
+
+        Raises:
+            ValueError If the packet is not 64 bytes, has an invalid start-of-message byte or has
+                       the incorrect message type.
+    '''
     if len(packet) != 64:
         raise ValueError(f'invalid reply packet length ({len(packet)})')
 
@@ -510,6 +856,19 @@ def refresh_tasklist_response(packet):
 
 
 def clear_tasklist_response(packet):
+    '''
+    Decodes a clear-tasklist response.
+
+        Parameters:
+            packet  (bytearray)  64 byte UDP packet.
+
+        Returns:
+            ClearTasklistResponse initialised from the UDP packet.
+
+        Raises:
+            ValueError If the packet is not 64 bytes, has an invalid start-of-message byte or has
+                       the incorrect message type.
+    '''
     if len(packet) != 64:
         raise ValueError(f'invalid reply packet length ({len(packet)})')
 
@@ -528,6 +887,19 @@ def clear_tasklist_response(packet):
 
 
 def set_pc_control_response(packet):
+    '''
+    Decodes a set-pc-control response.
+
+        Parameters:
+            packet  (bytearray)  64 byte UDP packet.
+
+        Returns:
+            SetPcControlResponse initialised from the UDP packet.
+
+        Raises:
+            ValueError If the packet is not 64 bytes, has an invalid start-of-message byte or has
+                       the incorrect message type.
+    '''
     if len(packet) != 64:
         raise ValueError(f'invalid reply packet length ({len(packet)})')
 
@@ -546,6 +918,19 @@ def set_pc_control_response(packet):
 
 
 def set_interlock_response(packet):
+    '''
+    Decodes a set-interlock response.
+
+        Parameters:
+            packet  (bytearray)  64 byte UDP packet.
+
+        Returns:
+            SetInterlockResponse initialised from the UDP packet.
+
+        Raises:
+            ValueError If the packet is not 64 bytes, has an invalid start-of-message byte or has
+                       the incorrect message type.
+    '''
     if len(packet) != 64:
         raise ValueError(f'invalid reply packet length ({len(packet)})')
 
@@ -564,6 +949,19 @@ def set_interlock_response(packet):
 
 
 def activate_keypads_response(packet):
+    '''
+    Decodes an activate-keypads response.
+
+        Parameters:
+            packet  (bytearray)  64 byte UDP packet.
+
+        Returns:
+            ActivateKeypadsResponse initialised from the UDP packet.
+
+        Raises:
+            ValueError If the packet is not 64 bytes, has an invalid start-of-message byte or has
+                       the incorrect message type.
+    '''
     if len(packet) != 64:
         raise ValueError(f'invalid reply packet length ({len(packet)})')
 
@@ -582,6 +980,19 @@ def activate_keypads_response(packet):
 
 
 def event(packet):
+    '''
+    Decodes an event packet response.
+
+        Parameters:
+            packet  (bytearray)  64 byte UDP packet.
+
+        Returns:
+            Event initialised from the UDP packet.
+
+        Raises:
+            ValueError If the packet is not 64 bytes, has an invalid start-of-message byte or has
+                       the incorrect message type.
+    '''
     if len(packet) != 64:
         raise ValueError(f'invalid reply packet length ({len(packet)})')
 
@@ -621,309 +1032,138 @@ def event(packet):
     )
 
 
-@dataclass
-class GetControllerResponse:
-    controller: int
-    ip_address: IPv4Address
-    subnet_mask: IPv4Address
-    gateway: IPv4Address
-    mac_address: str
-    version: str
-    date: datetime.date
-
-
-@dataclass
-class GetTimeResponse:
-    controller: int
-    datetime: datetime.datetime
-
-
-@dataclass
-class SetTimeResponse:
-    controller: int
-    datetime: datetime.datetime
-
-
-@dataclass
-class GetStatusResponse:
-    controller: int
-    system_date: datetime.date
-    system_time: datetime.time
-    door_1_open: bool
-    door_2_open: bool
-    door_3_open: bool
-    door_4_open: bool
-    door_1_button: bool
-    door_2_button: bool
-    door_3_button: bool
-    door_4_button: bool
-    relays: int
-    inputs: int
-    system_error: int
-    special_info: int
-    event_index: int
-    event_type: int
-    event_access_granted: bool
-    event_door: int
-    event_direction: int
-    event_card: int
-    event_timestamp: datetime.datetime
-    event_reason: int
-    sequence_no: int
-
-
-@dataclass
-class GetListenerResponse:
-    controller: int
-    address: IPv4Address
-    port: int
-
-
-@dataclass
-class SetListenerResponse:
-    controller: int
-    ok: bool
-
-
-@dataclass
-class GetDoorControlResponse:
-    controller: int
-    door: int
-    mode: int
-    delay: int
-
-
-@dataclass
-class SetDoorControlResponse:
-    controller: int
-    door: int
-    mode: int
-    delay: int
-
-
-@dataclass
-class OpenDoorResponse:
-    controller: int
-    opened: bool
-
-
-@dataclass
-class GetCardsResponse:
-    controller: int
-    cards: int
-
-
-@dataclass
-class GetCardResponse:
-    controller: int
-    card_number: int
-    start_date: datetime.date
-    end_date: datetime.date
-    door_1: int
-    door_2: int
-    door_3: int
-    door_4: int
-    pin: PIN
-
-
-@dataclass
-class GetCardByIndexResponse:
-    controller: int
-    card_number: int
-    start_date: datetime.date
-    end_date: datetime.date
-    door_1: int
-    door_2: int
-    door_3: int
-    door_4: int
-    pin: PIN
-
-
-@dataclass
-class PutCardResponse:
-    controller: int
-    stored: bool
-
-
-@dataclass
-class DeleteCardResponse:
-    controller: int
-    deleted: bool
-
-
-@dataclass
-class DeleteAllCardsResponse:
-    controller: int
-    deleted: bool
-
-
-@dataclass
-class GetEventResponse:
-    controller: int
-    index: int
-    event_type: int
-    access_granted: bool
-    door: int
-    direction: int
-    card: int
-    timestamp: datetime.datetime
-    reason: int
-
-
-@dataclass
-class GetEventIndexResponse:
-    controller: int
-    event_index: int
-
-
-@dataclass
-class SetEventIndexResponse:
-    controller: int
-    updated: bool
-
-
-@dataclass
-class RecordSpecialEventsResponse:
-    controller: int
-    updated: bool
-
-
-@dataclass
-class GetTimeProfileResponse:
-    controller: int
-    profile_id: int
-    start_date: datetime.date
-    end_date: datetime.date
-    monday: bool
-    tuesday: bool
-    wednesday: bool
-    thursday: bool
-    friday: bool
-    saturday: bool
-    sunday: bool
-    segment_1_start: datetime.time
-    segment_1_end: datetime.time
-    segment_2_start: datetime.time
-    segment_2_end: datetime.time
-    segment_3_start: datetime.time
-    segment_3_end: datetime.time
-    linked_profile_id: int
-
-
-@dataclass
-class SetTimeProfileResponse:
-    controller: int
-    stored: bool
-
-
-@dataclass
-class DeleteAllTimeProfilesResponse:
-    controller: int
-    deleted: bool
-
-
-@dataclass
-class AddTaskResponse:
-    controller: int
-    added: bool
-
-
-@dataclass
-class RefreshTasklistResponse:
-    controller: int
-    refreshed: bool
-
-
-@dataclass
-class ClearTasklistResponse:
-    controller: int
-    cleared: bool
-
-
-@dataclass
-class SetPcControlResponse:
-    controller: int
-    ok: bool
-
-
-@dataclass
-class SetInterlockResponse:
-    controller: int
-    ok: bool
-
-
-@dataclass
-class ActivateKeypadsResponse:
-    controller: int
-    ok: bool
-
-
-@dataclass
-class Event:
-    device_id: int
-    event_index: int
-    event_type: int
-    event_access_granted: bool
-    event_door: int
-    event_direction: int
-    event_card: int
-    event_timestamp: datetime.datetime
-    event_reason: int
-    system_date: datetime.date
-    system_time: datetime.time
-    system_error: int
-    door_1_open: bool
-    door_2_open: bool
-    door_3_open: bool
-    door_4_open: bool
-    door_1_button: bool
-    door_2_button: bool
-    door_3_button: bool
-    door_4_button: bool
-    relays: int
-    inputs: int
-    special_info: int
-    sequence_no: int
-
-
 def unpack_uint8(packet, offset):
+    '''
+    Unpacks the uint8 value from the packet at the offset.
+
+        Parameters:
+           packet (bytearray)  64 byte array.
+           offset (int)        Value location in array.
+
+        Returns:
+           uint8 value.
+    '''
     return packet[offset]
 
 
 def unpack_uint16(packet, offset):
+    '''
+    Unpacks the 2-byte little endian uint16 value from the packet at the offset.
+
+        Parameters:
+           packet (bytearray)  64 byte array.
+           offset (int)        Value location in array.
+
+        Returns:
+           uint16 value.
+    '''
     return struct.unpack_from('<H', packet, offset)[0]
 
 
 def unpack_uint32(packet, offset):
+    '''
+    Unpacks the 4-byte little endian uint32 value from the packet at the offset.
+
+        Parameters:
+           packet (bytearray)  64 byte array.
+           offset (int)        Value location in array.
+
+        Returns:
+           uint32 value.
+    '''
     return struct.unpack_from('<L', packet, offset)[0]
 
 
 def unpack_ipv4(packet, offset):
+    '''
+    Unpacks the 4-byte IP address value from the packet at the offset.
+
+        Parameters:
+           packet (bytearray)  64 byte array.
+           offset (int)        Value location in array.
+
+        Returns:
+           IPv4Address value.
+    '''
     return IPv4Address(packet[offset:offset + 4])
 
 
 def unpack_mac(packet, offset):
+    '''
+    Unpacks the 6-byte MAC address value from the packet at the offset.
+
+        Parameters:
+           packet (bytearray)  64 byte array.
+           offset (int)        Value location in array.
+
+        Returns:
+           MAC address as a colon-seperated hexadecimal string.
+    '''
     return '{:02x}:{:02x}:{:02x}:{:02x}::{:02x}:{:02x}'.format(
         *packet[offset:offset + 7])
 
 
 def unpack_version(packet, offset):
+    '''
+    Unpacks the 2-byte BCD encoded version value from the packet at the offset.
+
+        Parameters:
+           packet (bytearray)  64 byte array.
+           offset (int)        Value location in array.
+
+        Returns:
+           Version string.
+    '''
     return 'v{:x}.{:02x}'.format(*packet[offset:offset + 2])
 
 
 def unpack_date(packet, offset):
+    '''
+    Unpacks the 4-byte BCD encoded YYYYMMDD value from the packet at the offset.
+
+        Parameters:
+           packet (bytearray)  64 byte array.
+           offset (int)        Value location in array.
+
+        Returns:
+           datetime value.
+    '''
     bcd = '{:02x}{:02x}{:02x}{:02x}'.format(*packet[offset:offset + 4])
 
     return datetime.datetime.strptime(bcd, '%Y%m%d').date()
 
 
 def unpack_shortdate(packet, offset):
+    '''
+    Unpacks the 3-byte BCD encoded YYMMDD value from the packet at the offset,
+    automatically adding the CC value.
+
+        Parameters:
+           packet (bytearray)  64 byte array.
+           offset (int)        Value location in array.
+
+        Returns:
+           datetime value.
+    '''
     bcd = '20{:02x}{:02x}{:02x}'.format(*packet[offset:offset + 3])
 
     return datetime.datetime.strptime(bcd, '%Y%m%d').date()
 
 
 def unpack_optional_date(packet, offset):
+    '''
+    Unpacks the 4-byte BCD encoded YYYYMMDD value from the packet at the offset.
+
+        Parameters:
+           packet (bytearray)  64 byte array.
+           offset (int)        Value location in array.
+
+        Returns:
+           datetime value.
+
+        Raises:
+           ValueError if the date value is invalid.
+    '''
     bcd = '{:02x}{:02x}{:02x}{:02x}'.format(*packet[offset:offset + 4])
 
     try:
@@ -933,6 +1173,16 @@ def unpack_optional_date(packet, offset):
 
 
 def unpack_datetime(packet, offset):
+    '''
+    Unpacks the 7-byte BCD encoded YYYYMMDDHHmmss value from the packet at the offset.
+
+        Parameters:
+           packet (bytearray)  64 byte array.
+           offset (int)        Value location in array.
+
+        Returns:
+           datetime value.
+    '''
     bcd = '{:02x}{:02x}{:02x}{:02x}{:02x}{:02x}{:02x}'.format(
         *packet[offset:offset + 7])
 
@@ -940,6 +1190,19 @@ def unpack_datetime(packet, offset):
 
 
 def unpack_optional_datetime(packet, offset):
+    '''
+    Unpacks the 7-byte BCD encoded YYYYMMDDHHmmss value from the packet at the offset.
+
+        Parameters:
+           packet (bytearray)  64 byte array.
+           offset (int)        Value location in array.
+
+        Returns:
+           datetime value.
+
+        Raises:
+           ValueError if the date value is invalid.
+    '''
     bcd = '{:02x}{:02x}{:02x}{:02x}{:02x}{:02x}{:02x}'.format(
         *packet[offset:offset + 7])
 
@@ -950,22 +1213,64 @@ def unpack_optional_datetime(packet, offset):
 
 
 def unpack_time(packet, offset):
+    '''
+    Unpacks the 3-byte BCD encoded HHmmss value from the packet at the offset.
+
+        Parameters:
+           packet (bytearray)  64 byte array.
+           offset (int)        Value location in array.
+
+        Returns:
+           datetime value.
+    '''
     bcd = '{:02x}{:02x}{:02x}'.format(*packet[offset:offset + 3])
 
     return datetime.datetime.strptime(bcd, '%H%M%S').time()
 
 
 def unpack_hhmm(packet, offset):
+    '''
+    Unpacks the 2-byte BCD encoded HHmm value from the packet at the offset.
+
+        Parameters:
+           packet (bytearray)  64 byte array.
+           offset (int)        Value location in array.
+
+        Returns:
+           datetime value.
+    '''
     bcd = '{:02x}{:02x}'.format(*packet[offset:offset + 2])
 
     return datetime.datetime.strptime(bcd, '%H%M').time()
 
 
 def unpack_bool(packet, offset):
+    '''
+    Unpacks the byte from the packet at the offset as a boolean value. 0 is translated
+    to False and 'not zero' to True. The access controller should only fill this field
+    with either a one or a zero.
+
+        Parameters:
+           packet (bytearray)  64 byte array.
+           offset (int)        Value location in array.
+
+        Returns:
+           datetime value.
+    '''
     return packet[offset] != 0x00
 
 
 def unpack_pin(packet, offset):
+    '''
+    Unpacks the 3-byte PIN value from the packet at the offset.
+
+        Parameters:
+           packet (bytearray)  64 byte array.
+           offset (int)        Value location in array.
+
+        Returns:
+           PIN  value.
+    '''
     v = packet[offset + 2] & 0x0ff
     v <<= 8
     v |= packet[offset + 1] & 0x0ff
