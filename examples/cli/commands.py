@@ -259,10 +259,8 @@ def set_time_profile(u):
     segment3end = datetime.datetime.strptime("22:00", '%H:%M').time()
     linked_profile_ID = 23
 
-    return u.set_time_profile(controller, profile_id, start, end, monday,
-                              tuesday, wednesday, thursday, friday, saturday,
-                              sunday, segment1start, segment1end,
-                              segment2start, segment2end, segment3start,
+    return u.set_time_profile(controller, profile_id, start, end, monday, tuesday, wednesday, thursday, friday,
+                              saturday, sunday, segment1start, segment1end, segment2start, segment2end, segment3start,
                               segment3end, linked_profile_ID)
 
 
@@ -286,8 +284,7 @@ def add_task(u):
     task_type = 2
     more_cards = 0
 
-    return u.add_task(controller, start_date, end_date, monday, tuesday,
-                      wednesday, thursday, friday, saturday, sunday,
+    return u.add_task(controller, start_date, end_date, monday, tuesday, wednesday, thursday, friday, saturday, sunday,
                       start_time, door, task_type, more_cards)
 
 

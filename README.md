@@ -1,7 +1,5 @@
 ![build](https://github.com/uhppoted/uhppoted-python/workflows/build/badge.svg)
 
-**(IN PROGRESS)**
-
 # uhppoted-python
 
 Python API for the UHPPOTE TCP/IP access controllers, generated from the models in [uhppoted-codegen](https://github.com/uhppoted/uhppoted-codegen). A demo CLI illustrating the use of the API can be found in the [examples/cli](https://github.com/uhppoted/uhppoted-python/tree/main/examples/cli) folder.

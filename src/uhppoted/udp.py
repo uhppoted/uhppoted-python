@@ -18,11 +18,7 @@ NO_TIMEOUT = struct.pack('ll', 0, 0)  # (infinite)
 
 class UDP:
 
-    def __init__(self,
-                 bind='0.0.0.0',
-                 broadcast='255.255.255.255:60000',
-                 listen="0.0.0.0:60001",
-                 debug=False):
+    def __init__(self, bind='0.0.0.0', broadcast='255.255.255.255:60000', listen="0.0.0.0:60001", debug=False):
         '''
         Initialises a Uhppote object with the bind address, broadcast address and listen address.
 
@@ -67,10 +63,8 @@ class UDP:
         try:
             sock.bind(self._bind)
             sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-            sock.setsockopt(socket.SOL_SOCKET, socket.SO_SNDTIMEO,
-                            WRITE_TIMEOUT)
-            sock.setsockopt(socket.SOL_SOCKET, socket.SO_RCVTIMEO,
-                            READ_TIMEOUT)
+            sock.setsockopt(socket.SOL_SOCKET, socket.SO_SNDTIMEO, WRITE_TIMEOUT)
+            sock.setsockopt(socket.SOL_SOCKET, socket.SO_RCVTIMEO, READ_TIMEOUT)
 
             sock.sendto(request, self._broadcast)
 
@@ -100,10 +94,8 @@ class UDP:
         try:
             sock.bind(self._bind)
             sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-            sock.setsockopt(socket.SOL_SOCKET, socket.SO_SNDTIMEO,
-                            WRITE_TIMEOUT)
-            sock.setsockopt(socket.SOL_SOCKET, socket.SO_RCVTIMEO,
-                            READ_TIMEOUT)
+            sock.setsockopt(socket.SOL_SOCKET, socket.SO_SNDTIMEO, WRITE_TIMEOUT)
+            sock.setsockopt(socket.SOL_SOCKET, socket.SO_RCVTIMEO, READ_TIMEOUT)
 
             sock.sendto(request, self._broadcast)
 

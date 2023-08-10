@@ -298,8 +298,7 @@ def get_card_by_index_request(controller, card_index):
     return packet
 
 
-def put_card_request(controller, card_number, start_date, end_date, door_1,
-                     door_2, door_3, door_4, pin):
+def put_card_request(controller, card_number, start_date, end_date, door_1, door_2, door_3, door_4, pin):
     '''
     Encodes a put-card request.
 
@@ -487,11 +486,9 @@ def get_time_profile_request(controller, profile_id):
     return packet
 
 
-def set_time_profile_request(controller, profile_id, start_date, end_date,
-                             monday, tuesday, wednesday, thursday, friday,
-                             saturday, sunday, segment_1_start, segment_1_end,
-                             segment_2_start, segment_2_end, segment_3_start,
-                             segment_3_end, linked_profile_id):
+def set_time_profile_request(controller, profile_id, start_date, end_date, monday, tuesday, wednesday, thursday, friday,
+                             saturday, sunday, segment_1_start, segment_1_end, segment_2_start, segment_2_end,
+                             segment_3_start, segment_3_end, linked_profile_id):
     '''
     Encodes a set-time-profile request.
 
@@ -566,9 +563,8 @@ def delete_all_time_profiles_request(controller):
     return packet
 
 
-def add_task_request(controller, start_date, end_date, monday, tuesday,
-                     wednesday, thursday, friday, saturday, sunday, start_time,
-                     door, task_type, more_cards):
+def add_task_request(controller, start_date, end_date, monday, tuesday, wednesday, thursday, friday, saturday, sunday,
+                     start_time, door, task_type, more_cards):
     '''
     Encodes an add-task request.
 
@@ -720,8 +716,7 @@ def set_interlock_request(controller, interlock):
     return packet
 
 
-def activate_keypads_request(controller, reader_1, reader_2, reader_3,
-                             reader_4):
+def activate_keypads_request(controller, reader_1, reader_2, reader_3, reader_4):
     '''
     Encodes an activate-keypads request.
 
