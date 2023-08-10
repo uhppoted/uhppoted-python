@@ -42,6 +42,7 @@ from .structs import ActivateKeypadsResponse
 from .structs import Event
 from .structs import PIN
 
+
 def get_controller_response(packet):
     '''
     Decodes a get-controller response.

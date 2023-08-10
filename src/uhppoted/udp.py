@@ -12,8 +12,8 @@ import time
 import ipaddress
 
 READ_TIMEOUT = struct.pack('ll', 5, 0)  # 5 seconds
-WRITE_TIMEOUT = struct.pack('ll', 1, 0) # 1 second
-NO_TIMEOUT = struct.pack('ll', 0, 0)    # (infinite)
+WRITE_TIMEOUT = struct.pack('ll', 1, 0)  # 1 second
+NO_TIMEOUT = struct.pack('ll', 0, 0)  # (infinite)
 
 
 class UDP:
@@ -45,7 +45,6 @@ class UDP:
         self._listen = resolve(listen)
         self._debug = debug
 
-
     def broadcast(self, request):
         '''
         Binds to the bind address from the constructor and then broadcasts a UDP request to the broadcast
@@ -68,15 +67,16 @@ class UDP:
         try:
             sock.bind(self._bind)
             sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-            sock.setsockopt(socket.SOL_SOCKET, socket.SO_SNDTIMEO, WRITE_TIMEOUT)
-            sock.setsockopt(socket.SOL_SOCKET, socket.SO_RCVTIMEO, READ_TIMEOUT)
+            sock.setsockopt(socket.SOL_SOCKET, socket.SO_SNDTIMEO,
+                            WRITE_TIMEOUT)
+            sock.setsockopt(socket.SOL_SOCKET, socket.SO_RCVTIMEO,
+                            READ_TIMEOUT)
 
             sock.sendto(request, self._broadcast)
 
             return read_all(sock, self._debug)
         finally:
             sock.close()
-
 
     def send(self, request):
         '''
@@ -113,7 +113,6 @@ class UDP:
             return read(sock, self._debug)
         finally:
             sock.close()
-
 
     def listen(self, onEvent):
         '''

@@ -1,6 +1,6 @@
 [project]
 name = "uhppoted"
-version = "0.8.1"
+version = "0.8.2"
 authors = [
   { name="uhppoted", email="uhppoted.development@gmail.com" },
 ]
@@ -32,4 +32,4 @@ build-backend = "setuptools.build_meta"
 
 [tool.yapfignore]
 based_on_style = "pep8"
-column_limit = 100
+column_limit = 120
