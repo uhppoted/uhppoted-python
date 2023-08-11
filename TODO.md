@@ -13,4 +13,5 @@
       - [x] data classes
 
 - [ ] Unit/integration tests
+- [ ] Publish from github
 

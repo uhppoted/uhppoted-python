@@ -1,4 +1,5 @@
 .DS_Store
 .pypi-test
+.pypi
 __pycache__
 dist

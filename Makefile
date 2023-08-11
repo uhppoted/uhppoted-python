@@ -27,6 +27,7 @@ release: build-all
 
 publish: release
 	python3 -m twine upload --repository testpypi -u __token__ --skip-existing dist/*
+#	python3 -m twine upload --repository pypi     -u __token__ --skip-existing dist/*
 
 debug: build
 	$(CMD) --debug --bind 192.168.1.100 --broadcast 192.168.1.255:60000 --listen 192.168.1.100:60001 get-controller
