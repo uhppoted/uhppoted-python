@@ -51,6 +51,37 @@ record = u.get_controller(405419896)
 
 pprint(record.__dict__, indent=2, width=1)
 ```
+```
+>>> from uhppoted import uhppote
+>>> from pprint import pprint
+>>> 
+>>> bind = '0.0.0.0'
+>>> broadcast = '255.255.255.255:60000'
+>>> listen = '0.0.0.0:60001'
+>>> debug = True
+>>> 
+>>> u = uhppote.Uhppote(bind, broadcast, listen, debug)
+>>> record = u.get_controller(405419896)
+   00000000  17 94 00 00 78 37 2a 18  00 00 00 00 00 00 00 00
+   00000010  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00
+   00000020  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00
+   00000030  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00
+
+   00000000  17 94 00 00 78 37 2a 18  c0 a8 01 64 ff ff ff 00
+   00000010  c0 a8 01 01 00 12 23 34  45 56 08 92 20 18 11 05
+   00000020  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00
+   00000030  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00
+
+>>> 
+>>> pprint(record.__dict__, indent=2, width=1)
+{ 'controller': 405419896,
+  'date': datetime.date(2018, 11, 5),
+  'gateway': IPv4Address('192.168.1.1'),
+  'ip_address': IPv4Address('192.168.1.100'),
+  'mac_address': '00:12:23:34::45:56',
+  'subnet_mask': IPv4Address('255.255.255.0'),
+  'version': 'v8.92'}
+```
 
 All API functions raise an `Exception` if the call fails for any reason whatsoever.
 
