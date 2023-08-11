@@ -7,10 +7,10 @@
       - [x] decode.py
       - [x] udp.py
       - [x] structs.py
-- [ ] README
+- [x] README
       - [x] blurb
       - [x] API
-      - [ ] data classes
+      - [x] data classes
 
 - [ ] Unit/integration tests
 

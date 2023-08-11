@@ -761,11 +761,10 @@ class Uhppote:
         '''
 
         def handler(packet):
-          try:
-            onEvent(decode.event(packet))
-          except BaseException as err:
-            print('   *** ERROR {}'.format(err))
-
+            try:
+                onEvent(decode.event(packet))
+            except BaseException as err:
+                print('   *** ERROR {}'.format(err))
 
         self._udp.listen(lambda packet: handler(packet))
 
