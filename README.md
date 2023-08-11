@@ -30,7 +30,7 @@ class UHPPOTE:
     listen: str
     debug: bool
 
-bind        IPv4 address:port to which to bind the UDP socket. Defaults to 0.0.0.0:0
+bind        IPv4 address to which to bind the UDP socket. Defaults to 0.0.0.0
 broadcast   IPv4 address:port for broadcast UDP packets. Defaults to 255.255.255.255:60000
 listen      IPv4 address:port for events from controller (unused). Defaults to 0.0.0.0:60001
 debug       Displays the DLL and controller requests/responses if true.
@@ -41,7 +41,7 @@ e.g.:
 from uhppoted import uhppote
 from pprint import pprint
 
-bind = '0.0.0.0:0'
+bind = '0.0.0.0'
 broadcast = '255.255.255.255:60000'
 listen = '0.0.0.0:60001'
 debug = True

@@ -14,7 +14,7 @@ class Uhppote:
         Initialises a Uhppote object with the bind address, broadcast address and listen address.
 
             Parameters:
-               bind      (string)  The IPv4 address:port to which to bind when sending a request.
+               bind      (string)  The IPv4 address to which to bind when sending a request.
                broadcast (string)  The IPv4 address:port to which to send broadcast UDP messages.
                listen    (string)  The IPv4 address:port on which to listen for events from the
                                    access controllers.
