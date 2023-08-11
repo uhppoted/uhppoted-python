@@ -759,18 +759,14 @@ class Uhppote:
             Returns:
                None
         '''
-        self._udp.listen(lambda packet: self.__events(packet, onEvent))
+
+        def handler(packet):
+          try:
+            onEvent(decode.event(packet))
+          except BaseException as err:
+            print('   *** ERROR {}'.format(err))
+
+
+        self._udp.listen(lambda packet: handler(packet))
+
         return None
-
-    def __events(self, packet, onEvent):
-        '''
-        Handler function for udp.listen. Decodes a received event packet and forwards it to the onEvent handler.
-
-            Parameters:
-               onEvent  (function)  Handler function for received events, with a function signature 
-                                    f(event).
-
-            Returns:
-               None
-        '''
-        onEvent(decode.event(packet))
