@@ -33,7 +33,7 @@ class UHPPOTE:
 bind        IPv4 address to which to bind the UDP socket. Defaults to 0.0.0.0
 broadcast   IPv4 address:port for broadcast UDP packets. Defaults to 255.255.255.255:60000
 listen      IPv4 address:port for events from controller (unused). Defaults to 0.0.0.0:60001
-debug       Displays the DLL and controller requests/responses if true.
+debug       Displays the controller requests/responses if true.
 ```
 
 e.g.:
@@ -89,9 +89,9 @@ All API functions raise an `Exception` if the call fails for any reason whatsoev
 ```
 get_controllers()
 
-Returns an array of `get_controller` responses if the call succeeded.
+Returns an array of `GetControllerResponse`.
 
-Raises an Exception if the call failed.
+Raises an Exception if the call failed for any reason.
 ```
 
 ### `get_controller`
@@ -100,10 +100,9 @@ get_controller(ID)
 
 ID  uint32  controller serial number 
 
-Returns a `get_controller` dataclass instance populated with the controller device information
-if the call succeeded.
+Returns a `GetControllerResponse` with the controller device information.
 
-Raises an Exception if the call failed.
+Raises an Exception if the call failed for any reason.
 ```
 
 ### `set_address`
@@ -115,7 +114,7 @@ address  string  controller IPv4 address
 subnet   string  controller IPv4 subnet mask
 gateway  string  controller gateway IPv4 address
 
-Raises an Exception if the call failed.
+Raises an Exception if the call failed for any reason.
 ```
 
 ### `get_status`
@@ -124,9 +123,9 @@ get_status(ID)
 
 ID  uint32  controller serial number 
 
-Returns a Status dataclass instance populated with the controller status information if the call succeeded.
+Returns a `GetStatusResponse` with the controller status information.
 
-Raises an Exception if the call failed.
+Raises an Exception if the call failed for any reason.
 ```
 
 ### `get_time`
@@ -135,9 +134,9 @@ get_time(ID)
 
 ID  uint32  controller serial number 
 
-Returns a date/time string (YYYY-MM-dd HH:mm:ss) with the controller current date/time if the call succeeded.
+Returns a `GetTimeResponse` with the current controller date and time..
 
-Raises an Exception if the call failed.
+Raises an Exception if the call failed for any reason.
 ```
 
 ### `set_time`
@@ -147,7 +146,9 @@ set_time(ID, datetime)
 ID        uint32    controller serial number 
 datetime  datetime  date/time
 
-Raises an Exception if the call failed.
+Returns a `SetTimeResponse` with the current controller date and time.
+
+Raises an Exception if the call failed for any reason.
 ```
 
 ### `get_listener`
@@ -156,9 +157,9 @@ get_listener(ID)
 
 ID  uint32  controller serial number 
 
-Returns the controller event listener IPv4 address:port as a string if the call succeeded.
+Returns a `GetListener` with the configured controller event listener IPv4 address and UDP port.
 
-Raises an Exception if the call failed.
+Raises an Exception if the call failed for any reason.
 ```
 
 ### `set_listener`
@@ -168,7 +169,7 @@ set_listener(ID, listener)
 ID        uint32  controller serial number 
 listener  string  listener IPv4 address:port string
 
-Raises an Exception if the call failed.
+Raises an Exception if the call failed for any reason.
 ```
 
 ### `get_door_control`
@@ -180,7 +181,7 @@ door  uint8   door ID [1..4]
 
 Returns a DoorControl dataclass instance populated with the controller door configuration if the call succeeded.
 
-Raises an Exception if the call failed.
+Raises an Exception if the call failed for any reason.
 ```
 
 ### `set_door_control`
@@ -192,7 +193,7 @@ door  uint8   door ID [1..4]
 mode  uint8   normally open (1), normally closed (2) or controlled (3)
 delay uintt8  door open delay in seconds
 
-Raises an Exception if the call failed.
+Raises an Exception if the call failed for any reason.
 ```
 
 ### `open_door`
@@ -202,7 +203,7 @@ open_door(ID, door)
 ID    uint32  controller serial number 
 door  uint8   door ID [1..4]
 
-Raises an Exception if the call failed.
+Raises an Exception if the call failed for any reason.
 ```
 
 ### `get_cards`
@@ -213,7 +214,7 @@ ID  uint32  controller serial number
 
 Returns the number of cards stored on the controller if the call succeeded.
 
-Raises an Exception if the call failed.
+Raises an Exception if the call failed for any reason.
 ```
 
 ### `get_card`
@@ -225,7 +226,7 @@ cardNumber  uint32  card number
 
 Returns a Card dataclass instance with the controller card information if the call succeeded.
 
-Raises an Exception if the call failed.
+Raises an Exception if the call failed for any reason.
 ```
 
 ### `get_card_by_index`
@@ -237,7 +238,7 @@ index  uint32  index of card to retrieve
 
 Returns a Card dataclass instance with the controller card information if the call succeeded.
 
-Raises an Exception if the call failed.
+Raises an Exception if the call failed for any reason.
 ```
 
 ### `put_card`
@@ -253,7 +254,7 @@ door2        uint8      Door 2 access (0: none, 1: all, 2-254: time profile)
 door3        uint8      Door 3 access (0: none, 1: all, 2-254: time profile)
 door4        uint8      Door 4 access (0: none, 1: all, 2-254: time profile)
 
-Raises an Exception if the call failed.
+Raises an Exception if the call failed for any reason.
 ```
 
 ### `delete_card`
@@ -263,7 +264,7 @@ delete_card(ID, cardNumber)
 ID          uint32  controller serial number 
 cardNumber  uint32  card number
 
-Raises an Exception if the call failed.
+Raises an Exception if the call failed for any reason.
 ```
 
 ### `delete_cards`
@@ -272,7 +273,7 @@ delete_cards(ID)
 
 ID  uint32  controller serial number 
 
-Raises an Exception if the call failed.
+Raises an Exception if the call failed for any reason.
 ```
 
 ### `get_event_index`
@@ -283,7 +284,7 @@ ID  uint32  controller serial number
 
 Returns the controller event index if the call succeeded.
 
-Raises an Exception if the call failed.
+Raises an Exception if the call failed for any reason.
 ```
 
 ### `set_event_index`
@@ -293,7 +294,7 @@ set_event_index(ID, index)
 ID     uint32  controller serial number 
 index  uint32  controller event index
 
-Raises an Exception if the call failed.
+Raises an Exception if the call failed for any reason.
 ```
 
 ### `get_event`
@@ -305,7 +306,7 @@ index  uint32  index of event to retrieve
 
 Returns an event dataclass instance with the controller event stored at the index.
 
-Raises an Exception if the call failed.
+Raises an Exception if the call failed for any reason.
 ```
 
 ### `record_special_events`
@@ -315,7 +316,7 @@ record_special_events(ID, enabled)
 ID       uint32  controller serial number 
 enabled  bool    Enables/disables recording of door, etc events
 
-Raises an Exception if the call failed.
+Raises an Exception if the call failed for any reason.
 ```
 
 ### `get_time_profile`
@@ -327,7 +328,7 @@ profile_ID  uint8   ID [2..254] of time profile to retrieve
 
 Returns a TimeProfile dataclass instance with the time profile stored at the profile ID on the controller.
 
-Raises an Exception if the call failed.
+Raises an Exception if the call failed for any reason.
 ```
 
 ### `set_time_profile`
@@ -337,7 +338,7 @@ set_time_profile(ID, profile)
 ID       uint32  controller serial number 
 profile  uint8   TimeProfile dataclass instance initialised with the time profile to store on the controller.
 
-Raises an Exception if the call failed.
+Raises an Exception if the call failed for any reason.
 ```
 
 ### `clear_time_profiles`
@@ -346,7 +347,7 @@ clear_time_profiles(ID)
 
 ID  uint32  controller serial number 
 
-Raises an Exception if the call failed.
+Raises an Exception if the call failed for any reason.
 ```
 
 ### `add_task`
@@ -356,7 +357,7 @@ add_task(ID, task)
 ID    uint32  controller serial number 
 task  uint8   Task dataclass instance initialised with the task to store on the controller.
 
-Raises an Exception if the call failed.
+Raises an Exception if the call failed for any reason.
 ```
 
 ### `refresh_tasklist`
@@ -365,7 +366,7 @@ refresh_tasklist(ID)
 
 ID  uint32  controller serial number 
 
-Raises an Exception if the call failed.
+Raises an Exception if the call failed for any reason.
 ```
 
 ### `clear_tasklist`
@@ -374,7 +375,7 @@ clear_tasklist(ID)
 
 ID  uint32  controller serial number 
 
-Raises an Exception if the call failed.
+Raises an Exception if the call failed for any reason.
 ```
 
 ### `set_pc_control`
@@ -384,7 +385,7 @@ set_pc_control(ID, enabled)
 ID       uint32  controller serial number 
 enabled  bool    enables/disables host control
 
-Raises an Exception if the call failed.
+Raises an Exception if the call failed for any reason.
 ```
 
 ### `set_interlock`
@@ -401,7 +402,7 @@ interlock uint8   controller door interlock mode
                   8: doors 1&2&3&4
 
 
-Raises an Exception if the call failed.
+Raises an Exception if the call failed for any reason.
 ```
 
 ### `activate_keypads`
@@ -415,7 +416,7 @@ reader3 bool    activates/deactivates reader 3 access keypad
 reader4 bool    activates/deactivates reader 4 access keypad
 
 
-Raises an Exception if the call failed.
+Raises an Exception if the call failed for any reason.
 ```
 
 ## Types
