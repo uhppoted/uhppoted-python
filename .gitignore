@@ -3,3 +3,4 @@
 .pypi
 __pycache__
 dist
+release-notes.md

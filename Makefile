@@ -32,6 +32,8 @@ release: build-all
 	python3 -m twine check dist/* 
 
 publish: release
+	echo "Releasing version $(VERSION)"
+	gh release create "$(VERSION)" dist/*.tar.gz --draft --prerelease --title "$(VERSION)-beta" --notes-file release-notes.md
 	python3 -m twine upload --repository testpypi -u __token__ --skip-existing dist/*
 #	python3 -m twine upload --repository pypi     -u __token__ --skip-existing dist/*
 
