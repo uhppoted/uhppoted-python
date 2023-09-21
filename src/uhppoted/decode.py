@@ -39,6 +39,7 @@ from .structs import ClearTasklistResponse
 from .structs import SetPcControlResponse
 from .structs import SetInterlockResponse
 from .structs import ActivateKeypadsResponse
+from .structs import SetDoorPasscodesResponse
 from .structs import Event
 from .structs import PIN
 
@@ -947,6 +948,36 @@ def activate_keypads_response(packet):
         raise ValueError(f'invalid reply function code ({packet[1]:02x})')
 
     return ActivateKeypadsResponse(
+        unpack_uint32(packet, 4),
+        unpack_bool(packet, 8),
+    )
+
+
+def set_door_passcodes_response(packet):
+    '''
+    Decodes a set-door-passcodes response.
+
+        Parameters:
+            packet  (bytearray)  64 byte UDP packet.
+
+        Returns:
+            SetDoorPasscodesResponse initialised from the UDP packet.
+
+        Raises:
+            ValueError If the packet is not 64 bytes, has an invalid start-of-message byte or has
+                       the incorrect message type.
+    '''
+    if len(packet) != 64:
+        raise ValueError(f'invalid reply packet length ({len(packet)})')
+
+    # Ref. v6.62 firmware event
+    if packet[0] != 0x17 and (packet[0] != 0x19 or packet[1] != 0x20):
+        raise ValueError(f'invalid reply start of message byte ({packet[0]:02x})')
+
+    if packet[1] != 0x8c:
+        raise ValueError(f'invalid reply function code ({packet[1]:02x})')
+
+    return SetDoorPasscodesResponse(
         unpack_uint32(packet, 4),
         unpack_bool(packet, 8),
     )

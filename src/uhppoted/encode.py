@@ -716,16 +716,16 @@ def set_interlock_request(controller, interlock):
     return packet
 
 
-def activate_keypads_request(controller, reader_1, reader_2, reader_3, reader_4):
+def activate_keypads_request(controller, reader1, reader2, reader3, reader4):
     '''
     Encodes an activate-keypads request.
 
         Parameters:
            controller (uint32)  Controller serial number (expected to be greater than 0).
-           reader_1   (bool)    Enables/disable reader 1 access keypad.
-           reader_2   (bool)    Enables/disable reader 2 access keypad.
-           reader_3   (bool)    Enables/disable reader 3 access keypad.
-           reader_4   (bool)    Enables/disable reader 4 access keypad.
+           reader1   (bool)    Enables/disable reader 1 access keypad.
+           reader2   (bool)    Enables/disable reader 2 access keypad.
+           reader3   (bool)    Enables/disable reader 3 access keypad.
+           reader4   (bool)    Enables/disable reader 4 access keypad.
 
         Returns:
             64 byte UDP packet.
@@ -736,10 +736,40 @@ def activate_keypads_request(controller, reader_1, reader_2, reader_3, reader_4)
     packet[1] = 0xa4
 
     pack_uint32(controller, packet, 4)
-    pack_bool(reader_1, packet, 8)
-    pack_bool(reader_2, packet, 9)
-    pack_bool(reader_3, packet, 10)
-    pack_bool(reader_4, packet, 11)
+    pack_bool(reader1, packet, 8)
+    pack_bool(reader2, packet, 9)
+    pack_bool(reader3, packet, 10)
+    pack_bool(reader4, packet, 11)
+
+    return packet
+
+
+def set_door_passcodes_request(device_id, door, passcode1, passcode2, passcode3, passcode4):
+    '''
+    Encodes a set-door-passcodes request.
+
+        Parameters:
+           controller (uint32)  Controller serial number (expected to be greater than 0).
+           door       (uint8)   Door ID [1..4].
+           passcode1  (uint32)  Passcode [0..999999].
+           passcode2  (uint32)  Passcode [0..999999].
+           passcode3  (uint32)  Passcode [0..999999].
+           passcode4  (uint32)  Passcode [0..999999].
+
+        Returns:
+            64 byte UDP packet.
+    '''
+    packet = bytearray(64)
+
+    packet[0] = 0x17
+    packet[1] = 0x8c
+
+    pack_uint32(device_id, packet, 4)
+    pack_uint8(door, packet, 8)
+    pack_uint32(passcode1, packet, 12)
+    pack_uint32(passcode2, packet, 16)
+    pack_uint32(passcode3, packet, 20)
+    pack_uint32(passcode4, packet, 24)
 
     return packet
 

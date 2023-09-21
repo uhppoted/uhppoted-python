@@ -516,6 +516,19 @@ class ActivateKeypadsResponse:
 
 
 @dataclass
+class SetDoorPasscodesResponse:
+    '''
+    Container class for the decoded response from a set-door-passcodes request.
+
+       Fields:
+          controller  (uint32)  Controller serial number.
+          ok          (bool)    Succeeded/failed.
+    '''
+    controller: int
+    ok: bool
+
+
+@dataclass
 class Event:
     '''
     Container class for a decoded event packet.

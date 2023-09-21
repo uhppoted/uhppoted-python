@@ -133,6 +133,9 @@ set-interlock: build
 activate-keypads: build
 	$(CMD) activate-keypads
 
+set-door-passcodes: build
+	$(CMD) set-door-passcodes
+
 all: build
 	$(CMD) all
 

@@ -419,6 +419,22 @@ reader4 bool    activates/deactivates reader 4 access keypad
 Raises an Exception if the call failed for any reason.
 ```
 
+### `set_door_passcodes`
+```
+set_door_passcodes(ID, door, passcode1, passcode2, passcode3, passcode4)
+
+ID        uint32  controller serial number 
+door      uint8   door ID [1..4]
+passcode1 uint32  supervisor passcode 1 [0..999999] (0 is 'no code')
+passcode2 uint32  supervisor passcode 2 [0..999999] (0 is 'no code')
+passcode3 uint32  supervisor passcode 3 [0..999999] (0 is 'no code')
+passcode4 uint32  supervisor passcode 4 [0..999999] (0 is 'no code')
+
+
+Raises an Exception if the call failed for any reason.
+```
+
+
 ## Types
 
 ### `GetControllerResponse`
@@ -953,7 +969,7 @@ class SetInterlockResponse:
 
 ### `ActivateKeypadsResponse`
 
-Container class for the decoded response from an activate-keypads request.
+Container class for the decoded response to an activate-keypads request.
 
     Fields:
         controller  (uint32)  Controller serial number.
@@ -961,6 +977,20 @@ Container class for the decoded response from an activate-keypads request.
 ```
 @dataclass
 class ActivateKeypadsResponse:
+    controller: int
+    ok: bool
+```
+
+### `SetDoorPasscodesResponse`
+
+Container class for the decoded response to a set-door-passcodes request.
+
+    Fields:
+        controller  (uint32)  Controller serial number.
+        ok          (bool)    Succeeded/failed.
+```
+@dataclass
+class SetDoorPasscodesResponse:
     controller: int
     ok: bool
 ```

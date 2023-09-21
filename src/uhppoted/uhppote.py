@@ -722,16 +722,16 @@ class Uhppote:
 
         return None
 
-    def activate_keypads(self, controller, reader_1, reader_2, reader_3, reader_4):
+    def activate_keypads(self, controller, reader1, reader2, reader3, reader4):
         '''
         Enables (or disables) the keypad associated with an access reader.
 
             Parameters:
                controller (uint32)  Controller serial number (expected to be greater than 0).
-               reader_1   (bool)    Enables/disable reader 1 access keypad
-               reader_2   (bool)    Enables/disable reader 2 access keypad
-               reader_3   (bool)    Enables/disable reader 3 access keypad
-               reader_4   (bool)    Enables/disable reader 4 access keypad
+               reader1    (bool)    Enables/disable reader 1 access keypad
+               reader2    (bool)    Enables/disable reader 2 access keypad
+               reader3    (bool)    Enables/disable reader 3 access keypad
+               reader4    (bool)    Enables/disable reader 4 access keypad
 
             Returns:
                activate_keypads_response  Activate keypads success/fail response.
@@ -739,11 +739,39 @@ class Uhppote:
             Raises:
                Exception  If the response from the access controller cannot be decoded.
         '''
-        request = encode.activate_keypads_request(controller, reader_1, reader_2, reader_3, reader_4)
+        request = encode.activate_keypads_request(controller, reader1, reader2, reader3, reader4)
         reply = self._udp.send(request)
 
         if reply != None:
             return decode.activate_keypads_response(reply)
+
+        return None
+
+    def set_door_passcodes(self, controller, door, passcode1, passcode2, passcode3, passcode4):
+        '''
+        Sets up to four supervisor passcodes for a door. The passcodes override any other access 
+        restrictions and a valid passcode is in the range [0..999999], with 0 corresponding to 
+        'no code'.
+
+            Parameters:
+               controller (uint32)  Controller serial number (expected to be greater than 0).
+               door       (uint8)   Door ID [1..4].
+               passcode1  (uint32)  Passcode [0..999999].
+               passcode2  (uint32)  Passcode [0..999999].
+               passcode3  (uint32)  Passcode [0..999999].
+               passcode4  (uint32)  Passcode [0..999999].
+
+            Returns:
+               set_door_passcodes  Set door passcodes success/fail response.
+
+            Raises:
+               Exception  If the response from the access controller cannot be decoded.
+        '''
+        request = encode.set_door_passcodes_request(controller, door, passcode1, passcode2, passcode3, passcode4)
+        reply = self._udp.send(request)
+
+        if reply != None:
+            return decode.set_door_passcodes_response(reply)
 
         return None
 

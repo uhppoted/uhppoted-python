@@ -51,6 +51,7 @@ def commands():
         'set-pc-control': set_pc_control,
         'set-interlock': set_interlock,
         'activate-keypads': activate_keypads,
+        'set-door-passcodes': set_door_passcodes,
         'listen': listen,
     }
 
@@ -322,6 +323,17 @@ def activate_keypads(u):
     reader4 = True
 
     return u.activate_keypads(controller, reader1, reader2, reader3, reader4)
+
+
+def set_door_passcodes(u):
+    controller = CONTROLLER
+    door = DOOR
+    passcode1 = 12345
+    passcode2 = 0
+    passcode3 = 999999
+    passcode4 = 54321
+
+    return u.set_door_passcodes(controller, door, passcode1, passcode2, passcode3, passcode4)
 
 
 def listen(u):
