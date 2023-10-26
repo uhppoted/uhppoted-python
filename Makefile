@@ -13,12 +13,13 @@ update-release:
 
 format: 
 	yapf -ri src
-#	yapf -ri test
+	yapf -ri tests
 	yapf -ri examples
 
 build: format
 
 test: build
+	python3 -m unittest tests/uhppoted/*.py 
 
 vet: 
 

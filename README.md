@@ -123,7 +123,8 @@ get_status(ID)
 
 ID  uint32  controller serial number 
 
-Returns a `GetStatusResponse` with the controller status information.
+Returns a `GetStatusResponse` with the controller status information. If the response does not contain a
+valid event, the event fields are set to `None`.
 
 Raises an Exception if the call failed for any reason.
 ```
