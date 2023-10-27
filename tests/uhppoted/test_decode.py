@@ -7,10 +7,34 @@ Tests the packet decoding functions.
 import unittest
 import datetime
 
+from ipaddress import IPv4Address
 from uhppoted import decode
 
 
 class TestDecode(unittest.TestCase):
+
+    def test_get_controller(self):
+        '''
+        Tests a valid get-controller response.
+        '''
+        # yapf: disable
+        packet = bytearray([
+                  0x17, 0x94, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0xc0, 0xa8, 0x01, 0x64, 0xff, 0xff, 0xff, 0x00,
+                  0xc0, 0xa8, 0x01, 0x01, 0x00, 0x12, 0x23, 0x34, 0x45, 0x56, 0x08, 0x92, 0x20, 0x18, 0x11, 0x05,
+                  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        ])
+        # yapf: enable
+
+        response = decode.get_controller_response(packet)
+
+        self.assertEqual(response.controller, 405419896)
+        self.assertEqual(response.ip_address, IPv4Address('192.168.1.100'))
+        self.assertEqual(response.subnet_mask, IPv4Address('255.255.255.0'))
+        self.assertEqual(response.gateway, IPv4Address('192.168.1.1'))
+        self.assertEqual(response.mac_address, '00:12:23:34:45:56')
+        self.assertEqual(response.version, 'v8.92')
+        self.assertEqual(response.date, datetime.date(2018, 11, 5))
 
     def test_get_status_response(self):
         '''

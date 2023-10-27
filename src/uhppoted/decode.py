@@ -1119,7 +1119,7 @@ def unpack_ipv4(packet, offset):
         Returns:
            IPv4Address value.
     '''
-    return IPv4Address(packet[offset:offset + 4])
+    return IPv4Address(f'{packet[offset]}.{packet[offset+1]}.{packet[offset+2]}.{packet[offset+3]}')
 
 
 def unpack_mac(packet, offset):
@@ -1133,7 +1133,7 @@ def unpack_mac(packet, offset):
         Returns:
            MAC address as a colon-seperated hexadecimal string.
     '''
-    return '{:02x}:{:02x}:{:02x}:{:02x}::{:02x}:{:02x}'.format(*packet[offset:offset + 7])
+    return '{:02x}:{:02x}:{:02x}:{:02x}:{:02x}:{:02x}'.format(*packet[offset:offset + 7])
 
 
 def unpack_version(packet, offset):
