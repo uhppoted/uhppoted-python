@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## Unreleased
+## [0.8.7](https://github.com/uhppoted/uhppoted-python/releases/tag/v0.8.7) - 2023-12-01
 
 ### Added
 1. `set-door-passcodes` function to set supervisor passcodes for a door.
