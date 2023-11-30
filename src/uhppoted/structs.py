@@ -42,7 +42,8 @@ class GetTimeResponse:
 
        Fields:
           controller   (uint32)    Controller serial number.
-          datetime     (datetime)  Controller system date/time.
+          datetime     (datetime)  Controller system date/time. None if
+                                   the returned date/time is invalid.
     '''
     controller: int
     datetime: datetime.datetime

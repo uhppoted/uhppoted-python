@@ -1159,11 +1159,14 @@ def unpack_date(packet, offset):
            offset (int)        Value location in array.
 
         Returns:
-           datetime value.
+           datetime value (or None if the date/time valid is invalid)
     '''
     bcd = '{:02x}{:02x}{:02x}{:02x}'.format(*packet[offset:offset + 4])
 
-    return datetime.datetime.strptime(bcd, '%Y%m%d').date()
+    try:
+        return datetime.datetime.strptime(bcd, '%Y%m%d').date()
+    except ValueError:
+        return None
 
 
 def unpack_shortdate(packet, offset):
@@ -1176,11 +1179,14 @@ def unpack_shortdate(packet, offset):
            offset (int)        Value location in array.
 
         Returns:
-           datetime value.
+           datetime value (or None if the date/time valid is invalid)
     '''
     bcd = '20{:02x}{:02x}{:02x}'.format(*packet[offset:offset + 3])
 
-    return datetime.datetime.strptime(bcd, '%Y%m%d').date()
+    try:
+        return datetime.datetime.strptime(bcd, '%Y%m%d').date()
+    except ValueError:
+        return None
 
 
 def unpack_optional_date(packet, offset):
@@ -1192,16 +1198,13 @@ def unpack_optional_date(packet, offset):
            offset (int)        Value location in array.
 
         Returns:
-           datetime value.
-
-        Raises:
-           ValueError if the date value is invalid.
+           datetime value (or None if the date/time valid is invalid)
     '''
     bcd = '{:02x}{:02x}{:02x}{:02x}'.format(*packet[offset:offset + 4])
 
     try:
         return datetime.datetime.strptime(bcd, '%Y%m%d').date()
-    except ValueError as x:
+    except ValueError:
         return None
 
 
@@ -1214,11 +1217,14 @@ def unpack_datetime(packet, offset):
            offset (int)        Value location in array.
 
         Returns:
-           datetime value.
+           datetime value (or None if the BCD value is not a valid date/time).
     '''
     bcd = '{:02x}{:02x}{:02x}{:02x}{:02x}{:02x}{:02x}'.format(*packet[offset:offset + 7])
 
-    return datetime.datetime.strptime(bcd, '%Y%m%d%H%M%S')
+    try:
+        return datetime.datetime.strptime(bcd, '%Y%m%d%H%M%S')
+    except ValueError:
+        return None
 
 
 def unpack_optional_datetime(packet, offset):
@@ -1230,16 +1236,13 @@ def unpack_optional_datetime(packet, offset):
            offset (int)        Value location in array.
 
         Returns:
-           datetime value.
-
-        Raises:
-           ValueError if the date value is invalid.
+           datetime value (or None if the BCD value is not a valid date/time).
     '''
     bcd = '{:02x}{:02x}{:02x}{:02x}{:02x}{:02x}{:02x}'.format(*packet[offset:offset + 7])
 
     try:
         return datetime.datetime.strptime(bcd, '%Y%m%d%H%M%S')
-    except ValueError as x:
+    except ValueError:
         return None
 
 
@@ -1252,11 +1255,14 @@ def unpack_time(packet, offset):
            offset (int)        Value location in array.
 
         Returns:
-           datetime value.
+           datetime value (or None if the BCD value is not a valid date/time).
     '''
     bcd = '{:02x}{:02x}{:02x}'.format(*packet[offset:offset + 3])
 
-    return datetime.datetime.strptime(bcd, '%H%M%S').time()
+    try:
+        return datetime.datetime.strptime(bcd, '%H%M%S').time()
+    except ValueError:
+        return None
 
 
 def unpack_hhmm(packet, offset):
@@ -1268,11 +1274,14 @@ def unpack_hhmm(packet, offset):
            offset (int)        Value location in array.
 
         Returns:
-           datetime value.
+           datetime value (or None if the BCD value is not a valid date/time).
     '''
     bcd = '{:02x}{:02x}'.format(*packet[offset:offset + 2])
 
-    return datetime.datetime.strptime(bcd, '%H%M').time()
+    try:
+        return datetime.datetime.strptime(bcd, '%H%M').time()
+    except ValueError:
+        return None
 
 
 def unpack_bool(packet, offset):

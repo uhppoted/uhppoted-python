@@ -10,6 +10,7 @@
    does not contain an event.
 2. Fixed bug decoding IPv4 address in `get-controller` response.
 3. Fixed typo decoding MAC address in `get-controller` response.
+4. Reworked date/time decoding to unpack invalid date/times as `None`.
 
 
 ## [0.8.6](https://github.com/uhppoted/uhppoted-python/releases/tag/v0.8.6) - 2023-08-30
