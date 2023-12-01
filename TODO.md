@@ -1,13 +1,20 @@
 # TODO
 
-- [x] `set-door-passcodes` (cf. https://github.com/uhppoted/uhppoted/issues/40)
-- [x] `GetStatus` response decode with no event (cf. https://github.com/uhppoted/uhppote-core/issues/18)
-      - [x] `decode.get_status_response`
-      - [x] unit test
+- [ ] [Fix event decoding](https://github.com/uhppoted/uhppoted-python/issues/3)
+      - [x] decode.event
+      - [x] Unit test
+      - [x] doc
       - [x] CHANGELOG
-      - [x] README
+      - [x] Version as 0.8.7.1
+      - [ ] Release to pytest
+      - [ ] Release to pypi
 
-- [x] Fix unpack_datetime bug (cf. https://github.com/uhppoted/uhppoted-python/issues/1)
+- [ ] [`restore-default-parameters`](https://github.com/uhppoted/uhppoted/issues/48)
+      - [ ] API function
+      - [ ] doc
+      - [ ] CHANGELOG
+      - [ ] README
+      - [ ] Version as 0.8.8
 
 
 - [ ] Unit/integration tests

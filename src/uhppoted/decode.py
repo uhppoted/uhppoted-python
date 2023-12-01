@@ -1038,32 +1038,34 @@ def event(packet):
     if packet[1] != 0x20:
         raise ValueError(f'invalid reply function code ({packet[1]:02x})')
 
+    # yapf: disable
     return Event(
-        unpack_uint32(packet, 4),
-        unpack_uint32(packet, 8),
-        unpack_uint8(packet, 12),
-        unpack_bool(packet, 13),
-        unpack_uint8(packet, 14),
-        unpack_uint8(packet, 15),
-        unpack_uint32(packet, 16),
-        unpack_datetime(packet, 20),
-        unpack_uint8(packet, 27),
-        unpack_shortdate(packet, 51),
-        unpack_time(packet, 37),
-        unpack_uint8(packet, 36),
-        unpack_bool(packet, 28),
-        unpack_bool(packet, 29),
-        unpack_bool(packet, 30),
-        unpack_bool(packet, 31),
-        unpack_bool(packet, 32),
-        unpack_bool(packet, 33),
-        unpack_bool(packet, 34),
-        unpack_bool(packet, 35),
-        unpack_uint8(packet, 49),
-        unpack_uint8(packet, 50),
-        unpack_uint8(packet, 48),
-        unpack_uint32(packet, 40),
+        unpack_uint32(packet, 4),       # controller
+        unpack_uint32(packet, 8),       # event index
+        unpack_uint8(packet, 12),       # event type
+        unpack_bool(packet, 13),        # event access granted
+        unpack_uint8(packet, 14),       # event door
+        unpack_uint8(packet, 15),       # event direction
+        unpack_uint32(packet, 16),      # event card number
+        unpack_datetime(packet, 20),    # event timestamp
+        unpack_uint8(packet, 27),       # event reason
+        unpack_shortdate(packet, 51),   # system date
+        unpack_time(packet, 37),        # system time
+        unpack_bool(packet, 28),        # door 1 open
+        unpack_bool(packet, 29),        # door 2 open
+        unpack_bool(packet, 30),        # door 3 open
+        unpack_bool(packet, 31),        # door 4 open
+        unpack_bool(packet, 32),        # door 1 button
+        unpack_bool(packet, 33),        # door 2 button
+        unpack_bool(packet, 34),        # door 3 button
+        unpack_bool(packet, 35),        # door 4 button
+        unpack_uint8(packet, 49),       # relays
+        unpack_uint8(packet, 50),       # inputs
+        unpack_uint8(packet, 36),       # system error
+        unpack_uint8(packet, 48),       # special info
+        unpack_uint32(packet, 40),      # sequence no
     )
+    # yapf: enable
 
 
 def unpack_uint8(packet, offset):

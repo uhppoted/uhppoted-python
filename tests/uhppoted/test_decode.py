@@ -301,6 +301,47 @@ class TestDecode(unittest.TestCase):
         self.assertEqual(response.segment_3_end, datetime.time(17, 0))
         self.assertEqual(response.linked_profile_id, 3)
 
+    # Ref. https://github.com/uhppoted/uhppoted-python/issues/3
+    def test_listen_event(self):
+        '''
+        Tests a listen event.
+        '''
+        # yapf: disable
+        packet = bytearray([
+            0x17, 0x20, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x46, 0x00, 0x00, 0x00, 0x02, 0x01, 0x03, 0x01,
+            0x9f, 0x98, 0x7c, 0x00, 0x20, 0x24, 0x02, 0x22, 0x10, 0x23, 0x40, 0x2c, 0x01, 0x00, 0x00, 0x01,
+            0x01, 0x00, 0x01, 0x01, 0x03, 0x10, 0x23, 0x40, 0x7b, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x27, 0x0a, 0x05, 0x24, 0x02, 0x22, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        ])
+        # yapf: enable
+
+        event = decode.event(packet)
+
+        self.assertEqual(event.controller, 405419896)
+        self.assertEqual(event.system_date, datetime.date(2024, 2, 22))
+        self.assertEqual(event.system_time, datetime.time(10, 23, 40))
+        self.assertEqual(event.door_1_open, True)
+        self.assertEqual(event.door_2_open, False)
+        self.assertEqual(event.door_3_open, False)
+        self.assertEqual(event.door_4_open, True)
+        self.assertEqual(event.door_1_button, True)
+        self.assertEqual(event.door_2_button, False)
+        self.assertEqual(event.door_3_button, True)
+        self.assertEqual(event.door_4_button, True)
+        self.assertEqual(event.relays, 0x0a)
+        self.assertEqual(event.inputs, 0x05)
+        self.assertEqual(event.system_error, 3)
+        self.assertEqual(event.special_info, 39)
+        self.assertEqual(event.event_index, 70)
+        self.assertEqual(event.event_type, 2)
+        self.assertEqual(event.event_access_granted, True)
+        self.assertEqual(event.event_door, 3)
+        self.assertEqual(event.event_direction, 1)
+        self.assertEqual(event.event_card, 8165535)
+        self.assertEqual(event.event_timestamp, datetime.datetime(2024, 2, 22, 10, 23, 40))
+        self.assertEqual(event.event_reason, 44)
+        self.assertEqual(event.sequence_no, 123)
+
 
 if __name__ == '__main__':
     unittest.main()

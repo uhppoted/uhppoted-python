@@ -17,6 +17,7 @@ format:
 	yapf -ri examples
 
 build: format
+	python3 -m compileall .
 
 test: build
 	python3 -m unittest tests/uhppoted/*.py 
@@ -35,11 +36,12 @@ release: build-all
 publish: release
 	echo "Releasing version $(VERSION)"
 	gh release create "$(VERSION)" dist/*.tar.gz --draft --prerelease --title "$(VERSION)-beta" --notes-file release-notes.md
-	# python3 -m twine upload --repository testpypi -u __token__ --skip-existing dist/*
-	# python3 -m twine upload --repository pypi     -u __token__ --skip-existing dist/*
+	# python3 -m twine upload --repository testpypi -u __token__ --skip-existing --verbose dist/*
+	# python3 -m twine upload --repository pypi     -u __token__ --skip-existing --verbose dist/*
 
 debug: build
-	$(CMD) --debug --bind 192.168.1.100 --broadcast 192.168.1.255:60000 --listen 192.168.1.100:60001 get-controller
+	# $(CMD) --debug --bind 192.168.1.100 --broadcast 192.168.1.255:60000 --listen 192.168.1.100:60001 get-controller
+	curl -X POST "http://127.0.0.1:8000/uhppote/simulator/405419896/swipe" -H "accept: application/json" -H "Content-Type: application/json" -d '{"door":1,"card-number":8165535,"direction":1}'
 
 usage: build
 	$(CMD)
