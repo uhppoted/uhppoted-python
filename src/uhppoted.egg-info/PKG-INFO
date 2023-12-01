@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: uhppoted
-Version: 0.8.6
+Version: 0.8.7
 Summary: Python API for the UHPPOTE TCP/IP access controllers
 Author-email: uhppoted <uhppoted.development@gmail.com>
 Project-URL: Homepage, https://github.com/uhppoted/uhppoted-python
@@ -10,9 +10,11 @@ Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: OS Independent
 Requires-Python: >=3.9
 Description-Content-Type: text/markdown
-Provides-Extra: dev
-Provides-Extra: test
 License-File: LICENSE
+Provides-Extra: dev
+Requires-Dist: toml~=0.10.2; extra == "dev"
+Requires-Dist: yapf~=0.32.0; extra == "dev"
+Provides-Extra: test
 
 ![build](https://github.com/uhppoted/uhppoted-python/workflows/build/badge.svg)
 
@@ -139,7 +141,8 @@ get_status(ID)
 
 ID  uint32  controller serial number 
 
-Returns a `GetStatusResponse` with the controller status information.
+Returns a `GetStatusResponse` with the controller status information. If the response does not contain a
+valid event, the event fields are set to `None`.
 
 Raises an Exception if the call failed for any reason.
 ```
@@ -434,6 +437,22 @@ reader4 bool    activates/deactivates reader 4 access keypad
 
 Raises an Exception if the call failed for any reason.
 ```
+
+### `set_door_passcodes`
+```
+set_door_passcodes(ID, door, passcode1, passcode2, passcode3, passcode4)
+
+ID        uint32  controller serial number 
+door      uint8   door ID [1..4]
+passcode1 uint32  supervisor passcode 1 [0..999999] (0 is 'no code')
+passcode2 uint32  supervisor passcode 2 [0..999999] (0 is 'no code')
+passcode3 uint32  supervisor passcode 3 [0..999999] (0 is 'no code')
+passcode4 uint32  supervisor passcode 4 [0..999999] (0 is 'no code')
+
+
+Raises an Exception if the call failed for any reason.
+```
+
 
 ## Types
 
@@ -969,7 +988,7 @@ class SetInterlockResponse:
 
 ### `ActivateKeypadsResponse`
 
-Container class for the decoded response from an activate-keypads request.
+Container class for the decoded response to an activate-keypads request.
 
     Fields:
         controller  (uint32)  Controller serial number.
@@ -977,6 +996,20 @@ Container class for the decoded response from an activate-keypads request.
 ```
 @dataclass
 class ActivateKeypadsResponse:
+    controller: int
+    ok: bool
+```
+
+### `SetDoorPasscodesResponse`
+
+Container class for the decoded response to a set-door-passcodes request.
+
+    Fields:
+        controller  (uint32)  Controller serial number.
+        ok          (bool)    Succeeded/failed.
+```
+@dataclass
+class SetDoorPasscodesResponse:
     controller: int
     ok: bool
 ```
