@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: uhppoted
-Version: 0.8.7
+Version: 0.8.7.1
 Summary: Python API for the UHPPOTE TCP/IP access controllers
 Author-email: uhppoted <uhppoted.development@gmail.com>
 Project-URL: Homepage, https://github.com/uhppoted/uhppoted-python
