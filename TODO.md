@@ -6,7 +6,7 @@
       - [x] doc
       - [x] CHANGELOG
       - [x] Version as 0.8.7.1
-      - [ ] Release to pytest
+      - [ ] Release to test.pypi
       - [ ] Release to pypi
 
 - [ ] [`restore-default-parameters`](https://github.com/uhppoted/uhppoted/issues/48)
