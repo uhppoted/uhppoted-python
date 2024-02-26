@@ -2,8 +2,15 @@
 
 ## Unreleased
 
+### Added
+1. `restore-default-parameters` function to reset a controller to the manufacturer default configuration.
+
+
+## [0.8.7.1](https://github.com/uhppoted/uhppoted-python/releases/tag/v0.8.7.1) - 2024-02-22
+
 ### Updated
 1. Fixed listen event decoding (cf. https://github.com/uhppoted/uhppoted-python/issues/3)
+
 
 ## [0.8.7](https://github.com/uhppoted/uhppoted-python/releases/tag/v0.8.7) - 2023-12-01
 

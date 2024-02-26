@@ -774,6 +774,27 @@ def set_door_passcodes_request(device_id, door, passcode1, passcode2, passcode3,
     return packet
 
 
+def restore_default_parameters_request(controller):
+    '''
+    Encodes a restore-default-parameters request.
+
+        Parameters:
+            controller  (uint32)  Controller serial number.
+
+        Returns:
+            64 byte UDP packet.
+    '''
+    packet = bytearray(64)
+
+    packet[0] = 0x17
+    packet[1] = 0xc8
+
+    pack_uint32(controller, packet, 4)
+    pack_uint32(0x55aaaa55, packet, 8)
+
+    return packet
+
+
 def pack_uint8(v, packet, offset):
     '''
     'in-place' packs a uint8 value as a byte into the packet at the offset.

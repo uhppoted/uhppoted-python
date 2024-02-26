@@ -34,8 +34,8 @@ class Uhppote:
         Retrieves a list of all controllers accessible on the local LAN segment.
 
             Returns:
-               []get_controller_response  List of get_controller_responses from access controllers 
-                                          on the local LAN segment.
+               []GetControllerResponse  List of get_controller_responses from access controllers 
+                                       on the local LAN segment.
 
             Raises:
                Exception  If any of the responses from the access controllers cannot be decoded.
@@ -57,7 +57,7 @@ class Uhppote:
                controller (uint32)  Controller serial number (expected to be greater than 0).
 
             Returns:
-               get_controller_response  Response from access controller to the get-controller request.
+               GetControllerResponse  Response from access controller to the get-controller request.
 
             Raises:
                Exception  If the response from the access controller cannot be decoded.
@@ -99,7 +99,7 @@ class Uhppote:
                controller (uint32)  Controller serial number (expected to be greater than 0).
 
             Returns:
-               get_time_response  Controller current date/time.
+               GetTimeResponse  Controller current date/time.
 
             Raises:
                Exception  If the response from the access controller cannot be decoded.
@@ -121,7 +121,7 @@ class Uhppote:
                datetime   (dateime)  Date/time to set.
 
             Returns:
-               set_time_response  Controller current date/time.
+               SetTimeResponse  Controller current date/time.
 
             Raises:
                Exception  If the datetime format cannot be encoded or the response from the 
@@ -143,7 +143,7 @@ class Uhppote:
                controller (uint32)  Controller serial number (expected to be greater than 0).
 
             Returns:
-               get_status_response  Current controller status.
+               GetStatusResponse  Current controller status.
 
             Raises:
                Exception  If the response from the access controller cannot be decoded.
@@ -164,7 +164,7 @@ class Uhppote:
                controller (uint32)  Controller serial number (expected to be greater than 0).
 
             Returns:
-               get_listener_response  Current controller event listener UDP address and port.
+               GetListenerResponse  Current controller event listener UDP address and port.
 
             Raises:
                Exception  If the response from the access controller cannot be decoded.
@@ -187,7 +187,7 @@ class Uhppote:
                port       (uint16)       UDP port of event listener.
 
             Returns:
-               set_listener_response  Success/fail response from controller.
+               SetListenerResponse  Success/fail response from controller.
 
             Raises:
                Exception  If the response from the access controller cannot be decoded.
@@ -209,7 +209,7 @@ class Uhppote:
                door       (uint8)   Door [1..4]
 
             Returns:
-               get_door_control_response  Door delay and control mode.
+               GetDoorControlResponse  Door delay and control mode.
 
             Raises:
                Exception  If the response from the access controller cannot be decoded.
@@ -233,7 +233,7 @@ class Uhppote:
                delay      (uint8)   Door unlock duration (seconds)
 
             Returns:
-               set_door_control_response  Door delay and control mode.
+               SetDoorControlResponse  Door delay and control mode.
 
             Raises:
                Exception  If the response from the access controller cannot be decoded.
@@ -255,7 +255,7 @@ class Uhppote:
                door       (uint8)   Door [1..4]
 
             Returns:
-               open_door_response  Door open success/fail response.
+               OpenDoorResponse  Door open success/fail response.
 
             Raises:
                Exception  If the response from the access controller cannot be decoded.
@@ -276,7 +276,7 @@ class Uhppote:
                controller (uint32)  Controller serial number (expected to be greater than 0).
 
             Returns:
-               get_cards_response  Number of cards stored locally in controller.
+               GetCardsResponse  Number of cards stored locally in controller.
 
             Raises:
                Exception  If the response from the access controller cannot be decoded.
@@ -297,7 +297,7 @@ class Uhppote:
                card_number (uint32)  Access card number.
 
             Returns:
-               get_card_response  Card information associated with the card number.
+               GetCardResponse  Card information associated with the card number.
 
             Raises:
                Exception  If the response from the access controller cannot be decoded.
@@ -318,7 +318,7 @@ class Uhppote:
                index       (uint32)  Controller card list record number.
 
             Returns:
-               get_card_by_index_response  Card information associated with the card number.
+               GetCardByIndexResponse  Card information associated with the card number.
 
             Raises:
                Exception  If the response from the access controller cannot be decoded.
@@ -346,7 +346,7 @@ class Uhppote:
                pin         (uint24)  Card access keypad PIN code (0 for none)
 
             Returns:
-               put_card_response  Card record add/update success/fail.
+               PutCardResponse  Card record add/update success/fail.
 
             Raises:
                Exception  If the response from the access controller cannot be decoded.
@@ -368,7 +368,7 @@ class Uhppote:
                card_number (uint32)  Access card number to delete.
 
             Returns:
-               delete_card_response  Card record delete success/fail.
+               DeleteCardResponse  Card record delete success/fail.
 
             Raises:
                Exception  If the response from the access controller cannot be decoded.
@@ -388,7 +388,7 @@ class Uhppote:
                controller  (uint32)  Controller serial number (expected to be greater than 0).
 
             Returns:
-               delete_all_cards_response  Clear card records success/fail.
+               DeleteAllCardsResponse  Clear card records success/fail.
 
             Raises:
                Exception  If the response from the access controller cannot be decoded.
@@ -409,7 +409,7 @@ class Uhppote:
                event_index (uint32)  Index of event in controller list.
 
             Returns:
-               get_event_response  Event information.
+               GetEventResponse  Event information.
 
             Raises:
                Exception  If the response from the access controller cannot be decoded.
@@ -432,7 +432,7 @@ class Uhppote:
                controller  (uint32)  Controller serial number (expected to be greater than 0).
 
             Returns:
-               get_event_index_response  Current value of downloaded event index.
+               GetEventIndexResponse  Current value of downloaded event index.
 
             Raises:
                Exception  If the response from the access controller cannot be decoded.
@@ -456,7 +456,7 @@ class Uhppote:
                event_index (uitn32)  Event index to which to set the 'downloaded event' index.
 
             Returns:
-               set_event_index_response  Set event index success/fail response.
+               SetEventIndexResponse  Set event index success/fail response.
 
             Raises:
                Exception  If the response from the access controller cannot be decoded.
@@ -479,7 +479,7 @@ class Uhppote:
                                      events stored and broadcast by the controller.
 
             Returns:
-               record_special_events_response  Record special events success/fail response.
+               RecordSpecialEventsResponse  Record special events success/fail response.
 
             Raises:
                Exception  If the response from the access controller cannot be decoded.
@@ -501,7 +501,7 @@ class Uhppote:
                profile_id  (uint8)   Time profile ID [2..254] to retrieve.
 
             Returns:
-               get_time_profile_response  Time profile information for the profile ID.
+               GetTimeProfileResponse  Time profile information for the profile ID.
 
             Raises:
                Exception  If the response from the access controller cannot be decoded.
@@ -541,7 +541,7 @@ class Uhppote:
                linked_profile_id (uint8)   Next profile ID in chain (0 if none).
  
             Returns:
-               set_time_profile_response  Set time profile success/fail response.
+               SetTimeProfileResponse  Set time profile success/fail response.
 
             Raises:
                Exception  If the response from the access controller cannot be decoded.
@@ -565,7 +565,7 @@ class Uhppote:
                controller (uint32)  Controller serial number (expected to be greater than 0).
 
             Returns:
-               delete_all_time_profiles_response  Clear time profiles success/fail response.
+               DeleteAllTimeProfilesResponse  Clear time profiles success/fail response.
 
             Raises:
                Exception  If the response from the access controller cannot be decoded.
@@ -613,7 +613,7 @@ class Uhppote:
                more_cards  (uint8)     Number of cards for the 'more cards' task.
 
             Returns:
-               add_task_response  Add task success/fail response.
+               AddTaskResponse  Add task success/fail response.
 
             Raises:
                Exception  If the response from the access controller cannot be decoded.
@@ -635,7 +635,7 @@ class Uhppote:
                controller  (uint32)  Controller serial number (expected to be greater than 0).
 
             Returns:
-               refresh_tasklist_response  Refresh tasklist success/fail response.
+               RefreshTasklistResponse  Refresh tasklist success/fail response.
 
             Raises:
                Exception  If the response from the access controller cannot be decoded.
@@ -656,7 +656,7 @@ class Uhppote:
                controller  (uint32)  Controller serial number (expected to be greater than 0).
 
             Returns:
-               clear_tasklist_response  Clear tasklist success/fail response.
+               ClearTasklistResponse  Clear tasklist success/fail response.
 
             Raises:
                Exception  If the response from the access controller cannot be decoded.
@@ -681,7 +681,7 @@ class Uhppote:
                enable      (bool)    Enables remote control of access.
 
             Returns:
-               set_pc_control_response  Enable PC control success/fail response.
+               SetPcControlResponse  Enable PC control success/fail response.
 
             Raises:
                Exception  If the response from the access controller cannot be decoded.
@@ -709,7 +709,7 @@ class Uhppote:
                                      8:  doors 1 and 2 and 3 and 4 interlocked
 
             Returns:
-               set_interlock_response  Set interlock success/fail response.
+               SetInterlockResponse  Set interlock success/fail response.
 
             Raises:
                Exception  If the response from the access controller cannot be decoded.
@@ -734,7 +734,7 @@ class Uhppote:
                reader4    (bool)    Enables/disable reader 4 access keypad
 
             Returns:
-               activate_keypads_response  Activate keypads success/fail response.
+               ActivateKeypadsResponse  Activate keypads success/fail response.
 
             Raises:
                Exception  If the response from the access controller cannot be decoded.
@@ -762,7 +762,7 @@ class Uhppote:
                passcode4  (uint32)  Passcode [0..999999].
 
             Returns:
-               set_door_passcodes  Set door passcodes success/fail response.
+               SetDoorPasscodesResponse  Set door passcodes success/fail response.
 
             Raises:
                Exception  If the response from the access controller cannot be decoded.
@@ -772,6 +772,26 @@ class Uhppote:
 
         if reply != None:
             return decode.set_door_passcodes_response(reply)
+
+        return None
+
+    def restore_default_parameters(self, controller):
+        '''
+        Resets a controller to the manufacturer default configuration.
+            Parameters:
+               controller  (uint32)  Controller serial number (expected to be greater than 0).
+
+            Returns:
+               RestoreDefaultParametersResponse  Reset success/fail.
+
+            Raises:
+               Exception  If the response from the access controller cannot be decoded.
+        '''
+        request = encode.restore_default_parameters_request(controller)
+        reply = self._udp.send(request)
+
+        if reply != None:
+            return decode.restore_default_parameters_response(reply)
 
         return None
 

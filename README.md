@@ -435,6 +435,21 @@ passcode4 uint32  supervisor passcode 4 [0..999999] (0 is 'no code')
 Raises an Exception if the call failed for any reason.
 ```
 
+### `restore_default_parameters`
+```
+restore_default_parameters(ID)
+
+ID        uint32  controller serial number 
+door      uint8   door ID [1..4]
+passcode1 uint32  supervisor passcode 1 [0..999999] (0 is 'no code')
+passcode2 uint32  supervisor passcode 2 [0..999999] (0 is 'no code')
+passcode3 uint32  supervisor passcode 3 [0..999999] (0 is 'no code')
+passcode4 uint32  supervisor passcode 4 [0..999999] (0 is 'no code')
+
+
+Raises an Exception if the call failed for any reason.
+```
+
 
 ## Types
 
