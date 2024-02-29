@@ -1006,7 +1006,7 @@ class SetDoorPasscodesResponse:
     ok: bool
 ```
 
-### `RestoreDefaultParamtersResponse`
+### `RestoreDefaultParametersResponse`
 
 Container class for the decoded response to a restore-default-parameters request.
 
