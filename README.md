@@ -1006,6 +1006,20 @@ class SetDoorPasscodesResponse:
     ok: bool
 ```
 
+### `RestoreDefaultParamtersResponse`
+
+Container class for the decoded response to a restore-default-parameters request.
+
+    Fields:
+        controller  (uint32)  Controller serial number.
+        reset       (bool)    Succeeded/failed.
+```
+@dataclass
+class RestoreDefaultParametersResponse:
+    controller: int
+    reset: bool
+```
+
 ### `Event`
 
 Container class for a decoded event packet.
