@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: uhppoted
-Version: 0.8.7.1
+Version: 0.8.8
 Summary: Python API for the UHPPOTE TCP/IP access controllers
 Author-email: uhppoted <uhppoted.development@gmail.com>
 Project-URL: Homepage, https://github.com/uhppoted/uhppoted-python
@@ -448,6 +448,16 @@ passcode1 uint32  supervisor passcode 1 [0..999999] (0 is 'no code')
 passcode2 uint32  supervisor passcode 2 [0..999999] (0 is 'no code')
 passcode3 uint32  supervisor passcode 3 [0..999999] (0 is 'no code')
 passcode4 uint32  supervisor passcode 4 [0..999999] (0 is 'no code')
+
+
+Raises an Exception if the call failed for any reason.
+```
+
+### `restore_default_parameters`
+```
+restore_default_parameters(ID)
+
+ID  uint32  controller serial number 
 
 
 Raises an Exception if the call failed for any reason.
@@ -1012,6 +1022,20 @@ Container class for the decoded response to a set-door-passcodes request.
 class SetDoorPasscodesResponse:
     controller: int
     ok: bool
+```
+
+### `RestoreDefaultParametersResponse`
+
+Container class for the decoded response to a restore-default-parameters request.
+
+    Fields:
+        controller  (uint32)  Controller serial number.
+        reset       (bool)    Succeeded/failed.
+```
+@dataclass
+class RestoreDefaultParametersResponse:
+    controller: int
+    reset: bool
 ```
 
 ### `Event`

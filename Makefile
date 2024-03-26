@@ -36,8 +36,8 @@ release: build-all
 publish: release
 	echo "Releasing version $(VERSION)"
 	gh release create "$(VERSION)" dist/*.tar.gz --draft --prerelease --title "$(VERSION)-beta" --notes-file release-notes.md
-	# python3 -m twine upload --repository testpypi -u __token__ --skip-existing --verbose dist/*
-	# python3 -m twine upload --repository pypi     -u __token__ --skip-existing --verbose dist/*
+	python3 -m twine upload --repository testpypi -u __token__ --skip-existing --verbose dist/*
+	python3 -m twine upload --repository pypi     -u __token__ --skip-existing --verbose dist/*
 
 debug: build
 	# $(CMD) --debug --bind 192.168.1.100 --broadcast 192.168.1.255:60000 --listen 192.168.1.100:60001 get-controller
