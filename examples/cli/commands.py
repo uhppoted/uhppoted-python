@@ -66,9 +66,14 @@ def commands():
     }
 
 
-def exec(f, bind, broadcast, listen, debug):
+def exec(f, args):
+    bind = args.bind
+    broadcast = args.broadcast
+    listen = args.listen
+    debug = args.debug
+
     u = uhppote.Uhppote(bind, broadcast, listen, debug)
-    response = f(u)
+    response = f(u, args)
 
     if response != None:
         if type(response).__name__ == 'list':
@@ -80,17 +85,18 @@ def exec(f, bind, broadcast, listen, debug):
             pprint(response.__dict__, indent=2, width=1, sort_dicts=False)
 
 
-def get_all_controllers(u):
+def get_all_controllers(u, args):
     return u.get_all_controllers()
 
 
-def get_controller(u):
+def get_controller(u, args):
     controller = CONTROLLER
+    dest = args.destination
 
-    return u.get_controller(controller)
+    return u.get_controller(controller, dest=dest)
 
 
-def set_ip(u):
+def set_ip(u, args):
     controller = CONTROLLER
     address = ADDRESS
     netmask = NETMASK
@@ -99,40 +105,40 @@ def set_ip(u):
     return u.set_ip(controller, address, netmask, gateway)
 
 
-def get_time(u):
+def get_time(u, args):
     controller = CONTROLLER
 
     return u.get_time(controller)
 
 
-def set_time(u):
+def set_time(u, args):
     controller = CONTROLLER
     now = datetime.datetime.now()
 
     return u.set_time(controller, now)
 
 
-def get_listener(u):
+def get_listener(u, args):
     controller = CONTROLLER
 
     return u.get_listener(controller)
 
 
-def set_listener(u):
+def set_listener(u, args):
     controller = CONTROLLER
     (address, port) = LISTENER
 
     return u.set_listener(controller, address, port)
 
 
-def get_door_control(u):
+def get_door_control(u, args):
     controller = CONTROLLER
     door = DOOR
 
     return u.get_door_control(controller, door)
 
 
-def set_door_control(u):
+def set_door_control(u, args):
     controller = CONTROLLER
     door = DOOR
     mode = MODE
@@ -141,26 +147,26 @@ def set_door_control(u):
     return u.set_door_control(controller, door, mode, delay)
 
 
-def get_status(u):
+def get_status(u, args):
     controller = CONTROLLER
 
     return u.get_status(controller)
 
 
-def open_door(u):
+def open_door(u, args):
     controller = CONTROLLER
     door = DOOR
 
     return u.open_door(controller, door)
 
 
-def get_cards(u):
+def get_cards(u, args):
     controller = CONTROLLER
 
     return u.get_cards(controller)
 
 
-def get_card(u):
+def get_card(u, args):
     controller = CONTROLLER
     card = CARD
 
@@ -171,7 +177,7 @@ def get_card(u):
     return response
 
 
-def get_card_by_index(u):
+def get_card_by_index(u, args):
     controller = CONTROLLER
     index = CARD_INDEX
 
@@ -184,7 +190,7 @@ def get_card_by_index(u):
     return response
 
 
-def put_card(u):
+def put_card(u, args):
     controller = CONTROLLER
     card = CARD
     start = datetime.datetime.strptime("2022-01-01", '%Y-%m-%d').date()
@@ -193,20 +199,20 @@ def put_card(u):
     return u.put_card(controller, card, start, end, 0, 1, 29, 0, 7531)
 
 
-def delete_card(u):
+def delete_card(u, args):
     controller = CONTROLLER
     card = CARD
 
     return u.delete_card(controller, card)
 
 
-def delete_all_cards(u):
+def delete_all_cards(u, args):
     controller = CONTROLLER
 
     return u.delete_all_cards(controller)
 
 
-def get_event(u):
+def get_event(u, args):
     controller = CONTROLLER
     index = EVENT_INDEX
 
@@ -219,27 +225,27 @@ def get_event(u):
     return response
 
 
-def get_event_index(u):
+def get_event_index(u, args):
     controller = CONTROLLER
 
     return u.get_event_index(controller)
 
 
-def set_event_index(u):
+def set_event_index(u, args):
     controller = CONTROLLER
     index = EVENT_INDEX
 
     return u.set_event_index(controller, index)
 
 
-def record_special_events(u):
+def record_special_events(u, args):
     controller = CONTROLLER
     enabled = True
 
     return u.record_special_events(controller, enabled)
 
 
-def get_time_profile(u):
+def get_time_profile(u, args):
     controller = CONTROLLER
     profile_id = TIME_PROFILE_ID
 
@@ -250,7 +256,7 @@ def get_time_profile(u):
     return response
 
 
-def set_time_profile(u):
+def set_time_profile(u, args):
     controller = CONTROLLER
     profile_id = TIME_PROFILE_ID
     start = datetime.datetime.strptime("2022-01-01", '%Y-%m-%d').date()
@@ -275,11 +281,11 @@ def set_time_profile(u):
                               segment3end, linked_profile_ID)
 
 
-def delete_all_time_profiles(u):
+def delete_all_time_profiles(u, args):
     return u.delete_all_time_profiles(CONTROLLER)
 
 
-def add_task(u):
+def add_task(u, args):
     controller = CONTROLLER
     start_date = datetime.datetime.strptime("2022-01-01", '%Y-%m-%d').date()
     end_date = datetime.datetime.strptime("2022-12-31", '%Y-%m-%d').date()
@@ -299,33 +305,33 @@ def add_task(u):
                       start_time, door, task_type, more_cards)
 
 
-def refresh_tasklist(u):
+def refresh_tasklist(u, args):
     controller = CONTROLLER
 
     return u.refresh_tasklist(controller)
 
 
-def clear_tasklist(u):
+def clear_tasklist(u, args):
     controller = CONTROLLER
 
     return u.clear_tasklist(controller)
 
 
-def set_pc_control(u):
+def set_pc_control(u, args):
     controller = CONTROLLER
     enabled = True
 
     return u.set_pc_control(controller, enabled)
 
 
-def set_interlock(u):
+def set_interlock(u, args):
     controller = CONTROLLER
     interlock = 3
 
     return u.set_interlock(controller, interlock)
 
 
-def activate_keypads(u):
+def activate_keypads(u, args):
     controller = CONTROLLER
     reader1 = True
     reader2 = True
@@ -335,7 +341,7 @@ def activate_keypads(u):
     return u.activate_keypads(controller, reader1, reader2, reader3, reader4)
 
 
-def set_door_passcodes(u):
+def set_door_passcodes(u, args):
     controller = CONTROLLER
     door = DOOR
     passcode1 = 12345
@@ -346,13 +352,13 @@ def set_door_passcodes(u):
     return u.set_door_passcodes(controller, door, passcode1, passcode2, passcode3, passcode4)
 
 
-def restore_default_parameters(u):
+def restore_default_parameters(u, args):
     controller = CONTROLLER
 
     return u.restore_default_parameters(controller)
 
 
-def listen(u):
+def listen(u, args):
     return u.listen(onEvent)
 
 

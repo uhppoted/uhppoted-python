@@ -72,13 +72,15 @@ class UDP:
         finally:
             sock.close()
 
-    def send(self, request):
+    def send(self, request, destaddr=None):
         '''
         Binds to the bind address from the constructor and then broadcasts a UDP request to the broadcast,
         and then waits 5 seconds for a reply from the destination access controllers.
 
             Parameters:
                request  (bytearray)  64 byte request packet.
+               address  (string)     IPv4 address:port of the controller. Defaults to port 60000 if address
+                                     does not include a port.
 
             Returns:
                Received response packet (if any) or None (for set-ip request).
@@ -97,7 +99,11 @@ class UDP:
             sock.setsockopt(socket.SOL_SOCKET, socket.SO_SNDTIMEO, WRITE_TIMEOUT)
             sock.setsockopt(socket.SOL_SOCKET, socket.SO_RCVTIMEO, READ_TIMEOUT)
 
-            sock.sendto(request, self._broadcast)
+            if destaddr == None:
+                sock.sendto(request, self._broadcast)
+            else:
+                addr = resolve(f'{destaddr}')
+                sock.sendto(request, addr)
 
             if request[1] == 0x96:
                 return None

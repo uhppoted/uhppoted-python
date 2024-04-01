@@ -35,25 +35,28 @@ def main():
                         default=False,
                         help='displays sent and received UDP packets')
 
+    parser.add_argument('--destination',
+                        '-d',
+                        type=str,
+                        default=None,
+                        help='(optional) controller UDP IPv4 address:port. Defaults to broadcast address.')
+
     args = parser.parse_args()
     cmd = args.command
-    bind = args.bind
-    broadcast = args.broadcast
-    listen = args.listen
     debug = args.debug
 
     if cmd == 'all':
         for c, fn in commands().items():
             if c != 'listen':
                 try:
-                    exec(fn, bind, broadcast, listen, debug)
+                    exec(fn, args)
                 except Exception as x:
                     print()
                     print(f'*** ERROR  {cmd}: {x}')
                     print()
     elif cmd in commands():
         try:
-            exec(commands()[cmd], bind, broadcast, listen, debug)
+            exec(commands()[cmd], args)
         except Exception as x:
             print()
             print(f'*** ERROR  {cmd}: {x}')
