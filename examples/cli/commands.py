@@ -93,7 +93,7 @@ def get_controller(u, args):
     controller = CONTROLLER
     dest = args.destination
 
-    return u.get_controller(controller, dest=dest)
+    return u.get_controller(controller, dest_addr=dest)
 
 
 def set_ip(u, args):

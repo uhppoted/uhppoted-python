@@ -72,7 +72,7 @@ class UDP:
         finally:
             sock.close()
 
-    def send(self, request, destaddr=None):
+    def send(self, request, dest_addr=None):
         '''
         Binds to the bind address from the constructor and then broadcasts a UDP request to the broadcast,
         and then waits 5 seconds for a reply from the destination access controllers.
@@ -99,10 +99,10 @@ class UDP:
             sock.setsockopt(socket.SOL_SOCKET, socket.SO_SNDTIMEO, WRITE_TIMEOUT)
             sock.setsockopt(socket.SOL_SOCKET, socket.SO_RCVTIMEO, READ_TIMEOUT)
 
-            if destaddr == None:
+            if dest_addr == None:
                 sock.sendto(request, self._broadcast)
             else:
-                addr = resolve(f'{destaddr}')
+                addr = resolve(f'{dest_addr}')
                 sock.sendto(request, addr)
 
             if request[1] == 0x96:

@@ -49,13 +49,13 @@ class Uhppote:
 
         return list
 
-    def get_controller(self, controller, dest=None):
+    def get_controller(self, controller, dest_addr=None):
         '''
         Retrieves the controller information for an access controller.
 
             Parameters:
                controller (uint32)  Controller serial number (expected to be greater than 0).
-               dest       (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               dest_addr  (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
 
             Returns:
                GetControllerResponse  Response from access controller to the get-controller request.
@@ -64,14 +64,14 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.get_controller_request(controller)
-        reply = self._udp.send(request, destaddr=dest)
+        reply = self._udp.send(request, dest_addr=dest_addr)
 
         if reply != None:
             return decode.get_controller_response(reply)
 
         return None
 
-    def set_ip(self, controller, address, netmask, gateway, dest=None):
+    def set_ip(self, controller, address, netmask, gateway, dest_addr=None):
         '''
         Sets the controller IPv4 address, netmask and gateway address.
 
@@ -80,7 +80,7 @@ class Uhppote:
                address    (IPv4Address)  Controller IPv4 address.
                netmask    (IPv4Address)  Controller IPv4 subnet mask.
                gateway    (IPv4Address)  Controller IPv4 gateway address.
-               dest       (string)       Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               dest_addr  (string)       Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
 
             Returns:
                True  For (probably) internal reasons the access controller does not respond to this command.
@@ -89,17 +89,17 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.set_ip_request(controller, address, netmask, gateway)
-        reply = self._udp.send(request, destaddr=dest)
+        reply = self._udp.send(request, dest_addr=dest_addr)
 
         return True
 
-    def get_time(self, controller, dest=None):
+    def get_time(self, controller, dest_addr=None):
         '''
         Retrieves the access controller current date/time.
 
             Parameters:
                controller (uint32)  Controller serial number (expected to be greater than 0).
-               dest       (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               dest_addr  (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
 
             Returns:
                GetTimeResponse  Controller current date/time.
@@ -108,21 +108,21 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.get_time_request(controller)
-        reply = self._udp.send(request, destaddr=dest)
+        reply = self._udp.send(request, dest_addr=dest_addr)
 
         if reply != None:
             return decode.get_time_response(reply)
 
         return None
 
-    def set_time(self, controller, datetime, dest=None):
+    def set_time(self, controller, datetime, dest_addr=None):
         '''
         Sets the access controller current date/time.
 
             Parameters:
                controller (uint32)   Controller serial number (expected to be greater than 0).
                datetime   (dateime)  Date/time to set.
-               dest       (string)   Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               dest_addr  (string)   Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
 
             Returns:
                SetTimeResponse  Controller current date/time.
@@ -132,20 +132,20 @@ class Uhppote:
                           access controller cannot be decoded.
         '''
         request = encode.set_time_request(controller, datetime)
-        reply = self._udp.send(request, destaddr=dest)
+        reply = self._udp.send(request, dest_addr=dest_addr)
 
         if reply != None:
             return decode.set_time_response(reply)
 
         return None
 
-    def get_status(self, controller, dest=None):
+    def get_status(self, controller, dest_addr=None):
         '''
         Retrieves the current status of an access controller.
 
             Parameters:
                controller (uint32)  Controller serial number (expected to be greater than 0).
-               dest       (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               dest_addr  (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
 
             Returns:
                GetStatusResponse  Current controller status.
@@ -154,20 +154,20 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.get_status_request(controller)
-        reply = self._udp.send(request, destaddr=dest)
+        reply = self._udp.send(request, dest_addr=dest_addr)
 
         if reply != None:
             return decode.get_status_response(reply)
 
         return None
 
-    def get_listener(self, controller, dest=None):
+    def get_listener(self, controller, dest_addr=None):
         '''
         Retrieves the configured event listener address:port from an access controller.
 
             Parameters:
                controller (uint32)  Controller serial number (expected to be greater than 0).
-               dest       (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               dest_addr  (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
 
             Returns:
                GetListenerResponse  Current controller event listener UDP address and port.
@@ -176,14 +176,14 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.get_listener_request(controller)
-        reply = self._udp.send(request, destaddr=dest)
+        reply = self._udp.send(request, dest_addr=dest_addr)
 
         if reply != None:
             return decode.get_listener_response(reply)
 
         return None
 
-    def set_listener(self, controller, host, port, dest=None):
+    def set_listener(self, controller, host, port, dest_addr=None):
         '''
         Sets an access controller event listener IPv4 address and port.
 
@@ -191,7 +191,7 @@ class Uhppote:
                controller (uint32)       Controller serial number (expected to be greater than 0).
                address    (IPv4Address)  IPv4 address of event listener.
                port       (uint16)       UDP port of event listener.
-               dest       (string)       Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               dest_addr  (string)       Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
 
             Returns:
                SetListenerResponse  Success/fail response from controller.
@@ -200,21 +200,21 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.set_listener_request(controller, address, port)
-        reply = self._udp.send(request, destaddr=dest)
+        reply = self._udp.send(request, dest_addr=dest_addr)
 
         if reply != None:
             return decode.set_listener_response(reply)
 
         return None
 
-    def get_door_control(self, controller, door, dest=None):
+    def get_door_control(self, controller, door, dest_addr=None):
         '''
         Gets the door delay and control mode for an access controller door.
 
             Parameters:
                controller (uint32)  Controller serial number (expected to be greater than 0).
                door       (uint8)   Door [1..4]
-               dest       (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               dest_addr  (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
 
             Returns:
                GetDoorControlResponse  Door delay and control mode.
@@ -223,14 +223,14 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.get_door_control_request(controller, door)
-        reply = self._udp.send(request, destaddr=dest)
+        reply = self._udp.send(request, dest_addr=dest_addr)
 
         if reply != None:
             return decode.get_door_control_response(reply)
 
         return None
 
-    def set_door_control(self, controller, door, mode, delay, dest=None):
+    def set_door_control(self, controller, door, mode, delay, dest_addr=None):
         '''
         Sets the door delay and control mode for an access controller door.
 
@@ -239,7 +239,7 @@ class Uhppote:
                door       (uint8)   Door [1..4]
                mode       (uint8)   Control mode (1: normally open, 2: normally closed, 3: controlled)
                delay      (uint8)   Door unlock duration (seconds)
-               dest       (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               dest_addr  (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
 
             Returns:
                SetDoorControlResponse  Door delay and control mode.
@@ -248,21 +248,21 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.set_door_control_request(controller, door, mode, delay)
-        reply = self._udp.send(request, destaddr=dest)
+        reply = self._udp.send(request, dest_addr=dest_addr)
 
         if reply != None:
             return decode.set_door_control_response(reply)
 
         return None
 
-    def open_door(self, controller, door, dest=None):
+    def open_door(self, controller, door, dest_addr=None):
         '''
         Remotely opens a door controlled by an access controller.
 
             Parameters:
                controller (uint32)  Controller serial number (expected to be greater than 0).
                door       (uint8)   Door [1..4]
-               dest       (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               dest_addr  (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
 
             Returns:
                OpenDoorResponse  Door open success/fail response.
@@ -271,20 +271,20 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.open_door_request(controller, door)
-        reply = self._udp.send(request, destaddr=dest)
+        reply = self._udp.send(request, dest_addr=dest_addr)
 
         if reply != None:
             return decode.open_door_response(reply)
 
         return None
 
-    def get_cards(self, controller, dest=None):
+    def get_cards(self, controller, dest_addr=None):
         '''
         Retrieves the number of cards stored in the access controller.
 
             Parameters:
                controller (uint32)  Controller serial number (expected to be greater than 0).
-               dest       (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               dest_addr  (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
 
             Returns:
                GetCardsResponse  Number of cards stored locally in controller.
@@ -293,20 +293,20 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.get_cards_request(controller)
-        reply = self._udp.send(request, destaddr=dest)
+        reply = self._udp.send(request, dest_addr=dest_addr)
 
         if reply != None:
             return decode.get_cards_response(reply)
 
         return None
 
-    def get_card(self, controller, card_number, dest=None):
+    def get_card(self, controller, card_number, dest_addr=None):
         '''
         Retrieves the card access record for a card number from the access controller.
             Parameters:
                controller  (uint32)  Controller serial number (expected to be greater than 0).
                card_number (uint32)  Access card number.
-               dest        (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               dest_addr   (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
 
             Returns:
                GetCardResponse  Card information associated with the card number.
@@ -315,20 +315,20 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.get_card_request(controller, card_number)
-        reply = self._udp.send(request, destaddr=dest)
+        reply = self._udp.send(request, dest_addr=dest_addr)
 
         if reply != None:
             return decode.get_card_response(reply)
 
         return None
 
-    def get_card_by_index(self, controller, card_index, dest=None):
+    def get_card_by_index(self, controller, card_index, dest_addr=None):
         '''
         Retrieves the card access record for a card record from the access controller.
             Parameters:
                controller  (uint32)  Controller serial number (expected to be greater than 0).
                index       (uint32)  Controller card list record number.
-               dest        (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               dest_addr   (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
 
             Returns:
                GetCardByIndexResponse  Card information associated with the card number.
@@ -337,14 +337,24 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.get_card_by_index_request(controller, card_index)
-        reply = self._udp.send(request, destaddr=dest)
+        reply = self._udp.send(request, dest_addr=dest_addr)
 
         if reply != None:
             return decode.get_card_by_index_response(reply)
 
         return None
 
-    def put_card(self, controller, card_number, start_date, end_date, door_1, door_2, door_3, door_4, pin, dest=None):
+    def put_card(self,
+                 controller,
+                 card_number,
+                 start_date,
+                 end_date,
+                 door_1,
+                 door_2,
+                 door_3,
+                 door_4,
+                 pin,
+                 dest_addr=None):
         '''
         Adds (or updates) a card record stored on the access controller.
             Parameters:
@@ -357,7 +367,7 @@ class Uhppote:
                door_3      (uint8)   Card access permissions for door 3 (0: none, 1: all, 2-254: time profile ID)
                door_4      (uint8)   Card access permissions for door 4 (0: none, 1: all, 2-254: time profile ID)
                pin         (uint24)  Card access keypad PIN code (0 for none)
-               dest        (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               dest_addr   (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
 
             Returns:
                PutCardResponse  Card record add/update success/fail.
@@ -367,20 +377,20 @@ class Uhppote:
         '''
         request = encode.put_card_request(controller, card_number, start_date, end_date, door_1, door_2, door_3, door_4,
                                           pin)
-        reply = self._udp.send(request, destaddr=dest)
+        reply = self._udp.send(request, dest_addr=dest_addr)
 
         if reply != None:
             return decode.put_card_response(reply)
 
         return None
 
-    def delete_card(self, controller, card_number, dest=None):
+    def delete_card(self, controller, card_number, dest_addr=None):
         '''
         Deletes the card record from the access controller.
             Parameters:
                controller  (uint32)  Controller serial number (expected to be greater than 0).
                card_number (uint32)  Access card number to delete.
-               dest        (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               dest_addr   (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
 
             Returns:
                DeleteCardResponse  Card record delete success/fail.
@@ -389,19 +399,19 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.delete_card_request(controller, card_number)
-        reply = self._udp.send(request, destaddr=dest)
+        reply = self._udp.send(request, dest_addr=dest_addr)
 
         if reply != None:
             return decode.delete_card_response(reply)
 
         return None
 
-    def delete_all_cards(self, controller, dest=None):
+    def delete_all_cards(self, controller, dest_addr=None):
         '''
         Deletes all card records stored on the access controller.
             Parameters:
                controller  (uint32)  Controller serial number (expected to be greater than 0).
-               dest        (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               dest_addr   (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
 
             Returns:
                DeleteAllCardsResponse  Clear card records success/fail.
@@ -410,20 +420,20 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.delete_cards_request(controller)
-        reply = self._udp.send(request, destaddr=dest)
+        reply = self._udp.send(request, dest_addr=dest_addr)
 
         if reply != None:
             return decode.delete_all_cards_response(reply)
 
         return None
 
-    def get_event(self, controller, event_index, dest=None):
+    def get_event(self, controller, event_index, dest_addr=None):
         '''
         Retrieves a stored event from the access controller.
             Parameters:
                controller  (uint32)  Controller serial number (expected to be greater than 0).
                event_index (uint32)  Index of event in controller list.
-               dest        (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               dest_addr   (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
 
             Returns:
                GetEventResponse  Event information.
@@ -432,14 +442,14 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.get_event_request(controller, event_index)
-        reply = self._udp.send(request, destaddr=dest)
+        reply = self._udp.send(request, dest_addr=dest_addr)
 
         if reply != None:
             return decode.get_event_response(reply)
 
         return None
 
-    def get_event_index(self, controller, dest=None):
+    def get_event_index(self, controller, dest_addr=None):
         '''
         Retrieves the 'last downloaded event' index from the controller. The downloaded event index
         is a single utility register on the controller that is managed by an application (not by the
@@ -447,7 +457,7 @@ class Uhppote:
 
             Parameters:
                controller  (uint32)  Controller serial number (expected to be greater than 0).
-               dest        (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               dest_addr   (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
 
             Returns:
                GetEventIndexResponse  Current value of downloaded event index.
@@ -456,14 +466,14 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.get_event_index_request(controller)
-        reply = self._udp.send(request, destaddr=dest)
+        reply = self._udp.send(request, dest_addr=dest_addr)
 
         if reply != None:
             return decode.get_event_index_response(reply)
 
         return None
 
-    def set_event_index(self, controller, event_index, dest=None):
+    def set_event_index(self, controller, event_index, dest_addr=None):
         '''
         Sets the 'last downloaded event' index on the controller. The downloaded event index is a 
         single utility register on the controller that is managed by an application (not by the
@@ -472,7 +482,7 @@ class Uhppote:
             Parameters:
                controller  (uint32)  Controller serial number (expected to be greater than 0).
                event_index (uitn32)  Event index to which to set the 'downloaded event' index.
-               dest        (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               dest_addr   (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
 
             Returns:
                SetEventIndexResponse  Set event index success/fail response.
@@ -480,15 +490,15 @@ class Uhppote:
             Raises:
                Exception  If the response from the access controller cannot be decoded.
         '''
-        request = encode.set_event_index_request(controller, event_index, dest=None)
-        reply = self._udp.send(request, destaddr=dest)
+        request = encode.set_event_index_request(controller, event_index, dest_addr=None)
+        reply = self._udp.send(request, dest_addr=dest_addr)
 
         if reply != None:
             return decode.set_event_index_response(reply)
 
         return None
 
-    def record_special_events(self, controller, enable, dest=None):
+    def record_special_events(self, controller, enable, dest_addr=None):
         '''
         Enables or disables door open and close and pushbutton press events.
 
@@ -496,7 +506,7 @@ class Uhppote:
                controller  (uint32)  Controller serial number (expected to be greater than 0).
                enable      (bool)    Includes door open and close and pushbutton events in the
                                      events stored and broadcast by the controller.
-               dest        (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               dest_addr   (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
 
             Returns:
                RecordSpecialEventsResponse  Record special events success/fail response.
@@ -504,22 +514,22 @@ class Uhppote:
             Raises:
                Exception  If the response from the access controller cannot be decoded.
         '''
-        request = encode.record_special_events_request(controller, enable, dest=None)
-        reply = self._udp.send(request, destaddr=dest)
+        request = encode.record_special_events_request(controller, enable, dest_addr=None)
+        reply = self._udp.send(request, dest_addr=dest_addr)
 
         if reply != None:
             return decode.record_special_events_response(reply)
 
         return None
 
-    def get_time_profile(self, controller, profile_id, dest=None):
+    def get_time_profile(self, controller, profile_id, dest_addr=None):
         '''
         Retrieves a time profile from an access conntroller.
 
             Parameters:
                controller  (uint32)  Controller serial number (expected to be greater than 0).
                profile_id  (uint8)   Time profile ID [2..254] to retrieve.
-               dest        (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               dest_addr   (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
 
             Returns:
                GetTimeProfileResponse  Time profile information for the profile ID.
@@ -528,7 +538,7 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.get_time_profile_request(controller, profile_id)
-        reply = self._udp.send(request, destaddr=dest)
+        reply = self._udp.send(request, dest_addr=dest_addr)
 
         if reply != None:
             return decode.get_time_profile_response(reply)
@@ -554,7 +564,7 @@ class Uhppote:
                          segment_3_start,
                          segment_3_end,
                          linked_profile_id,
-                         dest=None):
+                         dest_addr=None):
         '''
         Creates (or updates) a time profile on an access conntroller.
 
@@ -577,7 +587,7 @@ class Uhppote:
                segment_3_start   (time)    Time profile segment 3 start time (HHmm).
                segment_3_end     (time)    Time profile segment 3 end time (HHmm).
                linked_profile_id (uint8)   Next profile ID in chain (0 if none).
-               dest              (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               dest_addr         (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
 
             Returns:
                SetTimeProfileResponse  Set time profile success/fail response.
@@ -589,20 +599,20 @@ class Uhppote:
                                                   wednesday, thursday, friday, saturday, sunday, segment_1_start,
                                                   segment_1_end, segment_2_start, segment_2_end, segment_3_start,
                                                   segment_3_end, linked_profile_id)
-        reply = self._udp.send(request, destaddr=dest)
+        reply = self._udp.send(request, dest_addr=dest_addr)
 
         if reply != None:
             return decode.set_time_profile_response(reply)
 
         return None
 
-    def delete_all_time_profiles(self, controller, dest=None):
+    def delete_all_time_profiles(self, controller, dest_addr=None):
         '''
         Clears all time profiles from an access conntroller.
 
             Parameters:
                controller (uint32)  Controller serial number (expected to be greater than 0).
-               dest       (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               dest_addr  (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
 
             Returns:
                DeleteAllTimeProfilesResponse  Clear time profiles success/fail response.
@@ -611,7 +621,7 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.delete_all_time_profiles_request(controller)
-        reply = self._udp.send(request, destaddr=dest)
+        reply = self._udp.send(request, dest_addr=dest_addr)
 
         if reply != None:
             return decode.delete_all_time_profiles_response(reply)
@@ -633,7 +643,7 @@ class Uhppote:
                  door,
                  task_type,
                  more_cards,
-                 dest=None):
+                 dest_addr=None):
         '''
         Creates a scheduled task on an access conntroller.
 
@@ -665,7 +675,7 @@ class Uhppote:
                                        11: disable pushbutton
                                        12: enable pushbutton
                more_cards  (uint8)     Number of cards for the 'more cards' task.
-               dest        (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               dest_addr   (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
 
             Returns:
                AddTaskResponse  Add task success/fail response.
@@ -675,20 +685,20 @@ class Uhppote:
         '''
         request = encode.add_task_request(controller, start_date, end_date, monday, tuesday, wednesday, thursday,
                                           friday, saturday, sunday, start_time, door, task_type, more_cards)
-        reply = self._udp.send(request, destaddr=dest)
+        reply = self._udp.send(request, dest_addr=dest_addr)
 
         if reply != None:
             return decode.add_task_response(reply)
 
         return None
 
-    def refresh_tasklist(self, controller, dest=None):
+    def refresh_tasklist(self, controller, dest_addr=None):
         '''
         Updates the active tasklist to include tasks added by add_task.
 
             Parameters:
                controller  (uint32)  Controller serial number (expected to be greater than 0).
-               dest        (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               dest_addr   (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
 
             Returns:
                RefreshTasklistResponse  Refresh tasklist success/fail response.
@@ -697,20 +707,20 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.refresh_tasklist_request(controller)
-        reply = self._udp.send(request, destaddr=dest)
+        reply = self._udp.send(request, dest_addr=dest_addr)
 
         if reply != None:
             return decode.refresh_tasklist_response(reply)
 
         return None
 
-    def clear_tasklist(self, controller, dest=None):
+    def clear_tasklist(self, controller, dest_addr=None):
         '''
         Clears all active and pending tasks.
 
             Parameters:
                controller  (uint32)  Controller serial number (expected to be greater than 0).
-               dest        (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               dest_addr   (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
 
             Returns:
                ClearTasklistResponse  Clear tasklist success/fail response.
@@ -719,14 +729,14 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.clear_tasklist_request(controller)
-        reply = self._udp.send(request, destaddr=dest)
+        reply = self._udp.send(request, dest_addr=dest_addr)
 
         if reply != None:
             return decode.clear_tasklist_response(reply)
 
         return None
 
-    def set_pc_control(self, controller, enable, dest=None):
+    def set_pc_control(self, controller, enable, dest_addr=None):
         '''
         Defers access control decisions to a remote host. The remote host is expected to 
         interact with the controller at least once every 30 seconds (typically by enabling
@@ -736,7 +746,7 @@ class Uhppote:
             Parameters:
                controller  (uint32)  Controller serial number (expected to be greater than 0).
                enable      (bool)    Enables remote control of access.
-               dest        (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               dest_addr   (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
 
             Returns:
                SetPcControlResponse  Enable PC control success/fail response.
@@ -745,14 +755,14 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.set_pc_control_request(controller, enable)
-        reply = self._udp.send(request, destaddr=dest)
+        reply = self._udp.send(request, dest_addr=dest_addr)
 
         if reply != None:
             return decode.set_pc_control_response(reply)
 
         return None
 
-    def set_interlock(self, controller, interlock, dest=None):
+    def set_interlock(self, controller, interlock, dest_addr=None):
         '''
         Sets the door interlock mode for an access controller.
 
@@ -765,7 +775,7 @@ class Uhppote:
                                      3:  doors 1 and 2 interlocked, doors 3 and 4 interlocked
                                      4:  doors 1 and 2 and 3 interlocked
                                      8:  doors 1 and 2 and 3 and 4 interlocked
-               dest        (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               dest_addr   (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
 
             Returns:
                SetInterlockResponse  Set interlock success/fail response.
@@ -774,14 +784,14 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.set_interlock_request(controller, interlock)
-        reply = self._udp.send(request, destaddr=dest)
+        reply = self._udp.send(request, dest_addr=dest_addr)
 
         if reply != None:
             return decode.set_interlock_response(reply)
 
         return None
 
-    def activate_keypads(self, controller, reader1, reader2, reader3, reader4, dest=None):
+    def activate_keypads(self, controller, reader1, reader2, reader3, reader4, dest_addr=None):
         '''
         Enables (or disables) the keypad associated with an access reader.
 
@@ -791,7 +801,7 @@ class Uhppote:
                reader2    (bool)    Enables/disable reader 2 access keypad
                reader3    (bool)    Enables/disable reader 3 access keypad
                reader4    (bool)    Enables/disable reader 4 access keypad
-               dest       (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               dest_addr  (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
 
             Returns:
                ActivateKeypadsResponse  Activate keypads success/fail response.
@@ -800,14 +810,14 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.activate_keypads_request(controller, reader1, reader2, reader3, reader4)
-        reply = self._udp.send(request, destaddr=dest)
+        reply = self._udp.send(request, dest_addr=dest_addr)
 
         if reply != None:
             return decode.activate_keypads_response(reply)
 
         return None
 
-    def set_door_passcodes(self, controller, door, passcode1, passcode2, passcode3, passcode4, dest=None):
+    def set_door_passcodes(self, controller, door, passcode1, passcode2, passcode3, passcode4, dest_addr=None):
         '''
         Sets up to four supervisor passcodes for a door. The passcodes override any other access 
         restrictions and a valid passcode is in the range [0..999999], with 0 corresponding to 
@@ -820,7 +830,7 @@ class Uhppote:
                passcode2  (uint32)  Passcode [0..999999].
                passcode3  (uint32)  Passcode [0..999999].
                passcode4  (uint32)  Passcode [0..999999].
-               dest       (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               dest_addr  (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
 
             Returns:
                SetDoorPasscodesResponse  Set door passcodes success/fail response.
@@ -829,19 +839,19 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.set_door_passcodes_request(controller, door, passcode1, passcode2, passcode3, passcode4)
-        reply = self._udp.send(request, destaddr=dest)
+        reply = self._udp.send(request, dest_addr=dest_addr)
 
         if reply != None:
             return decode.set_door_passcodes_response(reply)
 
         return None
 
-    def restore_default_parameters(self, controller, dest=None):
+    def restore_default_parameters(self, controller, dest_addr=None):
         '''
         Resets a controller to the manufacturer default configuration.
             Parameters:
                controller  (uint32)  Controller serial number (expected to be greater than 0).
-               dest        (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               dest_addr   (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
 
             Returns:
                RestoreDefaultParametersResponse  Reset success/fail.
@@ -850,7 +860,7 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.restore_default_parameters_request(controller)
-        reply = self._udp.send(request, destaddr=dest)
+        reply = self._udp.send(request, dest_addr=dest_addr)
 
         if reply != None:
             return decode.restore_default_parameters_response(reply)

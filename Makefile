@@ -22,11 +22,14 @@ build: format
 test: build
 	python3 -m unittest tests/uhppoted/*.py 
 
+integration-tests: build
+	python3 -m unittest integration-tests/uhppoted/*.py 
+
 vet: 
 
 lint: 
 
-build-all: test vet lint
+build-all: test vet lint integration-tests
 
 release: build-all 
 	rm -rf dist/*
@@ -145,7 +148,8 @@ restore-default-parameters: build
 	$(CMD) restore-default-parameters
 
 all: build
-	$(CMD) all
+	# $(CMD) all
+	$(CMD) all --destination 192.168.1.100:59999
 
 listen: build
 	$(CMD) listen

@@ -1,6 +1,8 @@
 # TODO
 
 - [ ] UDP send (cf. https://github.com/uhppoted/uhppoted-app-home-assistant/issues/3)
+      - [x] udp.send dest_addr
+      - [x] CHANGELOG
 
 ## TODO
 
@@ -13,6 +15,7 @@
 
 3. Unit/integration tests
       - https://hypothesis.readthedocs.io/en/latest/index.html
+      - https://docs.python.org/3/library/doctest.html#module-doctest
 
 4. sPublish from github
 
