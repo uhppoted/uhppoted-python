@@ -1,11 +1,11 @@
-# # FOR TESTING LOCALLY
-#
-# import os
-# import sys
-# from pathlib import Path
-#
-# root = Path(__file__).resolve().parents[2]
-# sys.path.append(os.path.join(root, 'src'))
+# FOR TESTING LOCALLY
+
+import os
+import sys
+from pathlib import Path
+
+root = Path(__file__).resolve().parents[2]
+sys.path.append(os.path.join(root, 'src'))
 
 import ipaddress
 import datetime
@@ -86,14 +86,17 @@ def exec(f, args):
 
 
 def get_all_controllers(u, args):
-    return u.get_all_controllers()
+    timeout = args.timeout
+
+    return u.get_all_controllers(timeout=timeout)
 
 
 def get_controller(u, args):
     controller = CONTROLLER
     dest = args.destination
+    timeout = args.timeout
 
-    return u.get_controller(controller, dest_addr=dest)
+    return u.get_controller(controller, dest_addr=dest, timeout=timeout)
 
 
 def set_ip(u, args):

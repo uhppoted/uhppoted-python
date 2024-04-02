@@ -41,7 +41,7 @@ class UDP:
         self._listen = resolve(listen)
         self._debug = debug
 
-    def broadcast(self, request):
+    def broadcast(self, request, timeout=2.5):
         '''
         Binds to the bind address from the constructor and then broadcasts a UDP request to the broadcast
         address from the constructor and then waits 5 seconds for the replies from any reponding access 
@@ -49,6 +49,7 @@ class UDP:
 
             Parameters:
                request  (bytearray)  64 byte request packet.
+                timeout (float)      Optional operation timeout (in seconds). Defaults to 2.5s.
 
             Returns:
                List of received response packets (may be empty).
@@ -68,19 +69,20 @@ class UDP:
 
             sock.sendto(request, self._broadcast)
 
-            return read_all(sock, self._debug)
+            return _read_all(sock, timeout=timeout, debug=self._debug)
         finally:
             sock.close()
 
-    def send(self, request, dest_addr=None):
+    def send(self, request, dest_addr=None, timeout=2.5):
         '''
         Binds to the bind address from the constructor and then broadcasts a UDP request to the broadcast,
         and then waits 5 seconds for a reply from the destination access controllers.
 
             Parameters:
-               request  (bytearray)  64 byte request packet.
-               address  (string)     IPv4 address:port of the controller. Defaults to port 60000 if address
-                                     does not include a port.
+               request   (bytearray)  64 byte request packet.
+               dest_addr (string)     Optional IPv4 address:port of the controller. Defaults to port 60000
+                                      if dest_addr does not include a port.
+              timeout (float)         Optional operation timeout (in seconds). Defaults to 2.5s.
 
             Returns:
                Received response packet (if any) or None (for set-ip request).
@@ -108,7 +110,7 @@ class UDP:
             if request[1] == 0x96:
                 return None
 
-            return read(sock, self._debug)
+            return _read(sock, timeout=timeout, debug=self._debug)
         finally:
             sock.close()
 
@@ -158,19 +160,21 @@ class UDP:
 
 
 # TODO convert to asyncio
-def read(sock, debug):
+def _read(sock, timeout=2.5, debug=False):
     '''
     Waits 2.5 seconds for a single 64 byte packet to be received on the socket. Prints the packet to the console
     if debug is True.
 
         Parameters:
-            sock  (socket)  Initialised and open UDP socket.
-            debug (bool)    Enables dumping the received packet to the console.
+            sock    (socket)  Initialised and open UDP socket.
+            timeout (float)   Optional operation timeout (in seconds). Defaults to 2.5s.
+            debug   (bool)    Enables dumping the received packet to the console.
 
         Returns:
             Received 64 byte UDP packet (or None).
     '''
-    sock.settimeout(2.5)
+    print('>>>>>>>>>>>>>>>>>>>>>', timeout)
+    sock.settimeout(timeout)
 
     while True:
         reply = sock.recv(1024)
@@ -183,19 +187,20 @@ def read(sock, debug):
 
 
 # TODO convert to asyncio
-def read_all(sock, debug):
+def _read_all(sock, timeout=2.5, debug=False):
     '''
     Accumulates received 64 byte UDP packets, waiting up to 2.5 seconds for an incoming packet. Prints the 
     packet to the console if debug is True.
 
         Parameters:
-            sock  (socket)  Initialised and open UDP socket.
-            debug (bool)    Enables dumping the received packet to the console.
+            sock    (socket) Initialised and open UDP socket.
+            timeout (float)  Optional operation timeout (in seconds). Defaults to 2.5s.
+            debug   (bool)   Enables dumping the received packet to the console.
 
         Returns:
             List of received 64 byte UDP packets (may be empty).
     '''
-    sock.settimeout(2.5)
+    sock.settimeout(timeout)
 
     replies = []
     while True:

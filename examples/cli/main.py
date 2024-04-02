@@ -41,6 +41,12 @@ def main():
                         default=None,
                         help='(optional) controller UDP IPv4 address:port. Defaults to broadcast address.')
 
+    parser.add_argument('--timeout',
+                        '-t',
+                        type=float,
+                        default=2.5,
+                        help='(optional) operation timeout (in seconds). Defaults to 2.5.')
+
     args = parser.parse_args()
     cmd = args.command
     debug = args.debug

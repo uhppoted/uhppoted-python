@@ -29,9 +29,12 @@ class Uhppote:
         '''
         self._udp = udp.UDP(bind, broadcast, listen, debug)
 
-    def get_all_controllers(self):
+    def get_all_controllers(self, timeout=2.5):
         '''
         Retrieves a list of all controllers accessible on the local LAN segment.
+
+            Parameters:
+              timeout (float)  Optional operation timeout (in seconds). Defaults to 2.5s.
 
             Returns:
                []GetControllerResponse  List of get_controller_responses from access controllers 
@@ -41,7 +44,7 @@ class Uhppote:
                Exception  If any of the responses from the access controllers cannot be decoded.
         '''
         request = encode.get_controller_request(0)
-        replies = self._udp.broadcast(request)
+        replies = self._udp.broadcast(request, timeout=timeout)
 
         list = []
         for reply in replies:
@@ -49,13 +52,14 @@ class Uhppote:
 
         return list
 
-    def get_controller(self, controller, dest_addr=None):
+    def get_controller(self, controller, dest_addr=None, timeout=2.5):
         '''
         Retrieves the controller information for an access controller.
 
             Parameters:
                controller (uint32)  Controller serial number (expected to be greater than 0).
                dest_addr  (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               timeout    (float)   Optional operation timeout (in seconds). Defaults to 2.5s.
 
             Returns:
                GetControllerResponse  Response from access controller to the get-controller request.
@@ -64,14 +68,14 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.get_controller_request(controller)
-        reply = self._udp.send(request, dest_addr=dest_addr)
+        reply = self._udp.send(request, dest_addr=dest_addr, timeout=timeout)
 
         if reply != None:
             return decode.get_controller_response(reply)
 
         return None
 
-    def set_ip(self, controller, address, netmask, gateway, dest_addr=None):
+    def set_ip(self, controller, address, netmask, gateway, dest_addr=None, timeout=2.5):
         '''
         Sets the controller IPv4 address, netmask and gateway address.
 
@@ -81,6 +85,7 @@ class Uhppote:
                netmask    (IPv4Address)  Controller IPv4 subnet mask.
                gateway    (IPv4Address)  Controller IPv4 gateway address.
                dest_addr  (string)       Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               timeout    (float)        Optional operation timeout (in seconds). Defaults to 2.5s.
 
             Returns:
                True  For (probably) internal reasons the access controller does not respond to this command.
@@ -93,13 +98,14 @@ class Uhppote:
 
         return True
 
-    def get_time(self, controller, dest_addr=None):
+    def get_time(self, controller, dest_addr=None, timeout=2.5):
         '''
         Retrieves the access controller current date/time.
 
             Parameters:
                controller (uint32)  Controller serial number (expected to be greater than 0).
                dest_addr  (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               timeout    (float)   Optional operation timeout (in seconds). Defaults to 2.5s.
 
             Returns:
                GetTimeResponse  Controller current date/time.
@@ -115,7 +121,7 @@ class Uhppote:
 
         return None
 
-    def set_time(self, controller, datetime, dest_addr=None):
+    def set_time(self, controller, datetime, dest_addr=None, timeout=2.5):
         '''
         Sets the access controller current date/time.
 
@@ -123,6 +129,7 @@ class Uhppote:
                controller (uint32)   Controller serial number (expected to be greater than 0).
                datetime   (dateime)  Date/time to set.
                dest_addr  (string)   Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               timeout    (float)    Optional operation timeout (in seconds). Defaults to 2.5s.
 
             Returns:
                SetTimeResponse  Controller current date/time.
@@ -139,13 +146,14 @@ class Uhppote:
 
         return None
 
-    def get_status(self, controller, dest_addr=None):
+    def get_status(self, controller, dest_addr=None, timeout=2.5):
         '''
         Retrieves the current status of an access controller.
 
             Parameters:
                controller (uint32)  Controller serial number (expected to be greater than 0).
                dest_addr  (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               timeout    (float)   Optional operation timeout (in seconds). Defaults to 2.5s.
 
             Returns:
                GetStatusResponse  Current controller status.
@@ -161,13 +169,14 @@ class Uhppote:
 
         return None
 
-    def get_listener(self, controller, dest_addr=None):
+    def get_listener(self, controller, dest_addr=None, timeout=2.5):
         '''
         Retrieves the configured event listener address:port from an access controller.
 
             Parameters:
                controller (uint32)  Controller serial number (expected to be greater than 0).
                dest_addr  (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               timeout    (float)   Optional operation timeout (in seconds). Defaults to 2.5s.
 
             Returns:
                GetListenerResponse  Current controller event listener UDP address and port.
@@ -183,7 +192,7 @@ class Uhppote:
 
         return None
 
-    def set_listener(self, controller, host, port, dest_addr=None):
+    def set_listener(self, controller, host, port, dest_addr=None, timeout=2.5):
         '''
         Sets an access controller event listener IPv4 address and port.
 
@@ -192,6 +201,7 @@ class Uhppote:
                address    (IPv4Address)  IPv4 address of event listener.
                port       (uint16)       UDP port of event listener.
                dest_addr  (string)       Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               timeout    (float)        Optional operation timeout (in seconds). Defaults to 2.5s.
 
             Returns:
                SetListenerResponse  Success/fail response from controller.
@@ -207,7 +217,7 @@ class Uhppote:
 
         return None
 
-    def get_door_control(self, controller, door, dest_addr=None):
+    def get_door_control(self, controller, door, dest_addr=None, timeout=2.5):
         '''
         Gets the door delay and control mode for an access controller door.
 
@@ -215,6 +225,7 @@ class Uhppote:
                controller (uint32)  Controller serial number (expected to be greater than 0).
                door       (uint8)   Door [1..4]
                dest_addr  (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               timeout    (float)   Optional operation timeout (in seconds). Defaults to 2.5s.
 
             Returns:
                GetDoorControlResponse  Door delay and control mode.
@@ -230,7 +241,7 @@ class Uhppote:
 
         return None
 
-    def set_door_control(self, controller, door, mode, delay, dest_addr=None):
+    def set_door_control(self, controller, door, mode, delay, dest_addr=None, timeout=2.5):
         '''
         Sets the door delay and control mode for an access controller door.
 
@@ -240,6 +251,7 @@ class Uhppote:
                mode       (uint8)   Control mode (1: normally open, 2: normally closed, 3: controlled)
                delay      (uint8)   Door unlock duration (seconds)
                dest_addr  (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               timeout    (float)   Optional operation timeout (in seconds). Defaults to 2.5s.
 
             Returns:
                SetDoorControlResponse  Door delay and control mode.
@@ -255,7 +267,7 @@ class Uhppote:
 
         return None
 
-    def open_door(self, controller, door, dest_addr=None):
+    def open_door(self, controller, door, dest_addr=None, timeout=2.5):
         '''
         Remotely opens a door controlled by an access controller.
 
@@ -263,6 +275,7 @@ class Uhppote:
                controller (uint32)  Controller serial number (expected to be greater than 0).
                door       (uint8)   Door [1..4]
                dest_addr  (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               timeout    (float)   Optional operation timeout (in seconds). Defaults to 2.5s.
 
             Returns:
                OpenDoorResponse  Door open success/fail response.
@@ -278,13 +291,14 @@ class Uhppote:
 
         return None
 
-    def get_cards(self, controller, dest_addr=None):
+    def get_cards(self, controller, dest_addr=None, timeout=2.5):
         '''
         Retrieves the number of cards stored in the access controller.
 
             Parameters:
                controller (uint32)  Controller serial number (expected to be greater than 0).
                dest_addr  (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               timeout    (float)   Optional operation timeout (in seconds). Defaults to 2.5s.
 
             Returns:
                GetCardsResponse  Number of cards stored locally in controller.
@@ -300,13 +314,14 @@ class Uhppote:
 
         return None
 
-    def get_card(self, controller, card_number, dest_addr=None):
+    def get_card(self, controller, card_number, dest_addr=None, timeout=2.5):
         '''
         Retrieves the card access record for a card number from the access controller.
             Parameters:
                controller  (uint32)  Controller serial number (expected to be greater than 0).
                card_number (uint32)  Access card number.
                dest_addr   (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               timeout     (float)   Optional operation timeout (in seconds). Defaults to 2.5s.
 
             Returns:
                GetCardResponse  Card information associated with the card number.
@@ -322,13 +337,14 @@ class Uhppote:
 
         return None
 
-    def get_card_by_index(self, controller, card_index, dest_addr=None):
+    def get_card_by_index(self, controller, card_index, dest_addr=None, timeout=2.5):
         '''
         Retrieves the card access record for a card record from the access controller.
             Parameters:
                controller  (uint32)  Controller serial number (expected to be greater than 0).
                index       (uint32)  Controller card list record number.
                dest_addr   (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               timeout     (float)   Optional operation timeout (in seconds). Defaults to 2.5s.
 
             Returns:
                GetCardByIndexResponse  Card information associated with the card number.
@@ -354,7 +370,8 @@ class Uhppote:
                  door_3,
                  door_4,
                  pin,
-                 dest_addr=None):
+                 dest_addr=None,
+                 timeout=2.5):
         '''
         Adds (or updates) a card record stored on the access controller.
             Parameters:
@@ -368,6 +385,7 @@ class Uhppote:
                door_4      (uint8)   Card access permissions for door 4 (0: none, 1: all, 2-254: time profile ID)
                pin         (uint24)  Card access keypad PIN code (0 for none)
                dest_addr   (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               timeout     (float)   Optional operation timeout (in seconds). Defaults to 2.5s.
 
             Returns:
                PutCardResponse  Card record add/update success/fail.
@@ -384,13 +402,14 @@ class Uhppote:
 
         return None
 
-    def delete_card(self, controller, card_number, dest_addr=None):
+    def delete_card(self, controller, card_number, dest_addr=None, timeout=2.5):
         '''
         Deletes the card record from the access controller.
             Parameters:
                controller  (uint32)  Controller serial number (expected to be greater than 0).
                card_number (uint32)  Access card number to delete.
                dest_addr   (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               timeout     (float)   Optional operation timeout (in seconds). Defaults to 2.5s.
 
             Returns:
                DeleteCardResponse  Card record delete success/fail.
@@ -406,12 +425,13 @@ class Uhppote:
 
         return None
 
-    def delete_all_cards(self, controller, dest_addr=None):
+    def delete_all_cards(self, controller, dest_addr=None, timeout=2.5):
         '''
         Deletes all card records stored on the access controller.
             Parameters:
                controller  (uint32)  Controller serial number (expected to be greater than 0).
                dest_addr   (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               timeout     (float)   Optional operation timeout (in seconds). Defaults to 2.5s.
 
             Returns:
                DeleteAllCardsResponse  Clear card records success/fail.
@@ -427,13 +447,14 @@ class Uhppote:
 
         return None
 
-    def get_event(self, controller, event_index, dest_addr=None):
+    def get_event(self, controller, event_index, dest_addr=None, timeout=2.5):
         '''
         Retrieves a stored event from the access controller.
             Parameters:
                controller  (uint32)  Controller serial number (expected to be greater than 0).
                event_index (uint32)  Index of event in controller list.
                dest_addr   (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               timeout     (float)   Optional operation timeout (in seconds). Defaults to 2.5s.
 
             Returns:
                GetEventResponse  Event information.
@@ -449,7 +470,7 @@ class Uhppote:
 
         return None
 
-    def get_event_index(self, controller, dest_addr=None):
+    def get_event_index(self, controller, dest_addr=None, timeout=2.5):
         '''
         Retrieves the 'last downloaded event' index from the controller. The downloaded event index
         is a single utility register on the controller that is managed by an application (not by the
@@ -458,6 +479,7 @@ class Uhppote:
             Parameters:
                controller  (uint32)  Controller serial number (expected to be greater than 0).
                dest_addr   (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               timeout     (float)   Optional operation timeout (in seconds). Defaults to 2.5s.
 
             Returns:
                GetEventIndexResponse  Current value of downloaded event index.
@@ -473,7 +495,7 @@ class Uhppote:
 
         return None
 
-    def set_event_index(self, controller, event_index, dest_addr=None):
+    def set_event_index(self, controller, event_index, dest_addr=None, timeout=2.5):
         '''
         Sets the 'last downloaded event' index on the controller. The downloaded event index is a 
         single utility register on the controller that is managed by an application (not by the
@@ -483,6 +505,7 @@ class Uhppote:
                controller  (uint32)  Controller serial number (expected to be greater than 0).
                event_index (uitn32)  Event index to which to set the 'downloaded event' index.
                dest_addr   (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               timeout     (float)   Optional operation timeout (in seconds). Defaults to 2.5s.
 
             Returns:
                SetEventIndexResponse  Set event index success/fail response.
@@ -490,7 +513,7 @@ class Uhppote:
             Raises:
                Exception  If the response from the access controller cannot be decoded.
         '''
-        request = encode.set_event_index_request(controller, event_index, dest_addr=None)
+        request = encode.set_event_index_request(controller, event_index, dest_addr=None, timeout=2.5)
         reply = self._udp.send(request, dest_addr=dest_addr)
 
         if reply != None:
@@ -498,7 +521,7 @@ class Uhppote:
 
         return None
 
-    def record_special_events(self, controller, enable, dest_addr=None):
+    def record_special_events(self, controller, enable, dest_addr=None, timeout=2.5):
         '''
         Enables or disables door open and close and pushbutton press events.
 
@@ -507,6 +530,7 @@ class Uhppote:
                enable      (bool)    Includes door open and close and pushbutton events in the
                                      events stored and broadcast by the controller.
                dest_addr   (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               timeout     (float)   Optional operation timeout (in seconds). Defaults to 2.5s.
 
             Returns:
                RecordSpecialEventsResponse  Record special events success/fail response.
@@ -514,7 +538,7 @@ class Uhppote:
             Raises:
                Exception  If the response from the access controller cannot be decoded.
         '''
-        request = encode.record_special_events_request(controller, enable, dest_addr=None)
+        request = encode.record_special_events_request(controller, enable, dest_addr=None, timeout=2.5)
         reply = self._udp.send(request, dest_addr=dest_addr)
 
         if reply != None:
@@ -522,7 +546,7 @@ class Uhppote:
 
         return None
 
-    def get_time_profile(self, controller, profile_id, dest_addr=None):
+    def get_time_profile(self, controller, profile_id, dest_addr=None, timeout=2.5):
         '''
         Retrieves a time profile from an access conntroller.
 
@@ -530,6 +554,7 @@ class Uhppote:
                controller  (uint32)  Controller serial number (expected to be greater than 0).
                profile_id  (uint8)   Time profile ID [2..254] to retrieve.
                dest_addr   (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               timeout     (float)   Optional operation timeout (in seconds). Defaults to 2.5s.
 
             Returns:
                GetTimeProfileResponse  Time profile information for the profile ID.
@@ -564,7 +589,8 @@ class Uhppote:
                          segment_3_start,
                          segment_3_end,
                          linked_profile_id,
-                         dest_addr=None):
+                         dest_addr=None,
+                         timeout=2.5):
         '''
         Creates (or updates) a time profile on an access conntroller.
 
@@ -588,6 +614,7 @@ class Uhppote:
                segment_3_end     (time)    Time profile segment 3 end time (HHmm).
                linked_profile_id (uint8)   Next profile ID in chain (0 if none).
                dest_addr         (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               timeout           (float)   Optional operation timeout (in seconds). Defaults to 2.5s.
 
             Returns:
                SetTimeProfileResponse  Set time profile success/fail response.
@@ -606,13 +633,14 @@ class Uhppote:
 
         return None
 
-    def delete_all_time_profiles(self, controller, dest_addr=None):
+    def delete_all_time_profiles(self, controller, dest_addr=None, timeout=2.5):
         '''
         Clears all time profiles from an access conntroller.
 
             Parameters:
                controller (uint32)  Controller serial number (expected to be greater than 0).
                dest_addr  (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               timeout    (float)   Optional operation timeout (in seconds). Defaults to 2.5s.
 
             Returns:
                DeleteAllTimeProfilesResponse  Clear time profiles success/fail response.
@@ -643,7 +671,8 @@ class Uhppote:
                  door,
                  task_type,
                  more_cards,
-                 dest_addr=None):
+                 dest_addr=None,
+                 timeout=2.5):
         '''
         Creates a scheduled task on an access conntroller.
 
@@ -676,6 +705,7 @@ class Uhppote:
                                        12: enable pushbutton
                more_cards  (uint8)     Number of cards for the 'more cards' task.
                dest_addr   (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               timeout     (float)   Optional operation timeout (in seconds). Defaults to 2.5s.
 
             Returns:
                AddTaskResponse  Add task success/fail response.
@@ -692,13 +722,14 @@ class Uhppote:
 
         return None
 
-    def refresh_tasklist(self, controller, dest_addr=None):
+    def refresh_tasklist(self, controller, dest_addr=None, timeout=2.5):
         '''
         Updates the active tasklist to include tasks added by add_task.
 
             Parameters:
                controller  (uint32)  Controller serial number (expected to be greater than 0).
                dest_addr   (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               timeout     (float)   Optional operation timeout (in seconds). Defaults to 2.5s.
 
             Returns:
                RefreshTasklistResponse  Refresh tasklist success/fail response.
@@ -714,13 +745,14 @@ class Uhppote:
 
         return None
 
-    def clear_tasklist(self, controller, dest_addr=None):
+    def clear_tasklist(self, controller, dest_addr=None, timeout=2.5):
         '''
         Clears all active and pending tasks.
 
             Parameters:
                controller  (uint32)  Controller serial number (expected to be greater than 0).
                dest_addr   (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               timeout     (float)   Optional operation timeout (in seconds). Defaults to 2.5s.
 
             Returns:
                ClearTasklistResponse  Clear tasklist success/fail response.
@@ -736,7 +768,7 @@ class Uhppote:
 
         return None
 
-    def set_pc_control(self, controller, enable, dest_addr=None):
+    def set_pc_control(self, controller, enable, dest_addr=None, timeout=2.5):
         '''
         Defers access control decisions to a remote host. The remote host is expected to 
         interact with the controller at least once every 30 seconds (typically by enabling
@@ -747,6 +779,7 @@ class Uhppote:
                controller  (uint32)  Controller serial number (expected to be greater than 0).
                enable      (bool)    Enables remote control of access.
                dest_addr   (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               timeout     (float)   Optional operation timeout (in seconds). Defaults to 2.5s.
 
             Returns:
                SetPcControlResponse  Enable PC control success/fail response.
@@ -762,7 +795,7 @@ class Uhppote:
 
         return None
 
-    def set_interlock(self, controller, interlock, dest_addr=None):
+    def set_interlock(self, controller, interlock, dest_addr=None, timeout=2.5):
         '''
         Sets the door interlock mode for an access controller.
 
@@ -776,6 +809,7 @@ class Uhppote:
                                      4:  doors 1 and 2 and 3 interlocked
                                      8:  doors 1 and 2 and 3 and 4 interlocked
                dest_addr   (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               timeout     (float)   Optional operation timeout (in seconds). Defaults to 2.5s.
 
             Returns:
                SetInterlockResponse  Set interlock success/fail response.
@@ -791,7 +825,7 @@ class Uhppote:
 
         return None
 
-    def activate_keypads(self, controller, reader1, reader2, reader3, reader4, dest_addr=None):
+    def activate_keypads(self, controller, reader1, reader2, reader3, reader4, dest_addr=None, timeout=2.5):
         '''
         Enables (or disables) the keypad associated with an access reader.
 
@@ -802,6 +836,7 @@ class Uhppote:
                reader3    (bool)    Enables/disable reader 3 access keypad
                reader4    (bool)    Enables/disable reader 4 access keypad
                dest_addr  (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               timeout    (float)   Optional operation timeout (in seconds). Defaults to 2.5s.
 
             Returns:
                ActivateKeypadsResponse  Activate keypads success/fail response.
@@ -817,7 +852,15 @@ class Uhppote:
 
         return None
 
-    def set_door_passcodes(self, controller, door, passcode1, passcode2, passcode3, passcode4, dest_addr=None):
+    def set_door_passcodes(self,
+                           controller,
+                           door,
+                           passcode1,
+                           passcode2,
+                           passcode3,
+                           passcode4,
+                           dest_addr=None,
+                           timeout=2.5):
         '''
         Sets up to four supervisor passcodes for a door. The passcodes override any other access 
         restrictions and a valid passcode is in the range [0..999999], with 0 corresponding to 
@@ -831,6 +874,7 @@ class Uhppote:
                passcode3  (uint32)  Passcode [0..999999].
                passcode4  (uint32)  Passcode [0..999999].
                dest_addr  (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               timeout    (float)   Optional operation timeout (in seconds). Defaults to 2.5s.
 
             Returns:
                SetDoorPasscodesResponse  Set door passcodes success/fail response.
@@ -846,12 +890,13 @@ class Uhppote:
 
         return None
 
-    def restore_default_parameters(self, controller, dest_addr=None):
+    def restore_default_parameters(self, controller, dest_addr=None, timeout=2.5):
         '''
         Resets a controller to the manufacturer default configuration.
             Parameters:
                controller  (uint32)  Controller serial number (expected to be greater than 0).
                dest_addr   (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               timeout     (float)   Optional operation timeout (in seconds). Defaults to 2.5s.
 
             Returns:
                RestoreDefaultParametersResponse  Reset success/fail.
