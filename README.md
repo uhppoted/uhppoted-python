@@ -445,6 +445,27 @@ ID  uint32  controller serial number
 Raises an Exception if the call failed for any reason.
 ```
 
+### `listen`
+```
+listen(handler)
+
+handler  event handling callback function of the form
+         def on_event(event):
+              ...
+
+Raises an Exception if the call failed for any reason.
+```
+
+`listen` is a blocking call that will invoke the `handler` function for each received event, e.g.:
+```
+    ...
+    u.listen(on_event)
+
+def on_event(event):
+    if event != None:
+        pprint(event.__dict__, indent=2, width=1)
+    ...
+```
 
 ## Types
 

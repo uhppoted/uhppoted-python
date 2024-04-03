@@ -29,9 +29,9 @@ vet:
 
 lint: 
 
-build-all: test vet lint integration-tests
+build-all: test vet lint
 
-release: build-all 
+release: build-all integration-tests
 	rm -rf dist/*
 	python3 -m build
 	python3 -m twine check dist/* 

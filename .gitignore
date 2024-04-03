@@ -2,5 +2,6 @@
 .pypi-test
 .pypi
 __pycache__
+workdir
 dist
 release-notes.md
