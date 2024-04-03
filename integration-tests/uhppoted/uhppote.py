@@ -13,6 +13,7 @@ import datetime
 
 from ipaddress import IPv4Address
 from uhppoted import uhppote
+from uhppoted import structs
 from uhppoted.udp import dump
 
 CONTROLLER = 405419896
@@ -44,7 +45,7 @@ def handle(sock, bind, debug):
 
 def messages():
     return [
-        { # 'get-controller'
+        { # get-controller
           'request': [
               0x17, 0x94, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
               0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -57,7 +58,21 @@ def messages():
               0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
               0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
           ],
-        }
+        },
+        { # get-time
+          'request': [
+              0x17, 0x32, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+              0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+              0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+              0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+          ],
+          'response': [
+              0x17, 0x32, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x20, 0x21, 0x05, 0x28, 0x13, 0x51, 0x30, 0x00,
+              0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+              0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+              0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+          ],
+        },
     ]
 
 class TestUhppoteWithDestAddr(unittest.TestCase):
@@ -81,20 +96,53 @@ class TestUhppoteWithDestAddr(unittest.TestCase):
 
     def test_get_controller(self):
         '''
-        Tests the get-controller function.
+        Tests the get-controller function with valid dest_addr.
         '''
+        expected = structs.GetControllerResponse(
+            controller=405419896, 
+            ip_address=IPv4Address('192.168.1.100'), 
+            subnet_mask=IPv4Address('255.255.255.0'), 
+            gateway=IPv4Address('192.168.1.1'), 
+            mac_address='00:12:23:34:45:56', 
+            version='v8.92', 
+            date=datetime.date(2018, 11, 5))
+
+        controller = CONTROLLER
+        dest = '127.0.0.1:54321'
+        response = self.u.get_controller(controller, dest_addr=dest)
+
+        self.assertEqual(response, expected)
+
+    def test_set_ip(self):
+        '''
+        Tests the set-ip function with valid dest_addr.
+        '''
+        expected = True
+
+        controller = CONTROLLER
+        address = IPv4Address('192.168.1.100')
+        netmask = IPv4Address('255.255.255.0')
+        gateway = IPv4Address('192.168.1.1')
+        dest = '127.0.0.1:54321'
+
+        response = self.u.set_ip(controller, address, netmask, gateway, dest_addr=dest)
+
+        self.assertEqual(response, expected)
+
+    def test_get_time(self):
+        '''
+        Tests the get-time function with valid dest_addr.
+        '''
+        expected = structs.GetTimeResponse(
+            controller=405419896, 
+            datetime=datetime.datetime(2021, 5, 28, 13, 51, 30))
+        
         controller = CONTROLLER
         dest = '127.0.0.1:54321'
 
-        response = self.u.get_controller(controller, dest_addr=dest)
+        response = self.u.get_time(controller, dest_addr=dest)
 
-        self.assertEqual(response.controller, 405419896)
-        self.assertEqual(response.ip_address, IPv4Address('192.168.1.100'))
-        self.assertEqual(response.subnet_mask, IPv4Address('255.255.255.0'))
-        self.assertEqual(response.gateway, IPv4Address('192.168.1.1'))
-        self.assertEqual(response.mac_address, '00:12:23:34:45:56')
-        self.assertEqual(response.version, 'v8.92')
-        self.assertEqual(response.date, datetime.date(2018, 11, 5))
+        self.assertEqual(response, expected)
 
 if __name__ == '__main__':
     unittest.main()

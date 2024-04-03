@@ -13,8 +13,8 @@ update-release:
 
 format: 
 	yapf -ri src
-	yapf -ri tests
-	yapf -ri examples
+	# yapf -ri tests
+	# yapf -ri examples
 
 build: format
 	python3 -m compileall .

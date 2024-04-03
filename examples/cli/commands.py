@@ -72,8 +72,10 @@ def exec(f, args):
     listen = args.listen
     debug = args.debug
 
+    dest = args.destination
+
     u = uhppote.Uhppote(bind, broadcast, listen, debug)
-    response = f(u, args)
+    response = f(u, dest, args)
 
     if response != None:
         if type(response).__name__ == 'list':
@@ -85,106 +87,105 @@ def exec(f, args):
             pprint(response.__dict__, indent=2, width=1, sort_dicts=False)
 
 
-def get_all_controllers(u, args):
+def get_all_controllers(u, dest, args):
     timeout = args.timeout
 
     return u.get_all_controllers(timeout=timeout)
 
 
-def get_controller(u, args):
+def get_controller(u, dest, args):
     controller = CONTROLLER
-    dest = args.destination
     timeout = args.timeout
 
     return u.get_controller(controller, dest_addr=dest, timeout=timeout)
 
 
-def set_ip(u, args):
+def set_ip(u, dest, args):
     controller = CONTROLLER
     address = ADDRESS
     netmask = NETMASK
     gateway = GATEWAY
 
-    return u.set_ip(controller, address, netmask, gateway)
+    return u.set_ip(controller, address, netmask, gateway, dest_addr=dest)
 
 
-def get_time(u, args):
+def get_time(u, dest, args):
     controller = CONTROLLER
 
-    return u.get_time(controller)
+    return u.get_time(controller, dest_addr=dest)
 
 
-def set_time(u, args):
+def set_time(u, dest, args):
     controller = CONTROLLER
     now = datetime.datetime.now()
 
-    return u.set_time(controller, now)
+    return u.set_time(controller, now, dest_addr=dest)
 
 
-def get_listener(u, args):
+def get_listener(u, dest, args):
     controller = CONTROLLER
 
-    return u.get_listener(controller)
+    return u.get_listener(controller, dest_addr=dest)
 
 
-def set_listener(u, args):
+def set_listener(u, dest, args):
     controller = CONTROLLER
     (address, port) = LISTENER
 
-    return u.set_listener(controller, address, port)
+    return u.set_listener(controller, address, port, dest_addr=dest)
 
 
-def get_door_control(u, args):
+def get_door_control(u, dest, args):
     controller = CONTROLLER
     door = DOOR
 
-    return u.get_door_control(controller, door)
+    return u.get_door_control(controller, door, dest_addr=dest)
 
 
-def set_door_control(u, args):
+def set_door_control(u, dest, args):
     controller = CONTROLLER
     door = DOOR
     mode = MODE
     delay = DELAY
 
-    return u.set_door_control(controller, door, mode, delay)
+    return u.set_door_control(controller, door, mode, delay, dest_addr=dest)
 
 
-def get_status(u, args):
+def get_status(u, dest, args):
     controller = CONTROLLER
 
-    return u.get_status(controller)
+    return u.get_status(controller, dest_addr=dest)
 
 
-def open_door(u, args):
+def open_door(u, dest, args):
     controller = CONTROLLER
     door = DOOR
 
-    return u.open_door(controller, door)
+    return u.open_door(controller, door, dest_addr=dest)
 
 
-def get_cards(u, args):
+def get_cards(u, dest, args):
     controller = CONTROLLER
 
-    return u.get_cards(controller)
+    return u.get_cards(controller, dest_addr=dest)
 
 
-def get_card(u, args):
+def get_card(u, dest, args):
     controller = CONTROLLER
     card = CARD
 
-    response = u.get_card(controller, card)
+    response = u.get_card(controller, card, dest_addr=dest)
     if response.card_number == 0:
         raise ValueError(f'card {card} not found')
 
     return response
 
 
-def get_card_by_index(u, args):
+def get_card_by_index(u, dest, args):
     controller = CONTROLLER
     index = CARD_INDEX
 
-    response = u.get_card_by_index(controller, index)
+    response = u.get_card_by_index(controller, index, dest_addr=dest)
     if response.card_number == 0:
         raise ValueError(f'card @ index {index} not found')
     elif response.card_number == 0xffffffff:
@@ -193,33 +194,38 @@ def get_card_by_index(u, args):
     return response
 
 
-def put_card(u, args):
+def put_card(u, dest, args):
     controller = CONTROLLER
     card = CARD
-    start = datetime.datetime.strptime("2022-01-01", '%Y-%m-%d').date()
-    end = datetime.datetime.strptime("2022-12-31", '%Y-%m-%d').date()
+    start = datetime.datetime.strptime("2024-01-01", '%Y-%m-%d').date()
+    end = datetime.datetime.strptime("2024-12-31", '%Y-%m-%d').date()
+    door1 = 0    # no access
+    door2 = 1    # 24/7 access
+    door3 = 29   # time_profile
+    door4 = 0    # no access
+    PIN = 7531
 
-    return u.put_card(controller, card, start, end, 0, 1, 29, 0, 7531)
+    return u.put_card(controller, card, start, end, door1, door2, door3, door4, PIN, dest_addr=dest)
 
 
-def delete_card(u, args):
+def delete_card(u, dest, args):
     controller = CONTROLLER
     card = CARD
 
-    return u.delete_card(controller, card)
+    return u.delete_card(controller, card, dest_addr=dest)
 
 
-def delete_all_cards(u, args):
+def delete_all_cards(u, dest, args):
     controller = CONTROLLER
 
-    return u.delete_all_cards(controller)
+    return u.delete_all_cards(controller, dest_addr=dest)
 
 
-def get_event(u, args):
+def get_event(u, dest, args):
     controller = CONTROLLER
     index = EVENT_INDEX
 
-    response = u.get_event(controller, index)
+    response = u.get_event(controller, inde, dest_addr=dest)
     if response.event_type == 0xff:
         raise ValueError(f'event @ index {index} overwritten')
     elif response.index == 0:
@@ -228,38 +234,38 @@ def get_event(u, args):
     return response
 
 
-def get_event_index(u, args):
+def get_event_index(u, dest, args):
     controller = CONTROLLER
 
-    return u.get_event_index(controller)
+    return u.get_event_index(controller, dest_addr=dest)
 
 
-def set_event_index(u, args):
+def set_event_index(u, dest, args):
     controller = CONTROLLER
     index = EVENT_INDEX
 
-    return u.set_event_index(controller, index)
+    return u.set_event_index(controller, index, dest_addr=dest)
 
 
-def record_special_events(u, args):
+def record_special_events(u, dest, args):
     controller = CONTROLLER
     enabled = True
 
-    return u.record_special_events(controller, enabled)
+    return u.record_special_events(controller, enabled, dest_addr=dest)
 
 
-def get_time_profile(u, args):
+def get_time_profile(u, dest, args):
     controller = CONTROLLER
     profile_id = TIME_PROFILE_ID
 
-    response = u.get_time_profile(controller, profile_id)
+    response = u.get_time_profile(controller, profile_id, dest_addr=dest)
     if response.profile_id == 0:
         raise ValueError(f'time profile {profile_id} not defined')
 
     return response
 
 
-def set_time_profile(u, args):
+def set_time_profile(u, dest, args):
     controller = CONTROLLER
     profile_id = TIME_PROFILE_ID
     start = datetime.datetime.strptime("2022-01-01", '%Y-%m-%d').date()
@@ -279,16 +285,23 @@ def set_time_profile(u, args):
     segment3end = datetime.datetime.strptime("22:00", '%H:%M').time()
     linked_profile_ID = 23
 
-    return u.set_time_profile(controller, profile_id, start, end, monday, tuesday, wednesday, thursday, friday,
-                              saturday, sunday, segment1start, segment1end, segment2start, segment2end, segment3start,
-                              segment3end, linked_profile_ID)
+    # yapf: disable
+    return u.set_time_profile(controller, 
+                              profile_id, 
+                              start, end, 
+                              monday, tuesday, wednesday, thursday, friday, saturday, sunday, 
+                              segment1start, segment1end, 
+                              segment2start, segment2end, 
+                              segment3start, segment3end, 
+                              linked_profile_ID, 
+                              dest_addr=dest)
+    # yapf: enable
+
+def delete_all_time_profiles(u, dest, args):
+    return u.delete_all_time_profiles(CONTROLLER, dest_addr=dest)
 
 
-def delete_all_time_profiles(u, args):
-    return u.delete_all_time_profiles(CONTROLLER)
-
-
-def add_task(u, args):
+def add_task(u, dest, args):
     controller = CONTROLLER
     start_date = datetime.datetime.strptime("2022-01-01", '%Y-%m-%d').date()
     end_date = datetime.datetime.strptime("2022-12-31", '%Y-%m-%d').date()
@@ -304,47 +317,55 @@ def add_task(u, args):
     task_type = 2
     more_cards = 0
 
-    return u.add_task(controller, start_date, end_date, monday, tuesday, wednesday, thursday, friday, saturday, sunday,
-                      start_time, door, task_type, more_cards)
+    # yapf: disable
+    return u.add_task(controller, 
+                      start_date, end_date, 
+                      monday, tuesday, wednesday, thursday, friday, saturday, sunday,
+                      start_time, 
+                      door, 
+                      task_type, 
+                      more_cards,
+                      dest_addr=dest)
+    # yapf: enable
 
 
-def refresh_tasklist(u, args):
+def refresh_tasklist(u, dest, args):
     controller = CONTROLLER
 
-    return u.refresh_tasklist(controller)
+    return u.refresh_tasklist(controller, dest_addr=dest)
 
 
-def clear_tasklist(u, args):
+def clear_tasklist(u, dest, args):
     controller = CONTROLLER
 
-    return u.clear_tasklist(controller)
+    return u.clear_tasklist(controller, dest_addr=dest)
 
 
-def set_pc_control(u, args):
+def set_pc_control(u, dest, args):
     controller = CONTROLLER
     enabled = True
 
-    return u.set_pc_control(controller, enabled)
+    return u.set_pc_control(controller, enabled, dest_addr=dest)
 
 
-def set_interlock(u, args):
+def set_interlock(u, dest, args):
     controller = CONTROLLER
     interlock = 3
 
-    return u.set_interlock(controller, interlock)
+    return u.set_interlock(controller, interlock, dest_addr=dest)
 
 
-def activate_keypads(u, args):
+def activate_keypads(u, dest, args):
     controller = CONTROLLER
     reader1 = True
     reader2 = True
     reader3 = False
     reader4 = True
 
-    return u.activate_keypads(controller, reader1, reader2, reader3, reader4)
+    return u.activate_keypads(controller, reader1, reader2, reader3, reader4, dest_addr=dest)
 
 
-def set_door_passcodes(u, args):
+def set_door_passcodes(u, dest, args):
     controller = CONTROLLER
     door = DOOR
     passcode1 = 12345
@@ -352,16 +373,16 @@ def set_door_passcodes(u, args):
     passcode3 = 999999
     passcode4 = 54321
 
-    return u.set_door_passcodes(controller, door, passcode1, passcode2, passcode3, passcode4)
+    return u.set_door_passcodes(controller, door, passcode1, passcode2, passcode3, passcode4, dest_addr=dest)
 
 
-def restore_default_parameters(u, args):
+def restore_default_parameters(u, dest, args):
     controller = CONTROLLER
 
-    return u.restore_default_parameters(controller)
+    return u.restore_default_parameters(controller, dest_addr=dest)
 
 
-def listen(u, args):
+def listen(u, dest, args):
     return u.listen(onEvent)
 
 

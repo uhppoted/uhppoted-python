@@ -173,7 +173,6 @@ def _read(sock, timeout=2.5, debug=False):
         Returns:
             Received 64 byte UDP packet (or None).
     '''
-    print('>>>>>>>>>>>>>>>>>>>>>', timeout)
     sock.settimeout(timeout)
 
     while True:

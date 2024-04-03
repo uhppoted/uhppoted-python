@@ -5,11 +5,12 @@
 - [ ] UDP send (cf. https://github.com/uhppoted/uhppoted-app-home-assistant/issues/3)
       - [x] udp.send dest_addr
       - [x] CHANGELOG
+      - [x] Add to all functions
+      - [x] Add to all CLI example commands
       - [ ] integration tests
-      - [ ] Add to all functions
-            - []x get_controller
-            - [ ] set_ip
-            - [ ] get_time
+            - [x] get_controller
+            - [x] set_ip
+            - [x] get_time
             - [ ] set_time
             - [ ] get_status
             - [ ] get_listener
