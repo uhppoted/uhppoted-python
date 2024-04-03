@@ -94,7 +94,7 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.set_ip_request(controller, address, netmask, gateway)
-        reply = self._udp.send(request, dest_addr=dest_addr)
+        reply = self._udp.send(request, dest_addr=dest_addr, timeout=timeout)
 
         return True
 
@@ -114,7 +114,7 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.get_time_request(controller)
-        reply = self._udp.send(request, dest_addr=dest_addr)
+        reply = self._udp.send(request, dest_addr=dest_addr, timeout=timeout)
 
         if reply != None:
             return decode.get_time_response(reply)
@@ -139,7 +139,7 @@ class Uhppote:
                           access controller cannot be decoded.
         '''
         request = encode.set_time_request(controller, datetime)
-        reply = self._udp.send(request, dest_addr=dest_addr)
+        reply = self._udp.send(request, dest_addr=dest_addr, timeout=timeout)
 
         if reply != None:
             return decode.set_time_response(reply)
@@ -162,7 +162,7 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.get_status_request(controller)
-        reply = self._udp.send(request, dest_addr=dest_addr)
+        reply = self._udp.send(request, dest_addr=dest_addr, timeout=timeout)
 
         if reply != None:
             return decode.get_status_response(reply)
@@ -185,14 +185,14 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.get_listener_request(controller)
-        reply = self._udp.send(request, dest_addr=dest_addr)
+        reply = self._udp.send(request, dest_addr=dest_addr, timeout=timeout)
 
         if reply != None:
             return decode.get_listener_response(reply)
 
         return None
 
-    def set_listener(self, controller, host, port, dest_addr=None, timeout=2.5):
+    def set_listener(self, controller, address, port, dest_addr=None, timeout=2.5):
         '''
         Sets an access controller event listener IPv4 address and port.
 
@@ -210,7 +210,7 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.set_listener_request(controller, address, port)
-        reply = self._udp.send(request, dest_addr=dest_addr)
+        reply = self._udp.send(request, dest_addr=dest_addr, timeout=timeout)
 
         if reply != None:
             return decode.set_listener_response(reply)
@@ -234,7 +234,7 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.get_door_control_request(controller, door)
-        reply = self._udp.send(request, dest_addr=dest_addr)
+        reply = self._udp.send(request, dest_addr=dest_addr, timeout=timeout)
 
         if reply != None:
             return decode.get_door_control_response(reply)
@@ -260,7 +260,7 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.set_door_control_request(controller, door, mode, delay)
-        reply = self._udp.send(request, dest_addr=dest_addr)
+        reply = self._udp.send(request, dest_addr=dest_addr, timeout=timeout)
 
         if reply != None:
             return decode.set_door_control_response(reply)
@@ -284,7 +284,7 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.open_door_request(controller, door)
-        reply = self._udp.send(request, dest_addr=dest_addr)
+        reply = self._udp.send(request, dest_addr=dest_addr, timeout=timeout)
 
         if reply != None:
             return decode.open_door_response(reply)
@@ -307,7 +307,7 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.get_cards_request(controller)
-        reply = self._udp.send(request, dest_addr=dest_addr)
+        reply = self._udp.send(request, dest_addr=dest_addr, timeout=timeout)
 
         if reply != None:
             return decode.get_cards_response(reply)
@@ -330,7 +330,7 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.get_card_request(controller, card_number)
-        reply = self._udp.send(request, dest_addr=dest_addr)
+        reply = self._udp.send(request, dest_addr=dest_addr, timeout=timeout)
 
         if reply != None:
             return decode.get_card_response(reply)
@@ -353,7 +353,7 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.get_card_by_index_request(controller, card_index)
-        reply = self._udp.send(request, dest_addr=dest_addr)
+        reply = self._udp.send(request, dest_addr=dest_addr, timeout=timeout)
 
         if reply != None:
             return decode.get_card_by_index_response(reply)
@@ -395,7 +395,7 @@ class Uhppote:
         '''
         request = encode.put_card_request(controller, card_number, start_date, end_date, door_1, door_2, door_3, door_4,
                                           pin)
-        reply = self._udp.send(request, dest_addr=dest_addr)
+        reply = self._udp.send(request, dest_addr=dest_addr, timeout=timeout)
 
         if reply != None:
             return decode.put_card_response(reply)
@@ -418,7 +418,7 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.delete_card_request(controller, card_number)
-        reply = self._udp.send(request, dest_addr=dest_addr)
+        reply = self._udp.send(request, dest_addr=dest_addr, timeout=timeout)
 
         if reply != None:
             return decode.delete_card_response(reply)
@@ -440,7 +440,7 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.delete_cards_request(controller)
-        reply = self._udp.send(request, dest_addr=dest_addr)
+        reply = self._udp.send(request, dest_addr=dest_addr, timeout=timeout)
 
         if reply != None:
             return decode.delete_all_cards_response(reply)
@@ -463,7 +463,7 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.get_event_request(controller, event_index)
-        reply = self._udp.send(request, dest_addr=dest_addr)
+        reply = self._udp.send(request, dest_addr=dest_addr, timeout=timeout)
 
         if reply != None:
             return decode.get_event_response(reply)
@@ -488,7 +488,7 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.get_event_index_request(controller)
-        reply = self._udp.send(request, dest_addr=dest_addr)
+        reply = self._udp.send(request, dest_addr=dest_addr, timeout=timeout)
 
         if reply != None:
             return decode.get_event_index_response(reply)
@@ -513,8 +513,8 @@ class Uhppote:
             Raises:
                Exception  If the response from the access controller cannot be decoded.
         '''
-        request = encode.set_event_index_request(controller, event_index, dest_addr=None, timeout=2.5)
-        reply = self._udp.send(request, dest_addr=dest_addr)
+        request = encode.set_event_index_request(controller, event_index)
+        reply = self._udp.send(request, dest_addr=dest_addr, timeout=timeout)
 
         if reply != None:
             return decode.set_event_index_response(reply)
@@ -538,8 +538,8 @@ class Uhppote:
             Raises:
                Exception  If the response from the access controller cannot be decoded.
         '''
-        request = encode.record_special_events_request(controller, enable, dest_addr=None, timeout=2.5)
-        reply = self._udp.send(request, dest_addr=dest_addr)
+        request = encode.record_special_events_request(controller, enable)
+        reply = self._udp.send(request, dest_addr=dest_addr, timeout=timeout)
 
         if reply != None:
             return decode.record_special_events_response(reply)
@@ -563,7 +563,7 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.get_time_profile_request(controller, profile_id)
-        reply = self._udp.send(request, dest_addr=dest_addr)
+        reply = self._udp.send(request, dest_addr=dest_addr, timeout=timeout)
 
         if reply != None:
             return decode.get_time_profile_response(reply)
@@ -626,7 +626,7 @@ class Uhppote:
                                                   wednesday, thursday, friday, saturday, sunday, segment_1_start,
                                                   segment_1_end, segment_2_start, segment_2_end, segment_3_start,
                                                   segment_3_end, linked_profile_id)
-        reply = self._udp.send(request, dest_addr=dest_addr)
+        reply = self._udp.send(request, dest_addr=dest_addr, timeout=timeout)
 
         if reply != None:
             return decode.set_time_profile_response(reply)
@@ -649,7 +649,7 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.delete_all_time_profiles_request(controller)
-        reply = self._udp.send(request, dest_addr=dest_addr)
+        reply = self._udp.send(request, dest_addr=dest_addr, timeout=timeout)
 
         if reply != None:
             return decode.delete_all_time_profiles_response(reply)
@@ -715,7 +715,7 @@ class Uhppote:
         '''
         request = encode.add_task_request(controller, start_date, end_date, monday, tuesday, wednesday, thursday,
                                           friday, saturday, sunday, start_time, door, task_type, more_cards)
-        reply = self._udp.send(request, dest_addr=dest_addr)
+        reply = self._udp.send(request, dest_addr=dest_addr, timeout=timeout)
 
         if reply != None:
             return decode.add_task_response(reply)
@@ -738,7 +738,7 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.refresh_tasklist_request(controller)
-        reply = self._udp.send(request, dest_addr=dest_addr)
+        reply = self._udp.send(request, dest_addr=dest_addr, timeout=timeout)
 
         if reply != None:
             return decode.refresh_tasklist_response(reply)
@@ -761,7 +761,7 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.clear_tasklist_request(controller)
-        reply = self._udp.send(request, dest_addr=dest_addr)
+        reply = self._udp.send(request, dest_addr=dest_addr, timeout=timeout)
 
         if reply != None:
             return decode.clear_tasklist_response(reply)
@@ -788,7 +788,7 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.set_pc_control_request(controller, enable)
-        reply = self._udp.send(request, dest_addr=dest_addr)
+        reply = self._udp.send(request, dest_addr=dest_addr, timeout=timeout)
 
         if reply != None:
             return decode.set_pc_control_response(reply)
@@ -818,7 +818,7 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.set_interlock_request(controller, interlock)
-        reply = self._udp.send(request, dest_addr=dest_addr)
+        reply = self._udp.send(request, dest_addr=dest_addr, timeout=timeout)
 
         if reply != None:
             return decode.set_interlock_response(reply)
@@ -845,7 +845,7 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.activate_keypads_request(controller, reader1, reader2, reader3, reader4)
-        reply = self._udp.send(request, dest_addr=dest_addr)
+        reply = self._udp.send(request, dest_addr=dest_addr, timeout=timeout)
 
         if reply != None:
             return decode.activate_keypads_response(reply)
@@ -883,7 +883,7 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.set_door_passcodes_request(controller, door, passcode1, passcode2, passcode3, passcode4)
-        reply = self._udp.send(request, dest_addr=dest_addr)
+        reply = self._udp.send(request, dest_addr=dest_addr, timeout=timeout)
 
         if reply != None:
             return decode.set_door_passcodes_response(reply)
@@ -905,7 +905,7 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.restore_default_parameters_request(controller)
-        reply = self._udp.send(request, dest_addr=dest_addr)
+        reply = self._udp.send(request, dest_addr=dest_addr, timeout=timeout)
 
         if reply != None:
             return decode.restore_default_parameters_response(reply)

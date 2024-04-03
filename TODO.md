@@ -41,12 +41,13 @@
             - [ ] restore_default_parameters
 
 - [ ] Configurable call timeouts (cf. https://github.com/uhppoted/uhppoted-python/issues/5)
-      - [ ] udp.send timeout
+      - [x] udp.send timeout
       - [ ] Handle timeout=None
-      - [ ] CHANGELOG
+      - [x] CHANGELOG
+      - [x] Add to all functions
+      - [x] Add to all example CLI commands
       - [ ] integration tests
             - https://stackoverflow.com/questions/34743448/how-to-specify-test-timeout-for-python-unittest
-      - [ ] Add to all functions
             - [x] get_all_controllers
             - [x] get_controller
             - [ ] set_ip

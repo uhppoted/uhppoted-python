@@ -4,6 +4,7 @@
 
 ### Added
 1. Added support for destination IPv4 addresses.
+2. Added support for per-call operation timeouts.
 
 
 ## [0.8.8](https://github.com/uhppoted/uhppoted-python/releases/tag/v0.8.8) - 2024-03-26

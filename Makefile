@@ -151,7 +151,7 @@ restore-default-parameters: build
 
 all: build
 	# $(CMD) all
-	$(CMD) all --destination 192.168.1.100:59999
+	$(CMD) all --destination 192.168.1.100:60000 --timeout 0.5
 
 listen: build
 	$(CMD) listen
