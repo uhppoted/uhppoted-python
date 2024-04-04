@@ -173,7 +173,9 @@ def _read(sock, timeout=2.5, debug=False):
         Returns:
             Received 64 byte UDP packet (or None).
     '''
-    sock.settimeout(timeout)
+    time_limit = timeout_to_seconds(timeout)
+
+    sock.settimeout(time_limit)
 
     while True:
         reply = sock.recv(1024)
@@ -199,7 +201,9 @@ def _read_all(sock, timeout=2.5, debug=False):
         Returns:
             List of received 64 byte UDP packets (may be empty).
     '''
-    sock.settimeout(timeout)
+    time_limit = timeout_to_seconds(timeout)
+
+    sock.settimeout(time_limit)
 
     replies = []
     while True:
@@ -232,6 +236,29 @@ def resolve(addr):
     else:
         address = ipaddress.IPv4Address(addr)
         return (str(address), 60000)
+
+
+def timeout_to_seconds(val, defval=2.5):
+    '''
+    Converts a timeout value to seconds, returning the default value if the supplied value
+    is None, cannot be converted, or is out of the range [50ms..30s]
+
+        Parameters:
+            val    (float)  Timeout in seconds
+            defval (float)  Optional default values.
+
+        Returns:
+            timeout in seconds as a float
+    '''
+    try:
+        if val != None:
+            v = float(f'{val}')
+            if v >= 0.05 and v <= 30:
+                return v
+    except:
+        pass
+
+    return defval
 
 
 def dump(packet):

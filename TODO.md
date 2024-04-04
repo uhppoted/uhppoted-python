@@ -42,7 +42,7 @@
 
 - [ ] Configurable call timeouts (cf. https://github.com/uhppoted/uhppoted-python/issues/5)
       - [x] udp.send timeout
-      - [ ] Handle timeout=None
+      - [x] Handle timeout=None
       - [x] CHANGELOG
       - [x] Add to all functions
       - [x] Add to all example CLI commands
