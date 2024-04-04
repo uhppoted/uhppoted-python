@@ -11,13 +11,13 @@
             - [x] get_controller
             - [x] set_ip
             - [x] get_time
-            - [ ] set_time
-            - [ ] get_status
-            - [ ] get_listener
-            - [ ] set_listener
-            - [ ] get_door_control
-            - [ ] set_door_control
-            - [ ] open_door
+            - [x] set_time
+            - [x] get_status
+            - [x] get_listener
+            - [x] set_listener
+            - [x] get_door_control
+            - [x] set_door_control
+            - [x] open_door
             - [ ] get_cards
             - [ ] get_card
             - [ ] get_card_by_index
@@ -48,8 +48,8 @@
       - [x] Add to all example CLI commands
       - [ ] integration tests
             - https://stackoverflow.com/questions/34743448/how-to-specify-test-timeout-for-python-unittest
-            - [x] get_all_controllers
-            - [x] get_controller
+            - [ ] get_all_controllers
+            - [ ] get_controller
             - [ ] set_ip
             - [ ] get_time
             - [ ] set_time

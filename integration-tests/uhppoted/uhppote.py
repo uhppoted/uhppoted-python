@@ -12,9 +12,13 @@ import time
 import datetime
 
 from ipaddress import IPv4Address
+
 from uhppoted import uhppote
 from uhppoted import structs
 from uhppoted.udp import dump
+
+from .stub import messages
+from .expected import *
 
 CONTROLLER = 405419896
 NO_TIMEOUT = struct.pack('ll', 0, 0)  # (infinite)
@@ -43,38 +47,6 @@ def handle(sock, bind, debug):
     finally:
         sock.close()
 
-def messages():
-    return [
-        { # get-controller
-          'request': [
-              0x17, 0x94, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-              0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-              0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-              0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-          ],
-          'response': [
-              0x17, 0x94, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0xc0, 0xa8, 0x01, 0x64, 0xff, 0xff, 0xff, 0x00,
-              0xc0, 0xa8, 0x01, 0x01, 0x00, 0x12, 0x23, 0x34, 0x45, 0x56, 0x08, 0x92, 0x20, 0x18, 0x11, 0x05,
-              0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-              0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-          ],
-        },
-        { # get-time
-          'request': [
-              0x17, 0x32, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-              0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-              0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-              0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-          ],
-          'response': [
-              0x17, 0x32, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x20, 0x21, 0x05, 0x28, 0x13, 0x51, 0x30, 0x00,
-              0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-              0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-              0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-          ],
-        },
-    ]
-
 class TestUhppoteWithDestAddr(unittest.TestCase):
     def setUp(self):
         bind = '0.0.0.0'
@@ -96,29 +68,18 @@ class TestUhppoteWithDestAddr(unittest.TestCase):
 
     def test_get_controller(self):
         '''
-        Tests the get-controller function with valid dest_addr.
+        Tests the get-controller function with a valid dest_addr.
         '''
-        expected = structs.GetControllerResponse(
-            controller=405419896, 
-            ip_address=IPv4Address('192.168.1.100'), 
-            subnet_mask=IPv4Address('255.255.255.0'), 
-            gateway=IPv4Address('192.168.1.1'), 
-            mac_address='00:12:23:34:45:56', 
-            version='v8.92', 
-            date=datetime.date(2018, 11, 5))
-
         controller = CONTROLLER
         dest = '127.0.0.1:54321'
         response = self.u.get_controller(controller, dest_addr=dest)
 
-        self.assertEqual(response, expected)
+        self.assertEqual(response, GetControllerResponse)
 
     def test_set_ip(self):
         '''
-        Tests the set-ip function with valid dest_addr.
+        Tests the set-ip function with a valid dest_addr.
         '''
-        expected = True
-
         controller = CONTROLLER
         address = IPv4Address('192.168.1.100')
         netmask = IPv4Address('255.255.255.0')
@@ -127,22 +88,105 @@ class TestUhppoteWithDestAddr(unittest.TestCase):
 
         response = self.u.set_ip(controller, address, netmask, gateway, dest_addr=dest)
 
-        self.assertEqual(response, expected)
+        self.assertEqual(response, SetIPResponse)
 
     def test_get_time(self):
         '''
-        Tests the get-time function with valid dest_addr.
+        Tests the get-time function with a valid dest_addr.
         '''
-        expected = structs.GetTimeResponse(
-            controller=405419896, 
-            datetime=datetime.datetime(2021, 5, 28, 13, 51, 30))
-        
         controller = CONTROLLER
         dest = '127.0.0.1:54321'
 
         response = self.u.get_time(controller, dest_addr=dest)
 
-        self.assertEqual(response, expected)
+        self.assertEqual(response, GetTimeResponse)
+
+    def test_set_time(self):
+        '''
+        Tests the set-time function with a valid dest_addr.
+        '''
+        controller = CONTROLLER
+        time = datetime.datetime(2021, 5, 28, 14, 56, 14)
+        dest = '127.0.0.1:54321'
+
+        response = self.u.set_time(controller, time, dest_addr=dest)
+
+        self.assertEqual(response, SetTimeResponse)
+
+    def test_get_status(self):
+        '''
+        Tests the get-status function with a valid dest_addr.
+        '''
+        controller = CONTROLLER
+        dest = '127.0.0.1:54321'
+
+        response = self.u.get_status(controller, dest_addr=dest)
+
+        self.assertEqual(response, GetStatusResponse)
+
+    def test_get_listener(self):
+        '''
+        Tests the get-listener function with a valid dest_addr.
+        '''
+        controller = CONTROLLER
+        dest = '127.0.0.1:54321'
+
+        response = self.u.get_listener(controller, dest_addr=dest)
+
+        self.assertEqual(response, GetListenerResponse)
+
+    def test_set_listener(self):
+        '''
+        Tests the set-listener function with a valid dest_addr.
+        '''
+        controller = CONTROLLER
+        address = IPv4Address('192.168.1.100')
+        port = 60001
+        dest = '127.0.0.1:54321'
+
+        response = self.u.set_listener(controller, address, port, dest_addr=dest)
+
+        self.assertEqual(response, SetListenerResponse)
+
+    def test_get_door_control(self):
+        '''
+        Tests the get-door-control function with a valid dest_addr.
+        '''
+        controller = CONTROLLER
+        door = 3
+        dest = '127.0.0.1:54321'
+
+        response = self.u.get_door_control(controller, door, dest_addr=dest)
+
+        self.assertEqual(response, GetDoorControlResponse)
+
+    def test_set_door_control(self):
+        '''
+        Tests the set-door-control function with a valid dest_addr.
+        '''
+        controller = CONTROLLER
+        door = 3
+        delay = 4
+        mode = 2
+        dest = '127.0.0.1:54321'
+
+        response = self.u.set_door_control(controller, door, mode, delay, dest_addr=dest)
+
+        self.assertEqual(response, SetDoorControlResponse)
+
+    def test_open_door(self):
+        '''
+        Tests the open-door function with a valid dest_addr.
+        '''
+        controller = CONTROLLER
+        door = 3
+        dest = '127.0.0.1:54321'
+
+        response = self.u.open_door(controller, door, dest_addr=dest)
+
+        print(response)
+
+        self.assertEqual(response, OpenDoorResponse)
 
 if __name__ == '__main__':
     unittest.main()
