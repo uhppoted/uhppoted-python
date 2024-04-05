@@ -1,5 +1,8 @@
 # TODO
 
+- [ ] Fix examples so that they run locally
+      - https://stackoverflow.com/questions/1051254/check-if-python-package-is-installed
+
 - [x] Added `listen` to README and event-listenener examples (cf. https://github.com/uhppoted/uhppoted-python/issues/6)
 
 - [ ] UDP send (cf. https://github.com/uhppoted/uhppoted-app-home-assistant/issues/3)
@@ -18,16 +21,16 @@
             - [x] get_door_control
             - [x] set_door_control
             - [x] open_door
-            - [ ] get_cards
-            - [ ] get_card
-            - [ ] get_card_by_index
-            - [ ] put_card
-            - [ ] delete_card
-            - [ ] delete_all_cards
-            - [ ] get_event
-            - [ ] get_event_index
-            - [ ] set_event_index
-            - [ ] record_special_events
+            - [x] get_cards
+            - [x] get_card
+            - [x] get_card_by_index
+            - [x] put_card
+            - [x] delete_card
+            - [x] delete_all_cards
+            - [x] get_event
+            - [x] get_event_index
+            - [x] set_event_index
+            - [x] record_special_events
             - [ ] get_time_profile
             - [ ] set_time_profiole
             - [ ] delete_all_time_profiles
@@ -83,7 +86,7 @@
 
 ## TODO
 
-1. Parse args for examples
+1. `argparse` args for examples
    - https://docs.python.org/3/library/argparse.html#parents
 
 2. (?) Automatically set-listener address

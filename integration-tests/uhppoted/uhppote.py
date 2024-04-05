@@ -21,6 +21,9 @@ from .stub import messages
 from .expected import *
 
 CONTROLLER = 405419896
+CARD = 8165538
+CARD_INDEX = 2
+EVENT_INDEX = 29
 NO_TIMEOUT = struct.pack('ll', 0, 0)  # (infinite)
 
 def handle(sock, bind, debug):
@@ -56,7 +59,7 @@ class TestUhppoteWithDestAddr(unittest.TestCase):
 
         self.u = uhppote.Uhppote(bind, broadcast, listen, debug)
         self._sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, 0)
-        self._thread = threading.Thread(target = handle, args = (self._sock,('127.0.0.1', 54321), True))
+        self._thread = threading.Thread(target = handle, args = (self._sock,('127.0.0.1', 54321), False))
 
         self._thread.start()
         time.sleep(1)
@@ -184,9 +187,131 @@ class TestUhppoteWithDestAddr(unittest.TestCase):
 
         response = self.u.open_door(controller, door, dest_addr=dest)
 
-        print(response)
-
         self.assertEqual(response, OpenDoorResponse)
+
+    def test_get_cards(self):
+        '''
+        Tests the get-cards function with a valid dest_addr.
+        '''
+        controller = CONTROLLER
+        dest = '127.0.0.1:54321'
+
+        response = self.u.get_cards(controller, dest_addr=dest)
+
+        self.assertEqual(response, GetCardsResponse)
+
+    def test_get_card(self):
+        '''
+        Tests the get-card function with a valid dest_addr.
+        '''
+        controller = CONTROLLER
+        card = CARD
+        dest = '127.0.0.1:54321'
+
+        response = self.u.get_card(controller, card, dest_addr=dest)
+
+        self.assertEqual(response, GetCardResponse)
+
+    def test_get_card_by_index(self):
+        '''
+        Tests the get-card-by-index function with a valid dest_addr.
+        '''
+        controller = CONTROLLER
+        index = CARD_INDEX
+        dest = '127.0.0.1:54321'
+
+        response = self.u.get_card_by_index(controller, index, dest_addr=dest)
+
+        self.assertEqual(response, GetCardByIndexResponse)
+
+    def test_put_card(self):
+        '''
+        Tests the put-card function with a valid dest_addr.
+        '''
+        controller = CONTROLLER
+        card = 123456789
+        start = datetime.date(2023,1,1)
+        end = datetime.date(2025,12,31)
+        door1 = 1
+        door2 = 0
+        door3 = 29
+        door4 = 1
+        PIN = 7531
+        dest = '127.0.0.1:54321'
+
+        response = self.u.put_card(controller, card, start, end, door1, door2, door3, door4, PIN, dest_addr=dest)
+
+        self.assertEqual(response, PutCardResponse)
+
+    def test_delete_card(self):
+        '''
+        Tests the delete-card function with a valid dest_addr.
+        '''
+        controller = CONTROLLER
+        card = CARD
+        dest = '127.0.0.1:54321'
+
+        response = self.u.delete_card(controller, card, dest_addr=dest)
+
+        self.assertEqual(response, DeleteCardResponse)
+
+    def test_delete_all_cards(self):
+        '''
+        Tests the delete-all-cards function with a valid dest_addr.
+        '''
+        controller = CONTROLLER
+        dest = '127.0.0.1:54321'
+
+        response = self.u.delete_all_cards(controller, dest_addr=dest)
+
+        self.assertEqual(response, DeleteAllCardsResponse)
+
+    def test_get_event(self):
+        '''
+        Tests the get-event function with a valid dest_addr.
+        '''
+        controller = CONTROLLER
+        index = EVENT_INDEX
+        dest = '127.0.0.1:54321'
+
+        response = self.u.get_event(controller, index, dest_addr=dest)
+
+        self.assertEqual(response, GetEventResponse)
+
+    def test_get_event_index(self):
+        '''
+        Tests the get-event-index function with a valid dest_addr.
+        '''
+        controller = CONTROLLER
+        dest = '127.0.0.1:54321'
+
+        response = self.u.get_event_index(controller, dest_addr=dest)
+
+        self.assertEqual(response, GetEventIndexResponse)
+
+    def test_set_event_index(self):
+        '''
+        Tests the set-event-index function with a valid dest_addr.
+        '''
+        controller = CONTROLLER
+        index = EVENT_INDEX
+        dest = '127.0.0.1:54321'
+
+        response = self.u.set_event_index(controller, index, dest_addr=dest)
+
+        self.assertEqual(response, SetEventIndexResponse)
+
+    def test_record_special_events(self):
+        '''
+        Tests the record-special-events function with a valid dest_addr.
+        '''
+        controller = CONTROLLER
+        enabled = True
+        dest = '127.0.0.1:54321'
+
+        response = self.u.record_special_events(controller, enabled, dest_addr=dest)
+
+        self.assertEqual(response, RecordSpecialEventsResponse)
 
 if __name__ == '__main__':
     unittest.main()

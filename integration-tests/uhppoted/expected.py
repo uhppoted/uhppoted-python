@@ -76,3 +76,64 @@ SetDoorControlResponse = structs.SetDoorControlResponse(
 OpenDoorResponse = structs.OpenDoorResponse(
     controller=405419896, 
     opened=True)
+
+GetCardsResponse = structs.GetCardsResponse(
+    controller=405419896, 
+    cards=3)
+
+GetCardResponse = structs.GetCardResponse(
+    controller=405419896, 
+    card_number=8165538, 
+    start_date=datetime.date(2023, 1, 1), 
+    end_date=datetime.date(2023, 12, 31), 
+    door_1=1, 
+    door_2=0, 
+    door_3=29, 
+    door_4=1, 
+    pin=7531)
+
+GetCardByIndexResponse = structs.GetCardByIndexResponse(
+    controller=405419896, 
+    card_number=8165539, 
+    start_date=datetime.date(2023, 1, 1), 
+    end_date=datetime.date(2023, 12, 31), 
+    door_1=1, 
+    door_2=0, 
+    door_3=29, 
+    door_4=1, 
+    pin=7531)
+
+PutCardResponse = structs.PutCardResponse(
+    controller=405419896, 
+    stored=True)
+
+DeleteCardResponse = structs.DeleteCardResponse(
+    controller=405419896, 
+    deleted=True)
+
+DeleteAllCardsResponse = structs.DeleteAllCardsResponse(
+    controller=405419896, 
+    deleted=True)
+
+GetEventResponse = structs.GetEventResponse(
+    controller=405419896, 
+    index=29, 
+    event_type=2, 
+    access_granted=True, 
+    door=1, 
+    direction=1, 
+    card=0, 
+    timestamp=datetime.datetime(2019, 8, 3, 10, 34, 29), 
+    reason=0)
+
+GetEventIndexResponse = structs.GetEventIndexResponse(
+    controller=405419896, 
+    event_index=23) 
+
+SetEventIndexResponse = structs.SetEventIndexResponse(
+    controller=405419896, 
+    updated=True)
+
+RecordSpecialEventsResponse = structs.RecordSpecialEventsResponse(
+    controller=405419896, 
+    updated=True)
