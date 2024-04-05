@@ -1,16 +1,15 @@
-# # FOR TESTING LOCALLY
-# 
-# import os
-# import sys
-# from pathlib import Path
-# 
-# root = Path(__file__).resolve().parents[2]
-# sys.path.append(os.path.join(root, 'src'))
-
+import os
 import ipaddress
+import datetime
+import pprint
+import sys
+import pathlib
+
+if os.environ['UHPPOTED_ENV'] == 'DEV':
+    root = pathlib.Path(__file__).resolve().parents[2]
+    sys.path.append(os.path.join(root, 'src'))
 
 from uhppoted import uhppote
-from pprint import pprint
 
 def main():
     controller = 405419896                             # controller serial number
@@ -62,7 +61,7 @@ def listen(u):
 
 def onEvent(event):
     if event != None:
-        pprint(event.__dict__, indent=2, width=1)
+        pprint.pprint(event.__dict__, indent=2, width=1)
 
 if __name__ == '__main__':
     main()

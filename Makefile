@@ -54,104 +54,111 @@ usage: build
 	$(CMD)
 
 get-all-controllers: build
-	$(CMD) get-all-controllers
+	export UHPPOTED_ENV=DEV && $(CMD) get-all-controllers
 
 get-controller: build
-	$(CMD) get-controller
+	export UHPPOTED_ENV=DEV && $(CMD) get-controller
 
 set-address: build
-	$(CMD) set-address
+	export UHPPOTED_ENV=DEV && $(CMD) set-address
 
 get-status: build
-	$(CMD) get-status
+	export UHPPOTED_ENV=DEV && $(CMD) get-status
 
 get-time: build
-	$(CMD) get-time
+	export UHPPOTED_ENV=DEV && $(CMD) get-time
 
 set-time: build
-	$(CMD) set-time
+	export UHPPOTED_ENV=DEV && $(CMD) set-time
 
 get-listener: build
-	$(CMD) get-listener
+	export UHPPOTED_ENV=DEV && $(CMD) get-listener
 
 set-listener: build
-	$(CMD) set-listener
+	export UHPPOTED_ENV=DEV && $(CMD) set-listener
 
 get-door-control: build
-	$(CMD) get-door-control
+	export UHPPOTED_ENV=DEV && $(CMD) get-door-control
 
 set-door-control: build
-	$(CMD) set-door-control
+	export UHPPOTED_ENV=DEV && $(CMD) set-door-control
 
 open-door: build
-	$(CMD) open-door
+	export UHPPOTED_ENV=DEV && $(CMD) open-door
 
 get-cards: build
-	$(CMD) get-cards
+	export UHPPOTED_ENV=DEV && $(CMD) get-cards
 
 get-card: build
-	$(CMD) get-card
+	export UHPPOTED_ENV=DEV && $(CMD) get-card
 
 get-card-by-index: build
-	$(CMD) get-card-by-index
+	export UHPPOTED_ENV=DEV && $(CMD) get-card-by-index
 
 put-card: build
-	$(CMD) put-card
+	export UHPPOTED_ENV=DEV && $(CMD) put-card
 
 delete-card: build
-	$(CMD) delete-card
+	export UHPPOTED_ENV=DEV && $(CMD) delete-card
 
 delete-cards: build
-	$(CMD) delete-cards
+	export UHPPOTED_ENV=DEV && $(CMD) delete-cards
 
 get-event-index: build
-	$(CMD) get-event-index
+	export UHPPOTED_ENV=DEV && $(CMD) get-event-index
 
 set-event-index: build
-	$(CMD) set-event-index
+	export UHPPOTED_ENV=DEV && $(CMD) set-event-index
 
 get-event: build
-	$(CMD) get-event
+	export UHPPOTED_ENV=DEV && $(CMD) get-event
 
 record-special-events: build
-	$(CMD) record-special-events
+	export UHPPOTED_ENV=DEV && $(CMD) record-special-events
 
 get-time-profile: build
-	$(CMD) get-time-profile
+	export UHPPOTED_ENV=DEV && $(CMD) get-time-profile
 
 set-time-profile: build
-	$(CMD) set-time-profile
+	export UHPPOTED_ENV=DEV && $(CMD) set-time-profile
 
 clear-time-profiles: build
-	$(CMD) clear-time-profiles
+	export UHPPOTED_ENV=DEV && $(CMD) clear-time-profiles
 
 add-task: build
-	$(CMD) add-task
+	export UHPPOTED_ENV=DEV && $(CMD) add-task
 
 refresh-tasklist: build
-	$(CMD) refresh-tasklist
+	export UHPPOTED_ENV=DEV && $(CMD) refresh-tasklist
 
 clear-tasklist: build
-	$(CMD) clear-tasklist
+	export UHPPOTED_ENV=DEV && $(CMD) clear-tasklist
 
 set-pc-control: build
-	$(CMD) set-pc-control
+	export UHPPOTED_ENV=DEV && $(CMD) set-pc-control
 
 set-interlock: build
-	$(CMD) set-interlock
+	export UHPPOTED_ENV=DEV && $(CMD) set-interlock
 
 activate-keypads: build
-	$(CMD) activate-keypads
+	export UHPPOTED_ENV=DEV && $(CMD) activate-keypads
 
 set-door-passcodes: build
-	$(CMD) set-door-passcodes
+	export UHPPOTED_ENV=DEV && $(CMD) set-door-passcodes
 
 restore-default-parameters: build
-	$(CMD) restore-default-parameters
-
-all: build
-	# $(CMD) all
-	$(CMD) all --destination 192.168.1.100:60000 --timeout 0.5
+	export UHPPOTED_ENV=DEV && $(CMD) restore-default-parameters
 
 listen: build
-	$(CMD) listen
+	export UHPPOTED_ENV=DEV && $(CMD) listen
+
+all: build
+	# export UHPPOTED_ENV=DEV && $(CMD) all
+	export UHPPOTED_ENV=DEV && $(CMD) all --destination 192.168.1.100:60000 --timeout 0.5
+
+event-listener: build
+	export UHPPOTED_ENV=DEV    && \
+	cd examples/event-listener && \
+	python3 main.py --debug --bind 192.168.1.100 --broadcast 192.168.1.255 --listen 192.168.1.100:60001
+
+	

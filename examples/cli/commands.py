@@ -1,17 +1,15 @@
-# # FOR TESTING LOCALLY
-# 
-# import os
-# import sys
-# from pathlib import Path
-# 
-# root = Path(__file__).resolve().parents[2]
-# sys.path.append(os.path.join(root, 'src'))
-
+import os
 import ipaddress
 import datetime
+import pprint
+import sys
+import pathlib
+
+if os.environ['UHPPOTED_ENV'] == 'DEV':
+    root = pathlib.Path(__file__).resolve().parents[2]
+    sys.path.append(os.path.join(root, 'src'))
 
 from uhppoted import uhppote
-from pprint import pprint
 
 CONTROLLER = 405419896
 DOOR = 3
@@ -81,11 +79,11 @@ def exec(f, args):
     if response != None:
         if type(response).__name__ == 'list':
             for v in response:
-                pprint(v.__dict__, indent=2, width=1, sort_dicts=False)
+                pprint.pprint(v.__dict__, indent=2, width=1, sort_dicts=False)
         elif type(response).__name__ == 'bool':
-            pprint(response, indent=2, width=1, sort_dicts=False)
+            pprint.pprint(response, indent=2, width=1, sort_dicts=False)
         else:
-            pprint(response.__dict__, indent=2, width=1, sort_dicts=False)
+            pprint.pprint(response.__dict__, indent=2, width=1, sort_dicts=False)
 
 
 def get_all_controllers(u, dest, timeout, args):
@@ -386,4 +384,4 @@ def listen(u, dest, timeout, args):
 
 def onEvent(event):
     if event != None:
-        pprint(event.__dict__, indent=2, width=1)
+        pprint.pprint(event.__dict__, indent=2, width=1)

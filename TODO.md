@@ -1,8 +1,6 @@
 # TODO
 
-- [ ] Fix examples so that they run locally
-      - https://stackoverflow.com/questions/1051254/check-if-python-package-is-installed
-
+- [x] Fix examples so that they run locally
 - [x] Added `listen` to README and event-listenener examples (cf. https://github.com/uhppoted/uhppoted-python/issues/6)
 
 - [ ] UDP send (cf. https://github.com/uhppoted/uhppoted-app-home-assistant/issues/3)
