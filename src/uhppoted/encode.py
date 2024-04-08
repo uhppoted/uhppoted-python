@@ -8,6 +8,7 @@ Encodes a UHPPOTE access controller request as a 64 byte UDP packet:
 - boolean values are encoded as 0 (False) or 1 (True)
 '''
 
+import datetime
 import struct
 
 
@@ -531,12 +532,37 @@ def set_time_profile_request(controller, profile_id, start_date, end_date, monda
     pack_bool(friday, packet, 21)
     pack_bool(saturday, packet, 22)
     pack_bool(sunday, packet, 23)
-    pack_HHmm(segment_1_start, packet, 24)
-    pack_HHmm(segment_1_end, packet, 26)
-    pack_HHmm(segment_2_start, packet, 28)
-    pack_HHmm(segment_2_end, packet, 30)
-    pack_HHmm(segment_3_start, packet, 32)
-    pack_HHmm(segment_3_end, packet, 34)
+
+    if segment_1_start == None:
+        pack_HHmm(datetime.time(0, 0), packet, 24)
+    else:
+        pack_HHmm(segment_1_start, packet, 24)
+
+    if segment_1_end == None:
+        pack_HHmm(datetime.time(0, 0), packet, 26)
+    else:
+        pack_HHmm(segment_1_end, packet, 26)
+
+    if segment_2_start == None:
+        pack_HHmm(datetime.time(0, 0), packet, 28)
+    else:
+        pack_HHmm(segment_2_start, packet, 28)
+
+    if segment_2_end == None:
+        pack_HHmm(datetime.time(0, 0), packet, 30)
+    else:
+        pack_HHmm(segment_2_end, packet, 30)
+
+    if segment_3_start == None:
+        pack_HHmm(datetime.time(0, 0), packet, 32)
+    else:
+        pack_HHmm(segment_3_start, packet, 32)
+
+    if segment_3_end == None:
+        pack_HHmm(datetime.time(0, 0), packet, 34)
+    else:
+        pack_HHmm(segment_3_end, packet, 34)
+
     pack_uint8(linked_profile_id, packet, 36)
 
     return packet

@@ -137,3 +137,63 @@ SetEventIndexResponse = structs.SetEventIndexResponse(
 RecordSpecialEventsResponse = structs.RecordSpecialEventsResponse(
     controller=405419896, 
     updated=True)
+
+GetTimeProfileResponse = structs.GetTimeProfileResponse(
+    controller=405419896, 
+    profile_id=29, 
+    start_date=datetime.date(2021, 4, 1), 
+    end_date=datetime.date(2021, 12, 31), 
+    monday=True, 
+    tuesday=False, 
+    wednesday=True, 
+    thursday=False, 
+    friday=True, 
+    saturday=False, 
+    sunday=False, 
+    segment_1_start=datetime.time(8, 30), 
+    segment_1_end=datetime.time(11, 30), 
+    segment_2_start=datetime.time(0, 0), 
+    segment_2_end=datetime.time(0, 0), 
+    segment_3_start=datetime.time(13, 45), 
+    segment_3_end=datetime.time(17, 0), 
+    linked_profile_id=3)
+
+SetTimeProfileResponse = structs.SetTimeProfileResponse(
+    controller=405419896, 
+    stored=True)
+
+DeleteAllTimeProfilesResponse = structs.DeleteAllTimeProfilesResponse(
+    controller=405419896, 
+    deleted=True)
+
+AddTaskResponse = structs.AddTaskResponse(
+    controller=405419896, 
+    added=True)
+
+RefreshTaskListResponse = structs.RefreshTasklistResponse(
+    controller=405419896, 
+    refreshed=True)
+
+ClearTaskListResponse = structs.ClearTasklistResponse(
+    controller=405419896, 
+    cleared=True)
+
+SetPCControlResponse = structs.SetPcControlResponse(
+    controller=405419896, 
+    ok=True)
+
+SetInterlockResponse = structs.SetInterlockResponse(
+    controller=405419896, 
+    ok=True)
+
+ActivateKeypadsResponse = structs.ActivateKeypadsResponse(
+    controller=405419896, 
+    ok=True)
+
+SetDoorPasscodesResponse = structs.SetDoorPasscodesResponse(
+    controller=405419896, 
+    ok=True)
+
+RestoreDefaultParametersResponse = structs.RestoreDefaultParametersResponse(
+    controller=405419896, 
+    reset=True) 

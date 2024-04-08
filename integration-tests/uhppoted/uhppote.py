@@ -24,6 +24,7 @@ CONTROLLER = 405419896
 CARD = 8165538
 CARD_INDEX = 2
 EVENT_INDEX = 29
+TIME_PROFILE = 29
 NO_TIMEOUT = struct.pack('ll', 0, 0)  # (infinite)
 
 def handle(sock, bind, debug):
@@ -312,6 +313,196 @@ class TestUhppoteWithDestAddr(unittest.TestCase):
         response = self.u.record_special_events(controller, enabled, dest_addr=dest)
 
         self.assertEqual(response, RecordSpecialEventsResponse)
+
+    def test_get_time_profile(self):
+        '''
+        Tests the get-time-profile function with a valid dest_addr.
+        '''
+        controller = CONTROLLER
+        profile = TIME_PROFILE
+        dest = '127.0.0.1:54321'
+
+        response = self.u.get_time_profile(controller, profile, dest_addr=dest)
+
+        self.assertEqual(response, GetTimeProfileResponse)
+
+    def test_set_time_profile(self):
+        '''
+        Tests the set-time-profile function with a valid dest_addr.
+        '''
+        controller = CONTROLLER
+        profile_id = TIME_PROFILE
+        start_date = datetime.date(2021,1,1)
+        end_date = datetime.date(2021,12,31)
+        monday = True
+        tuesday = False
+        wednesday = True
+        thursday = False
+        friday = True
+        saturday = False
+        sunday = False
+        segment_1_start = datetime.time(8,30)
+        segment_1_end = datetime.time(11,45)
+        segment_2_start = datetime.time(13,15)
+        segment_2_end = datetime.time(17,25)
+        segment_3_start = None
+        segment_3_end = None
+        linked_profile_id = 3
+        dest = '127.0.0.1:54321'
+
+        response = self.u.set_time_profile(
+            controller,
+            profile_id,
+            start_date,
+            end_date,
+            monday,
+            tuesday,
+            wednesday,
+            thursday,
+            friday,
+            saturday,
+            sunday,
+            segment_1_start,
+            segment_1_end,
+            segment_2_start,
+            segment_2_end,
+            segment_3_start,
+            segment_3_end,
+            linked_profile_id,
+            dest_addr=dest)
+
+        self.assertEqual(response, SetTimeProfileResponse)
+
+    def test_delete_all_time_profiles(self):
+        '''
+        Tests the delete-all-time-profiles function with a valid dest_addr.
+        '''
+        controller = CONTROLLER
+        dest = '127.0.0.1:54321'
+
+        response = self.u.delete_all_time_profiles(controller, dest_addr=dest)
+
+        self.assertEqual(response, DeleteAllTimeProfilesResponse)
+
+    def test_add_task(self):
+        '''
+        Tests the add-task function with a valid dest_addr.
+        '''
+        controller = CONTROLLER
+        start_date = datetime.date(2021,1,1)
+        end_date = datetime.date(2021,12,31)
+        monday = True
+        tuesday = False
+        wednesday = True
+        thursday = False
+        friday = True
+        saturday = False
+        sunday = False
+        start_time = datetime.time(8,30)
+        door = 3
+        task_type = 4
+        more_cards = 17
+        dest = '127.0.0.1:54321'
+
+        response = self.u.add_task(
+            controller,
+            start_date, end_date, 
+            monday, tuesday, wednesday, thursday, friday, saturday, sunday,
+            start_time, 
+            door, 
+            task_type, 
+            more_cards,
+            dest_addr=dest)
+
+        self.assertEqual(response, AddTaskResponse)
+
+    def test_refresh_tasklist(self):
+        '''
+        Tests the refresh-tasklist function with a valid dest_addr.
+        '''
+        controller = CONTROLLER
+        dest = '127.0.0.1:54321'
+
+        response = self.u.refresh_tasklist(controller, dest_addr=dest)
+
+        self.assertEqual(response, RefreshTaskListResponse)
+
+    def test_clear_tasklist(self):
+        '''
+        Tests the clear-tasklist function with a valid dest_addr.
+        '''
+        controller = CONTROLLER
+        dest = '127.0.0.1:54321'
+
+        response = self.u.clear_tasklist(controller, dest_addr=dest)
+
+        self.assertEqual(response, ClearTaskListResponse)
+
+    def test_set_pc_control(self):
+        '''
+        Tests the set-pc-control function with a valid dest_addr.
+        '''
+        controller = CONTROLLER
+        enable = True
+        dest = '127.0.0.1:54321'
+
+        response = self.u.set_pc_control(controller, enable, dest_addr=dest)
+
+        self.assertEqual(response, SetPCControlResponse)
+
+    def test_set_interlock(self):
+        '''
+        Tests the set-interlock function with a valid dest_addr.
+        '''
+        controller = CONTROLLER
+        interlock = 8
+        dest = '127.0.0.1:54321'
+
+        response = self.u.set_interlock(controller, interlock, dest_addr=dest)
+
+        self.assertEqual(response, SetInterlockResponse)
+
+    def test_activate_keypads(self):
+        '''
+        Tests the activate-keypads function with a valid dest_addr.
+        '''
+        controller = CONTROLLER
+        reader1 = True
+        reader2 = True
+        reader3 = False
+        reader4 = True
+        dest = '127.0.0.1:54321'
+
+        response = self.u.activate_keypads(controller, reader1, reader2, reader3, reader4, dest_addr=dest)
+
+        self.assertEqual(response, ActivateKeypadsResponse)
+
+    def test_set_door_passcodes(self):
+        '''
+        Tests the set-door-passcodes function with a valid dest_addr.
+        '''
+        controller = CONTROLLER
+        door = 3
+        passcode1 = 12345
+        passcode2 = 0
+        passcode3 = 999999
+        passcode4 = 54321
+        dest = '127.0.0.1:54321'
+
+        response = self.u.set_door_passcodes(controller, door, passcode1,  passcode2, passcode3, passcode4, dest_addr=dest)
+
+        self.assertEqual(response, SetDoorPasscodesResponse)
+
+    def test_restore_default_parameters(self):
+        '''
+        Tests the restore-default-parameters function with a valid dest_addr.
+        '''
+        controller = CONTROLLER
+        dest = '127.0.0.1:54321'
+
+        response = self.u.restore_default_parameters(controller, dest_addr=dest)
+
+        self.assertEqual(response, RestoreDefaultParametersResponse)
 
 if __name__ == '__main__':
     unittest.main()
