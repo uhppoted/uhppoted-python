@@ -43,12 +43,7 @@ publish: release
 	python3 -m twine upload --repository pypi     -u __token__ --skip-existing --verbose dist/*
 
 debug: build
-	# $(CMD) --debug --bind 192.168.1.100 --broadcast 192.168.1.255:60000 --listen 192.168.1.100:60001 get-controller
-	# curl -X POST "http://127.0.0.1:8000/uhppote/simulator/405419896/swipe" -H "accept: application/json" -H "Content-Type: application/json" -d '{"door":1,"card-number":8165535,"direction":1}'
-	# $(CMD) get-controller -d 192.168.1.100:60000
-	# $(CMD) get-controller --destination 192.168.1.100:60000
-	# $(CMD) get-controller --destination 192.168.1.100:54321 --timeout 0.1
-	$(CMD) get-all-controllers --timeout 0.1
+	python3 -m unittest integration-tests/uhppoted/udp_timeout.py 
 
 usage: build
 	$(CMD)
