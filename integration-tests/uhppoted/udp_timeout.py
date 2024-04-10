@@ -71,6 +71,24 @@ class TestUhppoteWithTimeout(unittest.TestCase):
         self._sock.close()
         pass
 
+    def test_get_all_controllers(self):
+        '''
+        Tests the get-all-controllers function with a timeout.
+        '''
+        controller = CONTROLLER
+        dest = '127.0.0.1:54321'
+        timeout = 0.25
+
+        start = time.time()
+        self.u.get_all_controllers()
+        dt = time.time() - start
+        self.assertTrue(dt < 2.6)
+
+        start = time.time()
+        self.u.get_all_controllers(timeout=timeout)
+        dt = time.time() - start
+        self.assertTrue(dt < 0.35)
+
     def test_get_controller(self):
         '''
         Tests the get-controller function with a timeout.
@@ -81,3 +99,483 @@ class TestUhppoteWithTimeout(unittest.TestCase):
 
         self.u.get_controller(controller, dest_addr=dest)
         self.assertRaises(socket.timeout, self.u.get_controller,controller, dest_addr=dest, timeout=timeout)
+
+    def test_set_ip(self):
+        '''
+        Tests the set-ip function with a timeout.
+        '''
+        controller = CONTROLLER
+        address = IPv4Address('192.168.1.100')
+        netmask = IPv4Address('255.255.255.0')
+        gateway = IPv4Address('192.168.1.1')
+        dest = '127.0.0.1:54321'
+        timeout = 0.25
+
+        self.u.set_ip(controller, address, netmask, gateway, dest_addr=dest, timeout=timeout)
+
+    def test_get_time(self):
+        '''
+        Tests the get-time function with a timeout.
+        '''
+        controller = CONTROLLER
+        dest = '127.0.0.1:54321'
+        timeout = 0.25
+
+        self.u.get_time(controller, dest_addr=dest)
+        self.assertRaises(socket.timeout, self.u.get_time, controller, dest_addr=dest, timeout=timeout)
+
+    def test_set_time(self):
+        '''
+        Tests the set-time function with a timeout.
+        '''
+        controller = CONTROLLER
+        time = datetime.datetime(2021, 5, 28, 14, 56, 14)
+        dest = '127.0.0.1:54321'
+        timeout = 0.25
+
+        self.u.set_time(controller, time, dest_addr=dest)
+        self.assertRaises(socket.timeout, self.u.set_time,controller, time, dest_addr=dest, timeout=timeout)
+
+    def test_get_status(self):
+        '''
+        Tests the get-status function  with a timeout.
+        '''
+        controller = CONTROLLER
+        dest = '127.0.0.1:54321'
+        timeout = 0.25
+
+        self.u.get_status(controller, dest_addr=dest)
+        self.assertRaises(socket.timeout, self.u.get_status, controller, dest_addr=dest, timeout=timeout)
+        
+    def test_get_listener(self):
+        '''
+        Tests the get-listener function with a timeout.
+        '''
+        controller = CONTROLLER
+        dest = '127.0.0.1:54321'
+        timeout = 0.25
+
+        self.u.get_listener(controller, dest_addr=dest)
+        self.assertRaises(socket.timeout, self.u.get_listener,controller, dest_addr=dest, timeout=timeout)
+
+    def test_set_listener(self):
+        '''
+        Tests the set-listener function with a timeout.
+        '''
+        controller = CONTROLLER
+        address = IPv4Address('192.168.1.100')
+        port = 60001
+        dest = '127.0.0.1:54321'
+        timeout = 0.25
+
+        self.u.set_listener(controller, address, port, dest_addr=dest)
+        self.assertRaises(socket.timeout, self.u.set_listener, controller, address, port, dest_addr=dest, timeout=timeout)
+
+    def test_get_door_control(self):
+        '''
+        Tests the get-door-control function with a timeout.
+        '''
+        controller = CONTROLLER
+        door = 3
+        dest = '127.0.0.1:54321'
+        timeout = 0.25
+
+        self.u.get_door_control(controller, door, dest_addr=dest)
+        self.assertRaises(socket.timeout, self.u.get_door_control, controller, door, dest_addr=dest, timeout=timeout)
+
+    def test_set_door_control(self):
+        '''
+        Tests the set-door-control function with a timeout.
+        '''
+        controller = CONTROLLER
+        door = 3
+        delay = 4
+        mode = 2
+        dest = '127.0.0.1:54321'
+        timeout = 0.25
+
+        self.u.set_door_control(controller, door, mode, delay, dest_addr=dest)
+        self.assertRaises(socket.timeout, self.u.set_door_control, controller, door, mode, delay, dest_addr=dest, timeout=timeout)
+
+    def test_open_door(self):
+        '''
+        Tests the open-door function with a timeout.
+        '''
+        controller = CONTROLLER
+        door = 3
+        dest = '127.0.0.1:54321'
+        timeout = 0.25
+
+        self.u.open_door(controller, door, dest_addr=dest)
+        self.assertRaises(socket.timeout, self.u.open_door, controller, door, dest_addr=dest, timeout=timeout)
+
+    def test_open_door(self):
+        '''
+        Tests the open-door function with a timeout.
+        '''
+        controller = CONTROLLER
+        door = 3
+        dest = '127.0.0.1:54321'
+        timeout = 0.25
+
+        self.u.open_door(controller, door, dest_addr=dest)
+        self.assertRaises(socket.timeout, self.u.open_door, controller, door, dest_addr=dest, timeout=timeout)
+
+    def test_get_cards(self):
+        '''
+        Tests the get-cards function with a timeout.
+        '''
+        controller = CONTROLLER
+        dest = '127.0.0.1:54321'
+        timeout = 0.25
+
+        self.u.get_cards(controller, dest_addr=dest)
+        self.assertRaises(socket.timeout, self.u.get_cards, controller, dest_addr=dest, timeout=timeout)
+
+    def test_get_card(self):
+        '''
+        Tests the get-card function with a timeout
+        '''
+        controller = CONTROLLER
+        card = CARD
+        dest = '127.0.0.1:54321'
+        timeout = 0.25
+
+        self.u.get_card(controller, card, dest_addr=dest)
+        self.assertRaises(socket.timeout, self.u.get_card, controller, card, dest_addr=dest, timeout=timeout)
+
+    def test_get_card_by_index(self):
+        '''
+        Tests the get-card-by-index function with a timeout
+        '''
+        controller = CONTROLLER
+        index = CARD_INDEX
+        dest = '127.0.0.1:54321'
+        timeout = 0.25
+
+        self.u.get_card_by_index(controller, index, dest_addr=dest)
+        self.assertRaises(socket.timeout, self.u.get_card_by_index, controller, index, dest_addr=dest, timeout=timeout)
+
+    def test_put_card(self):
+        '''
+        Tests the put-card function with a timeout
+        '''
+        controller = CONTROLLER
+        card = 123456789
+        start = datetime.date(2023,1,1)
+        end = datetime.date(2025,12,31)
+        door1 = 1
+        door2 = 0
+        door3 = 29
+        door4 = 1
+        PIN = 7531
+        dest = '127.0.0.1:54321'
+        timeout = 0.25
+
+        self.u.put_card(controller, card, start, end, door1, door2, door3, door4, PIN, dest_addr=dest)
+        self.assertRaises(socket.timeout, self.u.put_card, controller, card, start, end, door1, door2, door3, door4, PIN, dest_addr=dest, timeout=timeout)
+
+    def test_delete_card(self):
+        '''
+        Tests the delete-card function with a timeout
+        '''
+        controller = CONTROLLER
+        card = CARD
+        dest = '127.0.0.1:54321'
+        timeout = 0.25
+
+        self.u.delete_card(controller, card, dest_addr=dest)
+        self.assertRaises(socket.timeout, self.u.delete_card, controller, card, dest_addr=dest, timeout=timeout)
+
+    def test_delete_all_cards(self):
+        '''
+        Tests the delete-all-cards function with a timeout
+        '''
+        controller = CONTROLLER
+        dest = '127.0.0.1:54321'
+        timeout = 0.25
+
+        self.u.delete_all_cards(controller, dest_addr=dest)
+        self.assertRaises(socket.timeout, self.u.delete_all_cards, controller, dest_addr=dest, timeout=timeout)
+
+    def test_get_event(self):
+        '''
+        Tests the get-event function with a timeout
+        '''
+        controller = CONTROLLER
+        index = EVENT_INDEX
+        dest = '127.0.0.1:54321'
+        timeout = 0.25
+
+        self.u.get_event(controller, index, dest_addr=dest)
+        self.assertRaises(socket.timeout, self.u.get_event, controller, index, dest_addr=dest, timeout=timeout)
+
+    def test_get_event_index(self):
+        '''
+        Tests the get-event-index function with a timeout
+        '''
+        controller = CONTROLLER
+        dest = '127.0.0.1:54321'
+        timeout = 0.25
+
+        self.u.get_event_index(controller, dest_addr=dest)
+        self.assertRaises(socket.timeout, self.u.get_event_index, controller, dest_addr=dest, timeout=timeout)
+
+    def test_set_event_index(self):
+        '''
+        Tests the set-event-index function with a timeout
+        '''
+        controller = CONTROLLER
+        index = EVENT_INDEX
+        dest = '127.0.0.1:54321'
+        timeout = 0.25
+
+        self.u.set_event_index(controller, index, dest_addr=dest)
+        self.assertRaises(socket.timeout, self.u.set_event_index, controller, index, dest_addr=dest, timeout=timeout)
+
+    def test_record_special_events(self):
+        '''
+        Tests the record-special-events function with a timeout
+        '''
+        controller = CONTROLLER
+        enabled = True
+        dest = '127.0.0.1:54321'
+        timeout = 0.25
+
+        self.u.record_special_events(controller, enabled, dest_addr=dest)
+        self.assertRaises(socket.timeout, self.u.record_special_events, controller, enabled, dest_addr=dest, timeout=timeout)
+
+    def test_get_time_profile(self):
+        '''
+        Tests the get-time-profile function with a timeout
+        '''
+        controller = CONTROLLER
+        profile = TIME_PROFILE
+        dest = '127.0.0.1:54321'
+        timeout = 0.25
+
+        self.u.get_time_profile(controller, profile, dest_addr=dest)
+        self.assertRaises(socket.timeout, self.u.get_time_profile, controller, profile, dest_addr=dest, timeout=timeout)
+
+    def test_set_time_profile(self):
+        '''
+        Tests the set-time-profile function with a timeout
+        '''
+        controller = CONTROLLER
+        profile_id = TIME_PROFILE
+        start_date = datetime.date(2021,1,1)
+        end_date = datetime.date(2021,12,31)
+        monday = True
+        tuesday = False
+        wednesday = True
+        thursday = False
+        friday = True
+        saturday = False
+        sunday = False
+        segment_1_start = datetime.time(8,30)
+        segment_1_end = datetime.time(11,45)
+        segment_2_start = datetime.time(13,15)
+        segment_2_end = datetime.time(17,25)
+        segment_3_start = None
+        segment_3_end = None
+        linked_profile_id = 3
+        dest = '127.0.0.1:54321'
+        timeout = 0.25
+
+        self.u.set_time_profile(
+            controller,
+            profile_id,
+            start_date,
+            end_date,
+            monday,
+            tuesday,
+            wednesday,
+            thursday,
+            friday,
+            saturday,
+            sunday,
+            segment_1_start,
+            segment_1_end,
+            segment_2_start,
+            segment_2_end,
+            segment_3_start,
+            segment_3_end,
+            linked_profile_id,
+            dest_addr=dest)
+
+        self.assertRaises(socket.timeout, self.u.set_time_profile,
+            controller,
+            profile_id,
+            start_date,
+            end_date,
+            monday,
+            tuesday,
+            wednesday,
+            thursday,
+            friday,
+            saturday,
+            sunday,
+            segment_1_start,
+            segment_1_end,
+            segment_2_start,
+            segment_2_end,
+            segment_3_start,
+            segment_3_end,
+            linked_profile_id,
+            dest_addr=dest,
+            timeout=timeout)
+
+    def test_delete_all_time_profiles(self):
+        '''
+        Tests the delete-all-time-profiles function with a timeout
+        '''
+        controller = CONTROLLER
+        dest = '127.0.0.1:54321'
+        timeout = 0.25
+
+        self.u.delete_all_time_profiles(controller, dest_addr=dest)
+        self.assertRaises(socket.timeout, self.u.delete_all_time_profiles, controller, dest_addr=dest, timeout=timeout)
+
+    def test_add_task(self):
+        '''
+        Tests the add-task function with a timeout
+        '''
+        controller = CONTROLLER
+        start_date = datetime.date(2021,1,1)
+        end_date = datetime.date(2021,12,31)
+        monday = True
+        tuesday = False
+        wednesday = True
+        thursday = False
+        friday = True
+        saturday = False
+        sunday = False
+        start_time = datetime.time(8,30)
+        door = 3
+        task_type = 4
+        more_cards = 17
+        dest = '127.0.0.1:54321'
+        timeout = 0.25
+
+        self.u.add_task(
+            controller,
+            start_date, end_date, 
+            monday, tuesday, wednesday, thursday, friday, saturday, sunday,
+            start_time, 
+            door, 
+            task_type, 
+            more_cards,
+            dest_addr=dest)
+
+        self.assertRaises(socket.timeout, self.u.add_task,
+            controller,
+            start_date, end_date, 
+            monday, tuesday, wednesday, thursday, friday, saturday, sunday,
+            start_time, 
+            door, 
+            task_type, 
+            more_cards,
+            dest_addr=dest,
+            timeout=timeout)
+
+    def test_refresh_tasklist(self):
+        '''
+        Tests the refresh-tasklist function with a timeout
+        '''
+        controller = CONTROLLER
+        dest = '127.0.0.1:54321'
+        timeout = 0.25
+
+        self.u.refresh_tasklist(controller, dest_addr=dest)
+        self.assertRaises(socket.timeout, self.u.refresh_tasklist, controller, dest_addr=dest, timeout=timeout)
+
+    def test_clear_tasklist(self):
+        '''
+        Tests the clear-tasklist function with a timeout
+        '''
+        controller = CONTROLLER
+        dest = '127.0.0.1:54321'
+        timeout = 0.25
+
+        self.u.clear_tasklist(controller, dest_addr=dest)
+        self.assertRaises(socket.timeout, self.u.clear_tasklist, controller, dest_addr=dest, timeout=timeout)
+
+    def test_set_pc_control(self):
+        '''
+        Tests the set-pc-control function with a timeout
+        '''
+        controller = CONTROLLER
+        enable = True
+        dest = '127.0.0.1:54321'
+        timeout = 0.25
+
+        self.u.set_pc_control(controller, enable, dest_addr=dest)
+        self.assertRaises(socket.timeout, self.u.set_pc_control, controller, enable, dest_addr=dest, timeout=timeout)
+
+    def test_set_pc_control(self):
+        '''
+        Tests the set-pc-control function with a valid dest_addr.
+        '''
+        controller = CONTROLLER
+        enable = True
+        dest = '127.0.0.1:54321'
+
+        response = self.u.set_pc_control(controller, enable, dest_addr=dest)
+
+        self.assertEqual(response, SetPCControlResponse)
+
+    def test_set_interlock(self):
+        '''
+        Tests the set-interlock function with a timeout
+        '''
+        controller = CONTROLLER
+        interlock = 8
+        dest = '127.0.0.1:54321'
+        timeout = 0.25
+
+        self.u.set_interlock(controller, interlock, dest_addr=dest)
+        self.assertRaises(socket.timeout, self.u.set_interlock, controller, interlock, dest_addr=dest, timeout=timeout)
+
+    def test_activate_keypads(self):
+        '''
+        Tests the activate-keypads function with a timeout
+        '''
+        controller = CONTROLLER
+        reader1 = True
+        reader2 = True
+        reader3 = False
+        reader4 = True
+        dest = '127.0.0.1:54321'
+        timeout = 0.25
+
+        self.u.activate_keypads(controller, reader1, reader2, reader3, reader4, dest_addr=dest)
+        self.assertRaises(socket.timeout, self.u.activate_keypads, controller, reader1, reader2, reader3, reader4, dest_addr=dest, timeout=timeout)
+
+    def test_set_door_passcodes(self):
+        '''
+        Tests the set-door-passcodes function with a timeout
+        '''
+        controller = CONTROLLER
+        door = 3
+        passcode1 = 12345
+        passcode2 = 0
+        passcode3 = 999999
+        passcode4 = 54321
+        dest = '127.0.0.1:54321'
+        timeout = 0.25
+
+        self.u.set_door_passcodes(controller, door, passcode1,  passcode2, passcode3, passcode4, dest_addr=dest)
+        self.assertRaises(socket.timeout, self.u.set_door_passcodes, controller, door, passcode1,  passcode2, passcode3, passcode4, dest_addr=dest, timeout=timeout)
+
+    def test_restore_default_parameters(self):
+        '''
+        Tests the restore-default-parameters function with a timeout
+        '''
+        controller = CONTROLLER
+        dest = '127.0.0.1:54321'
+        timeout = 0.25
+
+        self.u.restore_default_parameters(controller, dest_addr=dest)
+        self.assertRaises(socket.timeout, self.u.restore_default_parameters, controller, dest_addr=dest, timeout=timeout)
+
+

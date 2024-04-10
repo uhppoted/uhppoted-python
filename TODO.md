@@ -3,46 +3,45 @@
 - [x] Fix examples so that they run locally
 - [x] Added `listen` to README and event-listenener examples (cf. https://github.com/uhppoted/uhppoted-python/issues/6)
 - [x] UDP send (cf. https://github.com/uhppoted/uhppoted-app-home-assistant/issues/3)
-- [ ] Configurable call timeouts (cf. https://github.com/uhppoted/uhppoted-python/issues/5)
+- [x] Configurable call timeouts (cf. https://github.com/uhppoted/uhppoted-python/issues/5)
       - [x] udp.send timeout
       - [x] Handle timeout=None
       - [x] CHANGELOG
       - [x] Add to all functions
       - [x] Add to all example CLI commands
-      - [ ] integration tests
-            - https://stackoverflow.com/questions/34743448/how-to-specify-test-timeout-for-python-unittest
-            - [ ] get_all_controllers
+      - [x] integration tests
+            - [x] get_all_controllers
             - [x] get_controller
-            - [ ] set_ip
-            - [ ] get_time
-            - [ ] set_time
-            - [ ] get_status
-            - [ ] get_listener
-            - [ ] set_listener
-            - [ ] get_door_control
-            - [ ] set_door_control
-            - [ ] open_door
-            - [ ] get_cards
-            - [ ] get_card
-            - [ ] get_card_by_index
-            - [ ] put_card
-            - [ ] delete_card
-            - [ ] delete_all_cards
-            - [ ] get_event
-            - [ ] get_event_index
-            - [ ] set_event_index
-            - [ ] record_special_events
-            - [ ] get_time_profile
-            - [ ] set_time_profiole
-            - [ ] delete_all_time_profiles
-            - [ ] add_task
-            - [ ] refresh_tasklist
-            - [ ] clear_tasklist
-            - [ ] set_pc_control
-            - [ ] set_interlock
-            - [ ] activate_keypads
-            - [ ] set_door_passcodes
-            - [ ] restore_default_parameters
+            - [x] set_ip
+            - [x] get_time
+            - [x] set_time
+            - [x] get_status
+            - [x] get_listener
+            - [x] set_listener
+            - [x] get_door_control
+            - [x] set_door_control
+            - [x] open_door
+            - [x] get_cards
+            - [x] get_card
+            - [x] get_card_by_index
+            - [x] put_card
+            - [x] delete_card
+            - [x] delete_all_cards
+            - [x] get_event
+            - [x] get_event_index
+            - [x] set_event_index
+            - [x] record_special_events
+            - [x] get_time_profile
+            - [x] set_time_profiole
+            - [x] delete_all_time_profiles
+            - [x] add_task
+            - [x] refresh_tasklist
+            - [x] clear_tasklist
+            - [x] set_pc_control
+            - [x] set_interlock
+            - [x] activate_keypads
+            - [x] set_door_passcodes
+            - [x] restore_default_parameters
 
 ## TODO
 

@@ -503,6 +503,3 @@ class TestUhppoteWithDestAddr(unittest.TestCase):
         response = self.u.restore_default_parameters(controller, dest_addr=dest)
 
         self.assertEqual(response, RestoreDefaultParametersResponse)
-
-if __name__ == '__main__':
-    unittest.main()

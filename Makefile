@@ -1,7 +1,7 @@
 DIST ?= development
 CMD   = cd examples/cli && python3 main.py --debug --bind 192.168.1.100 --broadcast 192.168.1.255 --listen 192.168.1.100:60001
 
-.DEFAULT_GOAL := build
+.DEFAULT_GOAL := debug
 .PHONY: update
 .PHONY: update-release
 
