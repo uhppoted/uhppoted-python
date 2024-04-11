@@ -83,7 +83,18 @@ pprint(record.__dict__, indent=2, width=1)
   'version': 'v8.92'}
 ```
 
-All API functions raise an `Exception` if the call fails for any reason whatsoever.
+### Notes
+1. All API functions raise an `Exception` if the call fails for any reason whatsoever.
+2. All API functions (other than `get_controllers` and `listen`) take an optional `dest_addr` kwarg that sets the
+   IP address to which to send the request, e.g.:
+```
+   get_controller(controller, dest_addr='192.168.1.100:60000')
+```
+3. All API functions (other than `listen`) take an optional `timeout` kwarg that sets the time limit for the 
+   request (in seconds), e.g.:
+```
+   get_controller(controller, dest_addr='192.168.1.100:60000', timeout=0.75)
+```
 
 ### `get_controllers`
 ```
