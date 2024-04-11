@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## Unreleased
+## [0.8.8.1](https://github.com/uhppoted/uhppoted-python/releases/tag/v0.8.8.1) - 2024-04-11
 
 ### Added
 1. Added support for destination IPv4 addresses.
