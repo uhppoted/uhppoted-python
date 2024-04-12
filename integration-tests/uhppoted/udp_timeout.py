@@ -20,6 +20,8 @@ from uhppoted.udp import dump
 from .stub import messages
 from .expected import *
 
+DEST_ADDR = '127.0.0.1:54321'
+TIMEOUT = 0.25
 CONTROLLER = 405419896
 CARD = 8165538
 CARD_INDEX = 2
@@ -76,8 +78,8 @@ class TestUhppoteWithTimeout(unittest.TestCase):
         Tests the get-all-controllers function with a timeout.
         '''
         controller = CONTROLLER
-        dest = '127.0.0.1:54321'
-        timeout = 0.25
+        dest = DEST_ADDR
+        timeout = TIMEOUT
 
         start = time.time()
         self.u.get_all_controllers()
@@ -94,8 +96,8 @@ class TestUhppoteWithTimeout(unittest.TestCase):
         Tests the get-controller function with a timeout.
         '''
         controller = CONTROLLER
-        dest = '127.0.0.1:54321'
-        timeout = 0.25
+        dest = DEST_ADDR
+        timeout = TIMEOUT
 
         self.u.get_controller(controller, dest_addr=dest)
         self.assertRaises(socket.timeout, self.u.get_controller,controller, dest_addr=dest, timeout=timeout)
@@ -108,8 +110,8 @@ class TestUhppoteWithTimeout(unittest.TestCase):
         address = IPv4Address('192.168.1.100')
         netmask = IPv4Address('255.255.255.0')
         gateway = IPv4Address('192.168.1.1')
-        dest = '127.0.0.1:54321'
-        timeout = 0.25
+        dest = DEST_ADDR
+        timeout = TIMEOUT
 
         self.u.set_ip(controller, address, netmask, gateway, dest_addr=dest, timeout=timeout)
 
@@ -118,8 +120,8 @@ class TestUhppoteWithTimeout(unittest.TestCase):
         Tests the get-time function with a timeout.
         '''
         controller = CONTROLLER
-        dest = '127.0.0.1:54321'
-        timeout = 0.25
+        dest = DEST_ADDR
+        timeout = TIMEOUT
 
         self.u.get_time(controller, dest_addr=dest)
         self.assertRaises(socket.timeout, self.u.get_time, controller, dest_addr=dest, timeout=timeout)
@@ -130,8 +132,8 @@ class TestUhppoteWithTimeout(unittest.TestCase):
         '''
         controller = CONTROLLER
         time = datetime.datetime(2021, 5, 28, 14, 56, 14)
-        dest = '127.0.0.1:54321'
-        timeout = 0.25
+        dest = DEST_ADDR
+        timeout = TIMEOUT
 
         self.u.set_time(controller, time, dest_addr=dest)
         self.assertRaises(socket.timeout, self.u.set_time,controller, time, dest_addr=dest, timeout=timeout)
@@ -141,8 +143,8 @@ class TestUhppoteWithTimeout(unittest.TestCase):
         Tests the get-status function  with a timeout.
         '''
         controller = CONTROLLER
-        dest = '127.0.0.1:54321'
-        timeout = 0.25
+        dest = DEST_ADDR
+        timeout = TIMEOUT
 
         self.u.get_status(controller, dest_addr=dest)
         self.assertRaises(socket.timeout, self.u.get_status, controller, dest_addr=dest, timeout=timeout)
@@ -152,8 +154,8 @@ class TestUhppoteWithTimeout(unittest.TestCase):
         Tests the get-listener function with a timeout.
         '''
         controller = CONTROLLER
-        dest = '127.0.0.1:54321'
-        timeout = 0.25
+        dest = DEST_ADDR
+        timeout = TIMEOUT
 
         self.u.get_listener(controller, dest_addr=dest)
         self.assertRaises(socket.timeout, self.u.get_listener,controller, dest_addr=dest, timeout=timeout)
@@ -165,8 +167,8 @@ class TestUhppoteWithTimeout(unittest.TestCase):
         controller = CONTROLLER
         address = IPv4Address('192.168.1.100')
         port = 60001
-        dest = '127.0.0.1:54321'
-        timeout = 0.25
+        dest = DEST_ADDR
+        timeout = TIMEOUT
 
         self.u.set_listener(controller, address, port, dest_addr=dest)
         self.assertRaises(socket.timeout, self.u.set_listener, controller, address, port, dest_addr=dest, timeout=timeout)
@@ -177,8 +179,8 @@ class TestUhppoteWithTimeout(unittest.TestCase):
         '''
         controller = CONTROLLER
         door = 3
-        dest = '127.0.0.1:54321'
-        timeout = 0.25
+        dest = DEST_ADDR
+        timeout = TIMEOUT
 
         self.u.get_door_control(controller, door, dest_addr=dest)
         self.assertRaises(socket.timeout, self.u.get_door_control, controller, door, dest_addr=dest, timeout=timeout)
@@ -191,8 +193,8 @@ class TestUhppoteWithTimeout(unittest.TestCase):
         door = 3
         delay = 4
         mode = 2
-        dest = '127.0.0.1:54321'
-        timeout = 0.25
+        dest = DEST_ADDR
+        timeout = TIMEOUT
 
         self.u.set_door_control(controller, door, mode, delay, dest_addr=dest)
         self.assertRaises(socket.timeout, self.u.set_door_control, controller, door, mode, delay, dest_addr=dest, timeout=timeout)
@@ -203,8 +205,8 @@ class TestUhppoteWithTimeout(unittest.TestCase):
         '''
         controller = CONTROLLER
         door = 3
-        dest = '127.0.0.1:54321'
-        timeout = 0.25
+        dest = DEST_ADDR
+        timeout = TIMEOUT
 
         self.u.open_door(controller, door, dest_addr=dest)
         self.assertRaises(socket.timeout, self.u.open_door, controller, door, dest_addr=dest, timeout=timeout)
@@ -215,8 +217,8 @@ class TestUhppoteWithTimeout(unittest.TestCase):
         '''
         controller = CONTROLLER
         door = 3
-        dest = '127.0.0.1:54321'
-        timeout = 0.25
+        dest = DEST_ADDR
+        timeout = TIMEOUT
 
         self.u.open_door(controller, door, dest_addr=dest)
         self.assertRaises(socket.timeout, self.u.open_door, controller, door, dest_addr=dest, timeout=timeout)
@@ -226,8 +228,8 @@ class TestUhppoteWithTimeout(unittest.TestCase):
         Tests the get-cards function with a timeout.
         '''
         controller = CONTROLLER
-        dest = '127.0.0.1:54321'
-        timeout = 0.25
+        dest = DEST_ADDR
+        timeout = TIMEOUT
 
         self.u.get_cards(controller, dest_addr=dest)
         self.assertRaises(socket.timeout, self.u.get_cards, controller, dest_addr=dest, timeout=timeout)
@@ -238,8 +240,8 @@ class TestUhppoteWithTimeout(unittest.TestCase):
         '''
         controller = CONTROLLER
         card = CARD
-        dest = '127.0.0.1:54321'
-        timeout = 0.25
+        dest = DEST_ADDR
+        timeout = TIMEOUT
 
         self.u.get_card(controller, card, dest_addr=dest)
         self.assertRaises(socket.timeout, self.u.get_card, controller, card, dest_addr=dest, timeout=timeout)
@@ -250,8 +252,8 @@ class TestUhppoteWithTimeout(unittest.TestCase):
         '''
         controller = CONTROLLER
         index = CARD_INDEX
-        dest = '127.0.0.1:54321'
-        timeout = 0.25
+        dest = DEST_ADDR
+        timeout = TIMEOUT
 
         self.u.get_card_by_index(controller, index, dest_addr=dest)
         self.assertRaises(socket.timeout, self.u.get_card_by_index, controller, index, dest_addr=dest, timeout=timeout)
@@ -269,8 +271,8 @@ class TestUhppoteWithTimeout(unittest.TestCase):
         door3 = 29
         door4 = 1
         PIN = 7531
-        dest = '127.0.0.1:54321'
-        timeout = 0.25
+        dest = DEST_ADDR
+        timeout = TIMEOUT
 
         self.u.put_card(controller, card, start, end, door1, door2, door3, door4, PIN, dest_addr=dest)
         self.assertRaises(socket.timeout, self.u.put_card, controller, card, start, end, door1, door2, door3, door4, PIN, dest_addr=dest, timeout=timeout)
@@ -281,8 +283,8 @@ class TestUhppoteWithTimeout(unittest.TestCase):
         '''
         controller = CONTROLLER
         card = CARD
-        dest = '127.0.0.1:54321'
-        timeout = 0.25
+        dest = DEST_ADDR
+        timeout = TIMEOUT
 
         self.u.delete_card(controller, card, dest_addr=dest)
         self.assertRaises(socket.timeout, self.u.delete_card, controller, card, dest_addr=dest, timeout=timeout)
@@ -292,8 +294,8 @@ class TestUhppoteWithTimeout(unittest.TestCase):
         Tests the delete-all-cards function with a timeout
         '''
         controller = CONTROLLER
-        dest = '127.0.0.1:54321'
-        timeout = 0.25
+        dest = DEST_ADDR
+        timeout = TIMEOUT
 
         self.u.delete_all_cards(controller, dest_addr=dest)
         self.assertRaises(socket.timeout, self.u.delete_all_cards, controller, dest_addr=dest, timeout=timeout)
@@ -304,8 +306,8 @@ class TestUhppoteWithTimeout(unittest.TestCase):
         '''
         controller = CONTROLLER
         index = EVENT_INDEX
-        dest = '127.0.0.1:54321'
-        timeout = 0.25
+        dest = DEST_ADDR
+        timeout = TIMEOUT
 
         self.u.get_event(controller, index, dest_addr=dest)
         self.assertRaises(socket.timeout, self.u.get_event, controller, index, dest_addr=dest, timeout=timeout)
@@ -315,8 +317,8 @@ class TestUhppoteWithTimeout(unittest.TestCase):
         Tests the get-event-index function with a timeout
         '''
         controller = CONTROLLER
-        dest = '127.0.0.1:54321'
-        timeout = 0.25
+        dest = DEST_ADDR
+        timeout = TIMEOUT
 
         self.u.get_event_index(controller, dest_addr=dest)
         self.assertRaises(socket.timeout, self.u.get_event_index, controller, dest_addr=dest, timeout=timeout)
@@ -327,8 +329,8 @@ class TestUhppoteWithTimeout(unittest.TestCase):
         '''
         controller = CONTROLLER
         index = EVENT_INDEX
-        dest = '127.0.0.1:54321'
-        timeout = 0.25
+        dest = DEST_ADDR
+        timeout = TIMEOUT
 
         self.u.set_event_index(controller, index, dest_addr=dest)
         self.assertRaises(socket.timeout, self.u.set_event_index, controller, index, dest_addr=dest, timeout=timeout)
@@ -339,8 +341,8 @@ class TestUhppoteWithTimeout(unittest.TestCase):
         '''
         controller = CONTROLLER
         enabled = True
-        dest = '127.0.0.1:54321'
-        timeout = 0.25
+        dest = DEST_ADDR
+        timeout = TIMEOUT
 
         self.u.record_special_events(controller, enabled, dest_addr=dest)
         self.assertRaises(socket.timeout, self.u.record_special_events, controller, enabled, dest_addr=dest, timeout=timeout)
@@ -351,8 +353,8 @@ class TestUhppoteWithTimeout(unittest.TestCase):
         '''
         controller = CONTROLLER
         profile = TIME_PROFILE
-        dest = '127.0.0.1:54321'
-        timeout = 0.25
+        dest = DEST_ADDR
+        timeout = TIMEOUT
 
         self.u.get_time_profile(controller, profile, dest_addr=dest)
         self.assertRaises(socket.timeout, self.u.get_time_profile, controller, profile, dest_addr=dest, timeout=timeout)
@@ -379,8 +381,8 @@ class TestUhppoteWithTimeout(unittest.TestCase):
         segment_3_start = None
         segment_3_end = None
         linked_profile_id = 3
-        dest = '127.0.0.1:54321'
-        timeout = 0.25
+        dest = DEST_ADDR
+        timeout = TIMEOUT
 
         self.u.set_time_profile(
             controller,
@@ -430,8 +432,8 @@ class TestUhppoteWithTimeout(unittest.TestCase):
         Tests the delete-all-time-profiles function with a timeout
         '''
         controller = CONTROLLER
-        dest = '127.0.0.1:54321'
-        timeout = 0.25
+        dest = DEST_ADDR
+        timeout = TIMEOUT
 
         self.u.delete_all_time_profiles(controller, dest_addr=dest)
         self.assertRaises(socket.timeout, self.u.delete_all_time_profiles, controller, dest_addr=dest, timeout=timeout)
@@ -454,8 +456,8 @@ class TestUhppoteWithTimeout(unittest.TestCase):
         door = 3
         task_type = 4
         more_cards = 17
-        dest = '127.0.0.1:54321'
-        timeout = 0.25
+        dest = DEST_ADDR
+        timeout = TIMEOUT
 
         self.u.add_task(
             controller,
@@ -483,8 +485,8 @@ class TestUhppoteWithTimeout(unittest.TestCase):
         Tests the refresh-tasklist function with a timeout
         '''
         controller = CONTROLLER
-        dest = '127.0.0.1:54321'
-        timeout = 0.25
+        dest = DEST_ADDR
+        timeout = TIMEOUT
 
         self.u.refresh_tasklist(controller, dest_addr=dest)
         self.assertRaises(socket.timeout, self.u.refresh_tasklist, controller, dest_addr=dest, timeout=timeout)
@@ -494,8 +496,8 @@ class TestUhppoteWithTimeout(unittest.TestCase):
         Tests the clear-tasklist function with a timeout
         '''
         controller = CONTROLLER
-        dest = '127.0.0.1:54321'
-        timeout = 0.25
+        dest = DEST_ADDR
+        timeout = TIMEOUT
 
         self.u.clear_tasklist(controller, dest_addr=dest)
         self.assertRaises(socket.timeout, self.u.clear_tasklist, controller, dest_addr=dest, timeout=timeout)
@@ -506,8 +508,8 @@ class TestUhppoteWithTimeout(unittest.TestCase):
         '''
         controller = CONTROLLER
         enable = True
-        dest = '127.0.0.1:54321'
-        timeout = 0.25
+        dest = DEST_ADDR
+        timeout = TIMEOUT
 
         self.u.set_pc_control(controller, enable, dest_addr=dest)
         self.assertRaises(socket.timeout, self.u.set_pc_control, controller, enable, dest_addr=dest, timeout=timeout)
@@ -518,7 +520,7 @@ class TestUhppoteWithTimeout(unittest.TestCase):
         '''
         controller = CONTROLLER
         enable = True
-        dest = '127.0.0.1:54321'
+        dest = DEST_ADDR
 
         response = self.u.set_pc_control(controller, enable, dest_addr=dest)
 
@@ -530,8 +532,8 @@ class TestUhppoteWithTimeout(unittest.TestCase):
         '''
         controller = CONTROLLER
         interlock = 8
-        dest = '127.0.0.1:54321'
-        timeout = 0.25
+        dest = DEST_ADDR
+        timeout = TIMEOUT
 
         self.u.set_interlock(controller, interlock, dest_addr=dest)
         self.assertRaises(socket.timeout, self.u.set_interlock, controller, interlock, dest_addr=dest, timeout=timeout)
@@ -545,8 +547,8 @@ class TestUhppoteWithTimeout(unittest.TestCase):
         reader2 = True
         reader3 = False
         reader4 = True
-        dest = '127.0.0.1:54321'
-        timeout = 0.25
+        dest = DEST_ADDR
+        timeout = TIMEOUT
 
         self.u.activate_keypads(controller, reader1, reader2, reader3, reader4, dest_addr=dest)
         self.assertRaises(socket.timeout, self.u.activate_keypads, controller, reader1, reader2, reader3, reader4, dest_addr=dest, timeout=timeout)
@@ -561,8 +563,8 @@ class TestUhppoteWithTimeout(unittest.TestCase):
         passcode2 = 0
         passcode3 = 999999
         passcode4 = 54321
-        dest = '127.0.0.1:54321'
-        timeout = 0.25
+        dest = DEST_ADDR
+        timeout = TIMEOUT
 
         self.u.set_door_passcodes(controller, door, passcode1,  passcode2, passcode3, passcode4, dest_addr=dest)
         self.assertRaises(socket.timeout, self.u.set_door_passcodes, controller, door, passcode1,  passcode2, passcode3, passcode4, dest_addr=dest, timeout=timeout)
@@ -572,8 +574,8 @@ class TestUhppoteWithTimeout(unittest.TestCase):
         Tests the restore-default-parameters function with a timeout
         '''
         controller = CONTROLLER
-        dest = '127.0.0.1:54321'
-        timeout = 0.25
+        dest = DEST_ADDR
+        timeout = TIMEOUT
 
         self.u.restore_default_parameters(controller, dest_addr=dest)
         self.assertRaises(socket.timeout, self.u.restore_default_parameters, controller, dest_addr=dest, timeout=timeout)

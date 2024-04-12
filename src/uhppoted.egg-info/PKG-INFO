@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: uhppoted
-Version: 0.8.8
+Version: 0.8.8.1
 Summary: Python API for the UHPPOTE TCP/IP access controllers
 Author-email: uhppoted <uhppoted.development@gmail.com>
 Project-URL: Homepage, https://github.com/uhppoted/uhppoted-python
@@ -101,7 +101,18 @@ pprint(record.__dict__, indent=2, width=1)
   'version': 'v8.92'}
 ```
 
-All API functions raise an `Exception` if the call fails for any reason whatsoever.
+### Notes
+1. All API functions raise an `Exception` if the call fails for any reason whatsoever.
+2. All API functions (other than `get_controllers` and `listen`) take an optional `dest_addr` kwarg that sets the
+   IP address to which to send the request, e.g.:
+```
+   get_controller(controller, dest_addr='192.168.1.100:60000')
+```
+3. All API functions (other than `listen`) take an optional `timeout` kwarg that sets the time limit for the 
+   request (in seconds), e.g.:
+```
+   get_controller(controller, dest_addr='192.168.1.100:60000', timeout=0.75)
+```
 
 ### `get_controllers`
 ```
@@ -463,6 +474,27 @@ ID  uint32  controller serial number
 Raises an Exception if the call failed for any reason.
 ```
 
+### `listen`
+```
+listen(handler)
+
+handler  event handling callback function of the form
+         def on_event(event):
+              ...
+
+Raises an Exception if the call failed for any reason.
+```
+
+`listen` is a blocking call that will invoke the `handler` function for each received event, e.g.:
+```
+    ...
+    u.listen(on_event)
+
+def on_event(event):
+    if event != None:
+        pprint(event.__dict__, indent=2, width=1)
+    ...
+```
 
 ## Types
 
