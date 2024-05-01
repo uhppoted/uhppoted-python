@@ -1,5 +1,8 @@
 # TODO
 
+- [ ] Use site-specific configuration to run examples locally
+      - https://docs.python.org/3/library/site.html
+
 - [x] Fix examples so that they run locally
 - [x] Added `listen` to README and event-listenener examples (cf. https://github.com/uhppoted/uhppoted-python/issues/6)
 - [x] UDP send (cf. https://github.com/uhppoted/uhppoted-app-home-assistant/issues/3)
