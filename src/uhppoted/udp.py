@@ -20,7 +20,7 @@ class UDP:
 
     def __init__(self, bind='0.0.0.0', broadcast='255.255.255.255:60000', listen="0.0.0.0:60001", debug=False):
         '''
-        Initialises a Uhppote object with the bind address, broadcast address and listen address.
+        Initialises a UDP communications wrapper with the bind address, broadcast address and listen address.
 
             Parameters:
                bind      (string)  The IPv4 address:port to which to bind when sending a request.
@@ -44,7 +44,7 @@ class UDP:
     def broadcast(self, request, timeout=2.5):
         '''
         Binds to the bind address from the constructor and then broadcasts a UDP request to the broadcast
-        address from the constructor and then waits 5 seconds for the replies from any reponding access 
+        address from the constructor and then waits 'timeout' seconds for the replies from any reponding access 
         controllers.
 
             Parameters:
@@ -82,7 +82,7 @@ class UDP:
                request   (bytearray)  64 byte request packet.
                dest_addr (string)     Optional IPv4 address:port of the controller. Defaults to port 60000
                                       if dest_addr does not include a port.
-              timeout (float)         Optional operation timeout (in seconds). Defaults to 2.5s.
+               timeout   (float)      Optional operation timeout (in seconds). Defaults to 2.5s.
 
             Returns:
                Received response packet (if any) or None (for set-ip request).

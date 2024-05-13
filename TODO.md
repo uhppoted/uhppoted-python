@@ -1,5 +1,7 @@
 # TODO
 
+- [ ] TCP/IP protocol (cf. https://github.com/uhppoted/uhppote-core/issues/17)
+
 - [ ] Use site-specific configuration to run examples locally
       - https://docs.python.org/3/library/site.html
 

@@ -43,7 +43,9 @@ publish: release
 	python3 -m twine upload --repository pypi     -u __token__ --skip-existing --verbose dist/*
 
 debug: build
-	python3 -m unittest integration-tests/uhppoted/udp_dest_addr.py 
+	# python3 -m unittest integration-tests/uhppoted/udp_dest_addr.py 
+	# export UHPPOTED_ENV=DEV && cd examples/cli && python3 main.py --debug --bind 192.168.1.100 --broadcast 192.168.1.255 --udp get-controller
+	export UHPPOTED_ENV=DEV && cd examples/cli && python3 main.py --debug --bind 192.168.1.100 --tcp get-controller
 
 usage: build
 	$(CMD)

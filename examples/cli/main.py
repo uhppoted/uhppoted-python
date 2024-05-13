@@ -33,13 +33,13 @@ def main():
     parser.add_argument('--debug',
                         action=argparse.BooleanOptionalAction,
                         default=False,
-                        help='displays sent and received UDP packets')
+                        help='displays sent and received packets')
 
     parser.add_argument('--destination',
                         '-d',
                         type=str,
                         default=None,
-                        help='(optional) controller UDP IPv4 address:port. Defaults to broadcast address.')
+                        help='(optional) controller IPv4 address:port. Defaults to broadcast address.')
 
     parser.add_argument('--timeout',
                         '-t',
@@ -47,10 +47,26 @@ def main():
                         default=2.5,
                         help='(optional) operation timeout (in seconds). Defaults to 2.5.')
 
+    parser.add_argument('--udp',
+                        action=argparse.BooleanOptionalAction,
+                        default=False,
+                        help='use UDP protocol')
+
+    parser.add_argument('--tcp',
+                        action=argparse.BooleanOptionalAction,
+                        default=False,
+                        help='use TCP protocol')
+
     args = parser.parse_args()
     cmd = args.command
     debug = args.debug
 
+    if args.udp and args.tcp:
+        print()
+        print(f'*** ERROR  conflicting UDP/TCP flags - choose one or the other (default is UDP)')
+        print()
+        sys.exit(1)
+    
     if cmd == 'all':
         for c, fn in commands().items():
             if c != 'listen':

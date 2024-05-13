@@ -2,8 +2,9 @@
 Implements a Python wrapper around the UHPPOTE TCP/IP access controller API.
 '''
 
-from . import encode
 from . import decode
+from . import encode
+from . import tcp
 from . import udp
 
 
@@ -28,6 +29,7 @@ class Uhppote:
                            address:port combination.
         '''
         self._udp = udp.UDP(bind, broadcast, listen, debug)
+        self._tcp = tcp.TCP(bind, debug)
 
     def get_all_controllers(self, timeout=2.5):
         '''
@@ -52,7 +54,27 @@ class Uhppote:
 
         return list
 
-    def get_controller(self, controller, dest_addr=None, timeout=2.5):
+    def _send(self, request, dest_addr, timeout, protocol):
+        '''
+        Internal HAL to use either TCP or UDP to send a request to a controller and return the response.
+
+            Parameters:
+               dest_addr (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               timeout   (float)   Optional operation timeout (in seconds). Defaults to 2.5s.
+               protocol  (string)  'udp' or 'tcp'. Defaults to 'udp'
+
+            Returns:
+               Received response packet (if any) or None (for set-ip request).
+
+            Raises:
+               Exception  If request could not be sent or the access controller failed to respond.
+        '''
+        if protocol == 'tcp':
+            return self._tcp.send(request, dest_addr=dest_addr, timeout=timeout)
+        else:
+            return self._udp.send(request, dest_addr=dest_addr, timeout=timeout)
+
+    def get_controller(self, controller, dest_addr=None, timeout=2.5, protocol='udp'):
         '''
         Retrieves the controller information for an access controller.
 
@@ -68,7 +90,7 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         request = encode.get_controller_request(controller)
-        reply = self._udp.send(request, dest_addr=dest_addr, timeout=timeout)
+        reply = self._send(request, dest_addr, timeout, protocol)
 
         if reply != None:
             return decode.get_controller_response(reply)

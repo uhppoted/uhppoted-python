@@ -72,9 +72,15 @@ def exec(f, args):
 
     dest = args.destination
     timeout = args.timeout
+    protocol = 'udp'
+
+    if args.udp:
+        protocol = 'udp'
+    elif args.tcp:
+        protocol = 'tcp'
 
     u = uhppote.Uhppote(bind, broadcast, listen, debug)
-    response = f(u, dest, timeout, args)
+    response = f(u, dest, timeout, args,protocol=protocol)
 
     if response != None:
         if type(response).__name__ == 'list':
@@ -86,17 +92,17 @@ def exec(f, args):
             pprint.pprint(response.__dict__, indent=2, width=1, sort_dicts=False)
 
 
-def get_all_controllers(u, dest, timeout, args):
+def get_all_controllers(u, dest, timeout, args, protocol='udp'):
     return u.get_all_controllers(timeout=timeout)
 
 
-def get_controller(u, dest, timeout, args):
+def get_controller(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
 
-    return u.get_controller(controller, dest_addr=dest, timeout=timeout)
+    return u.get_controller(controller, dest_addr=dest, timeout=timeout, protocol=protocol)
 
 
-def set_ip(u, dest, timeout, args):
+def set_ip(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
     address = ADDRESS
     netmask = NETMASK
@@ -105,40 +111,40 @@ def set_ip(u, dest, timeout, args):
     return u.set_ip(controller, address, netmask, gateway, dest_addr=dest, timeout=timeout)
 
 
-def get_time(u, dest, timeout, args):
+def get_time(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
 
     return u.get_time(controller, dest_addr=dest, timeout=timeout)
 
 
-def set_time(u, dest, timeout, args):
+def set_time(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
     now = datetime.datetime.now()
 
     return u.set_time(controller, now, dest_addr=dest, timeout=timeout)
 
 
-def get_listener(u, dest, timeout, args):
+def get_listener(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
 
     return u.get_listener(controller, dest_addr=dest, timeout=timeout)
 
 
-def set_listener(u, dest, timeout, args):
+def set_listener(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
     (address, port) = LISTENER
 
     return u.set_listener(controller, address, port, dest_addr=dest, timeout=timeout)
 
 
-def get_door_control(u, dest, timeout, args):
+def get_door_control(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
     door = DOOR
 
     return u.get_door_control(controller, door, dest_addr=dest, timeout=timeout)
 
 
-def set_door_control(u, dest, timeout, args):
+def set_door_control(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
     door = DOOR
     mode = MODE
@@ -147,26 +153,26 @@ def set_door_control(u, dest, timeout, args):
     return u.set_door_control(controller, door, mode, delay, dest_addr=dest, timeout=timeout)
 
 
-def get_status(u, dest, timeout, args):
+def get_status(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
 
     return u.get_status(controller, dest_addr=dest, timeout=timeout)
 
 
-def open_door(u, dest, timeout, args):
+def open_door(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
     door = DOOR
 
     return u.open_door(controller, door, dest_addr=dest, timeout=timeout)
 
 
-def get_cards(u, dest, timeout, args):
+def get_cards(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
 
     return u.get_cards(controller, dest_addr=dest, timeout=timeout)
 
 
-def get_card(u, dest, timeout, args):
+def get_card(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
     card = CARD
 
@@ -177,7 +183,7 @@ def get_card(u, dest, timeout, args):
     return response
 
 
-def get_card_by_index(u, dest, timeout, args):
+def get_card_by_index(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
     index = CARD_INDEX
 
@@ -190,7 +196,7 @@ def get_card_by_index(u, dest, timeout, args):
     return response
 
 
-def put_card(u, dest, timeout, args):
+def put_card(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
     card = CARD
     start = datetime.datetime.strptime("2024-01-01", '%Y-%m-%d').date()
@@ -204,20 +210,20 @@ def put_card(u, dest, timeout, args):
     return u.put_card(controller, card, start, end, door1, door2, door3, door4, PIN, dest_addr=dest, timeout=timeout)
 
 
-def delete_card(u, dest, timeout, args):
+def delete_card(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
     card = CARD
 
     return u.delete_card(controller, card, dest_addr=dest, timeout=timeout)
 
 
-def delete_all_cards(u, dest, timeout, args):
+def delete_all_cards(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
 
     return u.delete_all_cards(controller, dest_addr=dest, timeout=timeout)
 
 
-def get_event(u, dest, timeout, args):
+def get_event(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
     index = EVENT_INDEX
 
@@ -230,27 +236,27 @@ def get_event(u, dest, timeout, args):
     return response
 
 
-def get_event_index(u, dest, timeout, args):
+def get_event_index(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
 
     return u.get_event_index(controller, dest_addr=dest, timeout=timeout)
 
 
-def set_event_index(u, dest, timeout, args):
+def set_event_index(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
     index = EVENT_INDEX
 
     return u.set_event_index(controller, index, dest_addr=dest, timeout=timeout)
 
 
-def record_special_events(u, dest, timeout, args):
+def record_special_events(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
     enabled = True
 
     return u.record_special_events(controller, enabled, dest_addr=dest, timeout=timeout)
 
 
-def get_time_profile(u, dest, timeout, args):
+def get_time_profile(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
     profile_id = TIME_PROFILE_ID
 
@@ -261,7 +267,7 @@ def get_time_profile(u, dest, timeout, args):
     return response
 
 
-def set_time_profile(u, dest, timeout, args):
+def set_time_profile(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
     profile_id = TIME_PROFILE_ID
     start = datetime.datetime.strptime("2022-01-01", '%Y-%m-%d').date()
@@ -293,7 +299,7 @@ def set_time_profile(u, dest, timeout, args):
                               dest_addr=dest, timeout=timeout)
     # yapf: enable
 
-def delete_all_time_profiles(u, dest, timeout, args):
+def delete_all_time_profiles(u, dest, timeout, args, protocol='udp'):
     return u.delete_all_time_profiles(CONTROLLER, dest_addr=dest, timeout=timeout)
 
 
@@ -325,33 +331,33 @@ def add_task(u, dest, timeout, args):
     # yapf: enable
 
 
-def refresh_tasklist(u, dest, timeout, args):
+def refresh_tasklist(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
 
     return u.refresh_tasklist(controller, dest_addr=dest, timeout=timeout)
 
 
-def clear_tasklist(u, dest, timeout, args):
+def clear_tasklist(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
 
     return u.clear_tasklist(controller, dest_addr=dest, timeout=timeout)
 
 
-def set_pc_control(u, dest, timeout, args):
+def set_pc_control(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
     enabled = True
 
     return u.set_pc_control(controller, enabled, dest_addr=dest, timeout=timeout)
 
 
-def set_interlock(u, dest, timeout, args):
+def set_interlock(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
     interlock = 3
 
     return u.set_interlock(controller, interlock, dest_addr=dest, timeout=timeout)
 
 
-def activate_keypads(u, dest, timeout, args):
+def activate_keypads(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
     reader1 = True
     reader2 = True
@@ -361,7 +367,7 @@ def activate_keypads(u, dest, timeout, args):
     return u.activate_keypads(controller, reader1, reader2, reader3, reader4, dest_addr=dest, timeout=timeout)
 
 
-def set_door_passcodes(u, dest, timeout, args):
+def set_door_passcodes(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
     door = DOOR
     passcode1 = 12345
@@ -372,13 +378,13 @@ def set_door_passcodes(u, dest, timeout, args):
     return u.set_door_passcodes(controller, door, passcode1, passcode2, passcode3, passcode4, dest_addr=dest, timeout=timeout)
 
 
-def restore_default_parameters(u, dest, timeout, args):
+def restore_default_parameters(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
 
     return u.restore_default_parameters(controller, dest_addr=dest, timeout=timeout)
 
 
-def listen(u, dest, timeout, args):
+def listen(u, dest, timeout, args, protocol='udp'):
     return u.listen(onEvent)
 
 
