@@ -1,5 +1,6 @@
 DIST ?= development
 CMD   = cd examples/cli && python3 main.py --debug --bind 192.168.1.100 --broadcast 192.168.1.255 --listen 192.168.1.100:60001
+TCP   = cd examples/cli && python3 main.py --debug --tcp --dest 192.168.1.100
 
 .DEFAULT_GOAL := debug
 .PHONY: update
@@ -45,7 +46,7 @@ publish: release
 debug: build
 	# python3 -m unittest integration-tests/uhppoted/udp_dest_addr.py 
 	# export UHPPOTED_ENV=DEV && cd examples/cli && python3 main.py --debug --bind 192.168.1.100 --broadcast 192.168.1.255 --udp get-controller
-	export UHPPOTED_ENV=DEV && cd examples/cli && python3 main.py --debug --bind 192.168.1.100 --tcp get-controller
+	export UHPPOTED_ENV=DEV && cd examples/cli && python3 main.py --debug --tcp --bind 192.168.1.100 --dest 192.168.1.100 get-controller
 
 usage: build
 	$(CMD)
@@ -55,96 +56,127 @@ get-all-controllers: build
 
 get-controller: build
 	export UHPPOTED_ENV=DEV && $(CMD) get-controller
+	export UHPPOTED_ENV=DEV && $(TCP) get-controller
 
-set-address: build
-	export UHPPOTED_ENV=DEV && $(CMD) set-address
+set-ip: build
+	export UHPPOTED_ENV=DEV && $(CMD) set-ip
+	export UHPPOTED_ENV=DEV && $(TCP) set-ip
 
 get-status: build
 	export UHPPOTED_ENV=DEV && $(CMD) get-status
+	export UHPPOTED_ENV=DEV && $(TCP) get-status
 
 get-time: build
 	export UHPPOTED_ENV=DEV && $(CMD) get-time
+	export UHPPOTED_ENV=DEV && $(TCP) get-time
 
 set-time: build
 	export UHPPOTED_ENV=DEV && $(CMD) set-time
+	export UHPPOTED_ENV=DEV && $(TCP) set-time
 
 get-listener: build
 	export UHPPOTED_ENV=DEV && $(CMD) get-listener
+	export UHPPOTED_ENV=DEV && $(TCP) get-listener
 
 set-listener: build
 	export UHPPOTED_ENV=DEV && $(CMD) set-listener
+	export UHPPOTED_ENV=DEV && $(TCP) set-listener
 
 get-door-control: build
 	export UHPPOTED_ENV=DEV && $(CMD) get-door-control
+	export UHPPOTED_ENV=DEV && $(TCP) get-door-control
 
 set-door-control: build
 	export UHPPOTED_ENV=DEV && $(CMD) set-door-control
+	export UHPPOTED_ENV=DEV && $(TCP) set-door-control
 
 open-door: build
 	export UHPPOTED_ENV=DEV && $(CMD) open-door
+	export UHPPOTED_ENV=DEV && $(TCP) open-door
 
 get-cards: build
 	export UHPPOTED_ENV=DEV && $(CMD) get-cards
+	export UHPPOTED_ENV=DEV && $(TCP) get-cards
 
 get-card: build
 	export UHPPOTED_ENV=DEV && $(CMD) get-card
+	export UHPPOTED_ENV=DEV && $(TCP) get-card
 
 get-card-by-index: build
 	export UHPPOTED_ENV=DEV && $(CMD) get-card-by-index
+	export UHPPOTED_ENV=DEV && $(TCP) get-card-by-index
 
 put-card: build
 	export UHPPOTED_ENV=DEV && $(CMD) put-card
+	export UHPPOTED_ENV=DEV && $(TCP) put-card
 
 delete-card: build
 	export UHPPOTED_ENV=DEV && $(CMD) delete-card
+	export UHPPOTED_ENV=DEV && $(TCP) delete-card
 
 delete-cards: build
-	export UHPPOTED_ENV=DEV && $(CMD) delete-cards
+	export UHPPOTED_ENV=DEV && $(CMD) delete-all-cards
+	export UHPPOTED_ENV=DEV && $(TCP) delete-all-cards
 
 get-event-index: build
 	export UHPPOTED_ENV=DEV && $(CMD) get-event-index
+	export UHPPOTED_ENV=DEV && $(TCP) get-event-index
 
 set-event-index: build
 	export UHPPOTED_ENV=DEV && $(CMD) set-event-index
+	export UHPPOTED_ENV=DEV && $(TCP) set-event-index
 
 get-event: build
 	export UHPPOTED_ENV=DEV && $(CMD) get-event
+	export UHPPOTED_ENV=DEV && $(TCP) get-event
 
 record-special-events: build
 	export UHPPOTED_ENV=DEV && $(CMD) record-special-events
+	export UHPPOTED_ENV=DEV && $(TCP) record-special-events
 
 get-time-profile: build
 	export UHPPOTED_ENV=DEV && $(CMD) get-time-profile
+	export UHPPOTED_ENV=DEV && $(TCP) get-time-profile
 
 set-time-profile: build
 	export UHPPOTED_ENV=DEV && $(CMD) set-time-profile
+	export UHPPOTED_ENV=DEV && $(TCP) set-time-profile
 
 clear-time-profiles: build
 	export UHPPOTED_ENV=DEV && $(CMD) clear-time-profiles
+	export UHPPOTED_ENV=DEV && $(TCP) clear-time-profiles
 
 add-task: build
 	export UHPPOTED_ENV=DEV && $(CMD) add-task
+	export UHPPOTED_ENV=DEV && $(TCP) add-task
 
 refresh-tasklist: build
 	export UHPPOTED_ENV=DEV && $(CMD) refresh-tasklist
+	export UHPPOTED_ENV=DEV && $(TCP) refresh-tasklist
 
 clear-tasklist: build
 	export UHPPOTED_ENV=DEV && $(CMD) clear-tasklist
+	export UHPPOTED_ENV=DEV && $(TCP) clear-tasklist
 
 set-pc-control: build
 	export UHPPOTED_ENV=DEV && $(CMD) set-pc-control
+	export UHPPOTED_ENV=DEV && $(TCP) set-pc-control
 
 set-interlock: build
 	export UHPPOTED_ENV=DEV && $(CMD) set-interlock
+	export UHPPOTED_ENV=DEV && $(TCP) set-interlock
 
 activate-keypads: build
 	export UHPPOTED_ENV=DEV && $(CMD) activate-keypads
+	export UHPPOTED_ENV=DEV && $(TCP) activate-keypads
 
 set-door-passcodes: build
 	export UHPPOTED_ENV=DEV && $(CMD) set-door-passcodes
+	export UHPPOTED_ENV=DEV && $(TCP) set-door-passcodes
 
 restore-default-parameters: build
 	export UHPPOTED_ENV=DEV && $(CMD) restore-default-parameters
+	export UHPPOTED_ENV=DEV && $(TCP) restore-default-parameters
 
 listen: build
 	export UHPPOTED_ENV=DEV && $(CMD) listen

@@ -51,7 +51,7 @@ def commands():
         'record-special-events': record_special_events,
         'get-time-profile': get_time_profile,
         'set-time-profile': set_time_profile,
-        'delete-all-time-profiles': delete_all_time_profiles,
+        'clear-time-profiles': clear_time_profiles,
         'add-task': add_task,
         'refresh-tasklist': refresh_tasklist,
         'clear-tasklist': clear_tasklist,
@@ -108,40 +108,40 @@ def set_ip(u, dest, timeout, args, protocol='udp'):
     netmask = NETMASK
     gateway = GATEWAY
 
-    return u.set_ip(controller, address, netmask, gateway, dest_addr=dest, timeout=timeout)
+    return u.set_ip(controller, address, netmask, gateway, dest_addr=dest, timeout=timeout, protocol=protocol)
 
 
 def get_time(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
 
-    return u.get_time(controller, dest_addr=dest, timeout=timeout)
+    return u.get_time(controller, dest_addr=dest, timeout=timeout, protocol=protocol)
 
 
 def set_time(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
     now = datetime.datetime.now()
 
-    return u.set_time(controller, now, dest_addr=dest, timeout=timeout)
+    return u.set_time(controller, now, dest_addr=dest, timeout=timeout, protocol=protocol)
 
 
 def get_listener(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
 
-    return u.get_listener(controller, dest_addr=dest, timeout=timeout)
+    return u.get_listener(controller, dest_addr=dest, timeout=timeout, protocol=protocol)
 
 
 def set_listener(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
     (address, port) = LISTENER
 
-    return u.set_listener(controller, address, port, dest_addr=dest, timeout=timeout)
+    return u.set_listener(controller, address, port, dest_addr=dest, timeout=timeout, protocol=protocol)
 
 
 def get_door_control(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
     door = DOOR
 
-    return u.get_door_control(controller, door, dest_addr=dest, timeout=timeout)
+    return u.get_door_control(controller, door, dest_addr=dest, timeout=timeout, protocol=protocol)
 
 
 def set_door_control(u, dest, timeout, args, protocol='udp'):
@@ -150,33 +150,33 @@ def set_door_control(u, dest, timeout, args, protocol='udp'):
     mode = MODE
     delay = DELAY
 
-    return u.set_door_control(controller, door, mode, delay, dest_addr=dest, timeout=timeout)
+    return u.set_door_control(controller, door, mode, delay, dest_addr=dest, timeout=timeout, protocol=protocol)
 
 
 def get_status(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
 
-    return u.get_status(controller, dest_addr=dest, timeout=timeout)
+    return u.get_status(controller, dest_addr=dest, timeout=timeout, protocol=protocol)
 
 
 def open_door(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
     door = DOOR
 
-    return u.open_door(controller, door, dest_addr=dest, timeout=timeout)
+    return u.open_door(controller, door, dest_addr=dest, timeout=timeout, protocol=protocol)
 
 
 def get_cards(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
 
-    return u.get_cards(controller, dest_addr=dest, timeout=timeout)
+    return u.get_cards(controller, dest_addr=dest, timeout=timeout, protocol=protocol)
 
 
 def get_card(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
     card = CARD
 
-    response = u.get_card(controller, card, dest_addr=dest, timeout=timeout)
+    response = u.get_card(controller, card, dest_addr=dest, timeout=timeout, protocol=protocol)
     if response.card_number == 0:
         raise ValueError(f'card {card} not found')
 
@@ -187,7 +187,7 @@ def get_card_by_index(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
     index = CARD_INDEX
 
-    response = u.get_card_by_index(controller, index, dest_addr=dest, timeout=timeout)
+    response = u.get_card_by_index(controller, index, dest_addr=dest, timeout=timeout, protocol=protocol)
     if response.card_number == 0:
         raise ValueError(f'card @ index {index} not found')
     elif response.card_number == 0xffffffff:
@@ -207,27 +207,27 @@ def put_card(u, dest, timeout, args, protocol='udp'):
     door4 = 0    # no access
     PIN = 7531
 
-    return u.put_card(controller, card, start, end, door1, door2, door3, door4, PIN, dest_addr=dest, timeout=timeout)
+    return u.put_card(controller, card, start, end, door1, door2, door3, door4, PIN, dest_addr=dest, timeout=timeout, protocol=protocol)
 
 
 def delete_card(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
     card = CARD
 
-    return u.delete_card(controller, card, dest_addr=dest, timeout=timeout)
+    return u.delete_card(controller, card, dest_addr=dest, timeout=timeout, protocol=protocol)
 
 
 def delete_all_cards(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
 
-    return u.delete_all_cards(controller, dest_addr=dest, timeout=timeout)
+    return u.delete_all_cards(controller, dest_addr=dest, timeout=timeout, protocol=protocol)
 
 
 def get_event(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
     index = EVENT_INDEX
 
-    response = u.get_event(controller, index, dest_addr=dest, timeout=timeout)
+    response = u.get_event(controller, index, dest_addr=dest, timeout=timeout, protocol=protocol)
     if response.event_type == 0xff:
         raise ValueError(f'event @ index {index} overwritten')
     elif response.index == 0:
@@ -239,28 +239,28 @@ def get_event(u, dest, timeout, args, protocol='udp'):
 def get_event_index(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
 
-    return u.get_event_index(controller, dest_addr=dest, timeout=timeout)
+    return u.get_event_index(controller, dest_addr=dest, timeout=timeout, protocol=protocol)
 
 
 def set_event_index(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
     index = EVENT_INDEX
 
-    return u.set_event_index(controller, index, dest_addr=dest, timeout=timeout)
+    return u.set_event_index(controller, index, dest_addr=dest, timeout=timeout, protocol=protocol)
 
 
 def record_special_events(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
     enabled = True
 
-    return u.record_special_events(controller, enabled, dest_addr=dest, timeout=timeout)
+    return u.record_special_events(controller, enabled, dest_addr=dest, timeout=timeout, protocol=protocol)
 
 
 def get_time_profile(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
     profile_id = TIME_PROFILE_ID
 
-    response = u.get_time_profile(controller, profile_id, dest_addr=dest, timeout=timeout)
+    response = u.get_time_profile(controller, profile_id, dest_addr=dest, timeout=timeout, protocol=protocol)
     if response.profile_id == 0:
         raise ValueError(f'time profile {profile_id} not defined')
 
@@ -296,14 +296,14 @@ def set_time_profile(u, dest, timeout, args, protocol='udp'):
                               segment2start, segment2end, 
                               segment3start, segment3end, 
                               linked_profile_ID, 
-                              dest_addr=dest, timeout=timeout)
+                              dest_addr=dest, timeout=timeout, protocol=protocol)
     # yapf: enable
 
-def delete_all_time_profiles(u, dest, timeout, args, protocol='udp'):
-    return u.delete_all_time_profiles(CONTROLLER, dest_addr=dest, timeout=timeout)
+def clear_time_profiles(u, dest, timeout, args, protocol='udp'):
+    return u.delete_all_time_profiles(CONTROLLER, dest_addr=dest, timeout=timeout, protocol=protocol)
 
 
-def add_task(u, dest, timeout, args):
+def add_task(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
     start_date = datetime.datetime.strptime("2022-01-01", '%Y-%m-%d').date()
     end_date = datetime.datetime.strptime("2022-12-31", '%Y-%m-%d').date()
@@ -327,34 +327,34 @@ def add_task(u, dest, timeout, args):
                       door, 
                       task_type, 
                       more_cards,
-                      dest_addr=dest, timeout=timeout)
+                      dest_addr=dest, timeout=timeout, protocol=protocol)
     # yapf: enable
 
 
 def refresh_tasklist(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
 
-    return u.refresh_tasklist(controller, dest_addr=dest, timeout=timeout)
+    return u.refresh_tasklist(controller, dest_addr=dest, timeout=timeout, protocol=protocol)
 
 
 def clear_tasklist(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
 
-    return u.clear_tasklist(controller, dest_addr=dest, timeout=timeout)
+    return u.clear_tasklist(controller, dest_addr=dest, timeout=timeout, protocol=protocol)
 
 
 def set_pc_control(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
     enabled = True
 
-    return u.set_pc_control(controller, enabled, dest_addr=dest, timeout=timeout)
+    return u.set_pc_control(controller, enabled, dest_addr=dest, timeout=timeout, protocol=protocol)
 
 
 def set_interlock(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
     interlock = 3
 
-    return u.set_interlock(controller, interlock, dest_addr=dest, timeout=timeout)
+    return u.set_interlock(controller, interlock, dest_addr=dest, timeout=timeout, protocol=protocol)
 
 
 def activate_keypads(u, dest, timeout, args, protocol='udp'):
@@ -364,7 +364,7 @@ def activate_keypads(u, dest, timeout, args, protocol='udp'):
     reader3 = False
     reader4 = True
 
-    return u.activate_keypads(controller, reader1, reader2, reader3, reader4, dest_addr=dest, timeout=timeout)
+    return u.activate_keypads(controller, reader1, reader2, reader3, reader4, dest_addr=dest, timeout=timeout, protocol=protocol)
 
 
 def set_door_passcodes(u, dest, timeout, args, protocol='udp'):
@@ -375,13 +375,13 @@ def set_door_passcodes(u, dest, timeout, args, protocol='udp'):
     passcode3 = 999999
     passcode4 = 54321
 
-    return u.set_door_passcodes(controller, door, passcode1, passcode2, passcode3, passcode4, dest_addr=dest, timeout=timeout)
+    return u.set_door_passcodes(controller, door, passcode1, passcode2, passcode3, passcode4, dest_addr=dest, timeout=timeout, protocol=protocol)
 
 
 def restore_default_parameters(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
 
-    return u.restore_default_parameters(controller, dest_addr=dest, timeout=timeout)
+    return u.restore_default_parameters(controller, dest_addr=dest, timeout=timeout, protocol=protocol)
 
 
 def listen(u, dest, timeout, args, protocol='udp'):

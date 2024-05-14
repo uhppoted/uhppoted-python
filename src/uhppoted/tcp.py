@@ -55,28 +55,27 @@ class TCP:
         '''
         self.dump(request)
 
+        addr = resolve(f'{dest_addr}')
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+        try:
+            if not is_INADDR_ANY(self._bind):
+                sock.bind(self._bind)
+
+            sock.setsockopt(socket.SOL_SOCKET, socket.SO_SNDTIMEO, WRITE_TIMEOUT)
+            sock.setsockopt(socket.SOL_SOCKET, socket.SO_RCVTIMEO, READ_TIMEOUT)
+
+            sock.connect(addr)
+            sock.sendall(request)
+
+            if request[1] == 0x96:
+                return None
+
+            return _read(sock, timeout=timeout, debug=self._debug)
+        finally:
+            sock.close()
+
         raise NotImplementedError
-
-        # sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, 0)
-
-        # try:
-        #     sock.bind(self._bind)
-        #     sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-        #     sock.setsockopt(socket.SOL_SOCKET, socket.SO_SNDTIMEO, WRITE_TIMEOUT)
-        #     sock.setsockopt(socket.SOL_SOCKET, socket.SO_RCVTIMEO, READ_TIMEOUT)
-
-        #     if dest_addr == None:
-        #         sock.sendto(request, self._broadcast)
-        #     else:
-        #         addr = resolve(f'{dest_addr}')
-        #         sock.sendto(request, addr)
-
-        #     if request[1] == 0x96:
-        #         return None
-
-        #     return _read(sock, timeout=timeout, debug=self._debug)
-        # finally:
-        #     sock.close()
 
     def dump(self, packet):
         '''
@@ -91,6 +90,89 @@ class TCP:
         '''
         if self._debug:
             dump(packet)
+
+
+def is_INADDR_ANY(addr):
+    if addr == None:
+        return True
+
+    if f'{addr}' == '':
+        return True
+
+    if addr == (('0.0.0.0', 0)):
+        return True
+
+    return False
+
+
+# TODO convert to asyncio
+def _read(sock, timeout=2.5, debug=False):
+    '''
+    Waits 2.5 seconds for a single 64 byte packet to be received on the socket. Prints the packet to the console
+    if debug is True.
+
+        Parameters:
+            sock    (socket)  Initialised and open UDP socket.
+            timeout (float)   Optional operation timeout (in seconds). Defaults to 2.5s.
+            debug   (bool)    Enables dumping the received packet to the console.
+
+        Returns:
+            Received 64 byte UDP packet (or None).
+    '''
+    time_limit = timeout_to_seconds(timeout)
+
+    sock.settimeout(time_limit)
+
+    while True:
+        reply = sock.recv(1024)
+        if len(reply) == 64:
+            if debug:
+                dump(reply)
+            return reply
+
+    return None
+
+
+def resolve(addr):
+    '''
+    Resolves an address:port string into the equivalent ( address, port ) tuple. An addr value
+    without a :port suffix defaults to port 60000.
+
+        Parameters:
+            addr  (string)  address:port string
+
+        Returns:
+            (address, port) as a (string, uint16) tuple
+    '''
+    match = re.match(r'(.*?):([0-9]+)', addr)
+    if match:
+        return (match.group(1), int(match.group(2)))
+    else:
+        address = ipaddress.IPv4Address(addr)
+        return (str(address), 60000)
+
+
+def timeout_to_seconds(val, defval=2.5):
+    '''
+    Converts a timeout value to seconds, returning the default value if the supplied value
+    is None, cannot be converted, or is out of the range [50ms..30s]
+
+        Parameters:
+            val    (float)  Timeout in seconds
+            defval (float)  Optional default values.
+
+        Returns:
+            timeout in seconds as a float
+    '''
+    try:
+        if val != None:
+            v = float(f'{val}')
+            if v >= 0.05 and v <= 30:
+                return v
+    except:
+        pass
+
+    return defval
 
 
 def dump(packet):
