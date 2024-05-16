@@ -46,7 +46,8 @@ publish: release
 debug: build
 	# python3 -m unittest integration-tests/uhppoted/udp_dest_addr.py 
 	# export UHPPOTED_ENV=DEV && cd examples/cli && python3 main.py --debug --bind 192.168.1.100 --broadcast 192.168.1.255 --udp get-controller
-	export UHPPOTED_ENV=DEV && cd examples/cli && python3 main.py --debug --tcp --bind 192.168.1.100 --dest 192.168.1.100 get-controller
+	# export UHPPOTED_ENV=DEV && cd examples/cli && python3 main.py --debug --tcp --bind 192.168.1.100 --dest 192.168.1.100 get-controller
+	python3 -m unittest integration-tests/uhppoted/tcp.py 
 
 usage: build
 	$(CMD)
