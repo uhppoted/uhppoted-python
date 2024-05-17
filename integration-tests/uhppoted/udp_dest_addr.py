@@ -52,24 +52,25 @@ def handle(sock, bind, debug):
     finally:
         sock.close()
 
-class TestUhppoteWithDestAddr(unittest.TestCase):
-    def setUp(self):
+class TestUDPWithDestAddr(unittest.TestCase):
+    @classmethod
+    def setUpClass(clazz):
         bind = '0.0.0.0'
         broadcast = '255.255.255.255:60000'
         listen = '0.0.0.0:60001'
         debug = False
 
-        self.u = uhppote.Uhppote(bind, broadcast, listen, debug)
-        self._sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, 0)
-        self._thread = threading.Thread(target = handle, args = (self._sock,('127.0.0.1', 54321), False))
+        clazz.u = uhppote.Uhppote(bind, broadcast, listen, debug)
+        clazz._sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, 0)
+        clazz._thread = threading.Thread(target = handle, args = (clazz._sock,('127.0.0.1', 54321), False))
 
-        self._thread.start()
+        clazz._thread.start()
         time.sleep(1)
 
-
-    def tearDown(self):
-        self._sock.close()
-        pass
+    @classmethod
+    def tearDownClass(clazz):
+        clazz._sock.close()
+        clazz._sock = None
 
     def test_get_controller(self):
         '''
