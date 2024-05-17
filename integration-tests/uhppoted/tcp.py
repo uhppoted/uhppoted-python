@@ -15,7 +15,7 @@ from ipaddress import IPv4Address
 
 from uhppoted import uhppote
 from uhppoted import structs
-from uhppoted.udp import dump
+from uhppoted.net import dump
 
 from .stub import messages
 from .expected import *

@@ -2,8 +2,10 @@
 
 - [ ] TCP/IP protocol (cf. https://github.com/uhppoted/uhppote-core/issues/17)
       - [x] TCP implementation
+            - [x] Set SO_REUSEADDR option
       - [x] Update all functions:
       - [x] Integration tests
+           - [ ] TCP timeout
            - [x] FIXME: `uhppoted/tcp.py:41: ResourceWarning: unclosed <socket.socket fd=5`
            - [x] get_controller
            - [x] set_ip
@@ -36,12 +38,12 @@
            - [x] activate_keypads
            - [x] set_door_passcodes
            - [x] restore_default_parameters
-      - [ ] commonalise utility functions
-            - [ ] resolve
-            - [ ] dump
-            - [ ] timeout_to_seconds
-            - [ ] constants
-      - [ ] Update UDP tests to use setUpClass and tearDownClass
+      - [x] commonalise utility functions
+            - [x] resolve
+            - [x] dump
+            - [x] timeout_to_seconds
+            - [x] constants
+      - [x] Update UDP tests to use setUpClass and tearDownClass
 
 - [ ] Use site-specific configuration to run examples locally
       - https://docs.python.org/3/library/site.html

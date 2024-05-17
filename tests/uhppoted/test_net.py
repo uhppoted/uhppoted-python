@@ -5,9 +5,10 @@ Tests the internal conversion functions.
 '''
 
 import unittest
-from uhppoted.udp import timeout_to_seconds
 
-class TestUDP(unittest.TestCase):
+from uhppoted.net import timeout_to_seconds
+
+class TestNet(unittest.TestCase):
 
     def test_timeout_to_seconds(self):
         '''
