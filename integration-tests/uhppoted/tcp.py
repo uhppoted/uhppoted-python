@@ -33,29 +33,31 @@ def handle(sock, bind, debug):
     '''
     never = struct.pack('ll', 0, 0)  # (infinite)
 
-    try:
-        sock.bind(bind)
-        sock.listen(1)
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    sock.bind(bind)
+    sock.listen(1)
 
+    try:
         while True:
             (connection,addr) = sock.accept()
-            connection.settimeout(0.5)
-            message = connection.recv(1024)
+            try:
+                connection.settimeout(0.5)
+                message = connection.recv(1024)
 
-            if len(message) == 64:
-                if debug:
-                    dump(message)
-                for m in messages():
-                    if bytes(m['request']) == message:
-                        connection.sendall(bytes(m['response']))
-                        break
+                if len(message) == 64:
+                    if debug:
+                        dump(message)
+                    for m in messages():
+                        if bytes(m['request']) == message:
+                            connection.sendall(bytes(m['response']))
+                            break
 
-            # connection.close()
-    except Exception as x:
-        print('WARN',x)
+            except Exception as x:
+                print('WARN',x)
+            finally:
+                connection.close()
+    except Exception as xx:
         pass
-    finally:
-        sock.close()
 
 class TestUhppoteWithTCP(unittest.TestCase):
     @classmethod
@@ -76,7 +78,7 @@ class TestUhppoteWithTCP(unittest.TestCase):
     @classmethod
     def tearDownClass(clazz):
         clazz._sock.close()
-        pass
+        clazz._sock = None
 
     def test_get_controller(self):
         '''
@@ -110,16 +112,16 @@ class TestUhppoteWithTCP(unittest.TestCase):
 
         self.assertEqual(response, GetTimeResponse)
 
-    # def test_set_time(self):
-    #     '''
-    #     Tests the set-time function with defaults.
-    #     '''
-    #     controller = CONTROLLER
-    #     time = datetime.datetime(2021, 5, 28, 14, 56, 14)
+    def test_set_time(self):
+        '''
+        Tests the set-time function with defaults.
+        '''
+        controller = CONTROLLER
+        time = datetime.datetime(2021, 5, 28, 14, 56, 14)
 
-    #     response = self.u.set_time(controller, time)
+        response = self.u.set_time(controller, time, dest_addr='127.0.0.1:12345', protocol='tcp')
 
-    #     self.assertEqual(response, SetTimeResponse)
+        self.assertEqual(response, SetTimeResponse)
 
     # def test_get_status(self):
     #     '''

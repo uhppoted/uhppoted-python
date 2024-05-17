@@ -2,14 +2,13 @@
 
 - [ ] TCP/IP protocol (cf. https://github.com/uhppoted/uhppote-core/issues/17)
       - [x] TCP implementation
-            - [ ] FIXME: `uhppoted/tcp.py:41: ResourceWarning: unclosed <socket.socket fd=5`
-
       - [x] Update all functions:
       - [ ] Integration tests
+           - [x] FIXME: `uhppoted/tcp.py:41: ResourceWarning: unclosed <socket.socket fd=5`
            - [x] get_controller
            - [x] set_ip
            - [x] get_time
-           - [ ] set_time
+           - [x] set_time
            - [ ] get_status
            - [ ] get_listener
            - [ ] set_listener

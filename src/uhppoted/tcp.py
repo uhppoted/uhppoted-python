@@ -56,9 +56,7 @@ class TCP:
         self.dump(request)
 
         addr = resolve(f'{dest_addr}')
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-        try:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
             if not is_INADDR_ANY(self._bind):
                 sock.bind(self._bind)
 
@@ -70,12 +68,8 @@ class TCP:
 
             if request[1] == 0x96:
                 return None
-
-            return _read(sock, timeout=timeout, debug=self._debug)
-        finally:
-            sock.close()
-
-        raise NotImplementedError
+            else:
+                return _read(sock, timeout=timeout, debug=self._debug)
 
     def dump(self, packet):
         '''
