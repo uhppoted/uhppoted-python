@@ -90,10 +90,17 @@ pprint(record.__dict__, indent=2, width=1)
 ```
    get_controller(controller, dest_addr='192.168.1.100:60000')
 ```
-3. All API functions (other than `listen`) take an optional `timeout` kwarg that sets the time limit for the 
+3. All API functions (other than `get_controllers` and `listen`) take an optional `protocol` kwarg that specifies the 
+   connection type (either 'udp' or 'tcp'), e.g.:
+```
+   get_controller(controller, dest_addr='192.168.1.100:60000', protocol='tcp')
+```
+   The default is 'udp'.
+
+4. All API functions (other than `listen`) take an optional `timeout` kwarg that sets the time limit for the 
    request (in seconds), e.g.:
 ```
-   get_controller(controller, dest_addr='192.168.1.100:60000', timeout=0.75)
+   get_controller(controller, dest_addr='192.168.1.100:60000', protocol='udp', timeout=0.75)
 ```
 
 ### `get_controllers`

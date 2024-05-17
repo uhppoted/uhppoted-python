@@ -44,9 +44,9 @@
             - [x] timeout_to_seconds
             - [x] constants
       - [x] Update UDP tests to use setUpClass and tearDownClass
-      - [ ] Documentation
+      - [x] Documentation
       - [x] CHANGELOG
-      - [ ] README
+      - [x] README
 
 - [ ] Use site-specific configuration to run examples locally
       - https://docs.python.org/3/library/site.html
