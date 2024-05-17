@@ -5,7 +5,6 @@
             - [x] Set SO_REUSEADDR option
       - [x] Update all functions:
       - [x] Integration tests
-           - [ ] TCP timeout
            - [x] FIXME: `uhppoted/tcp.py:41: ResourceWarning: unclosed <socket.socket fd=5`
            - [x] get_controller
            - [x] set_ip
@@ -38,12 +37,16 @@
            - [x] activate_keypads
            - [x] set_door_passcodes
            - [x] restore_default_parameters
+           - [x] TCP timeout
       - [x] commonalise utility functions
             - [x] resolve
             - [x] dump
             - [x] timeout_to_seconds
             - [x] constants
       - [x] Update UDP tests to use setUpClass and tearDownClass
+      - [ ] Documentation
+      - [x] CHANGELOG
+      - [ ] README
 
 - [ ] Use site-specific configuration to run examples locally
       - https://docs.python.org/3/library/site.html

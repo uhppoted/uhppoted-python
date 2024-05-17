@@ -4,6 +4,7 @@
 
 ### Added
 1. Enabled per-controller operation timeout configuration.
+2. Added support for TCP connections.
 
 
 ## [0.8.8.1](https://github.com/uhppoted/uhppoted-python/releases/tag/v0.8.8.1) - 2024-04-11

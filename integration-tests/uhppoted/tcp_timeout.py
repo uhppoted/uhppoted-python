@@ -20,7 +20,7 @@ from uhppoted.net import dump
 from .stub import messages
 from .expected import *
 
-DEST_ADDR = '127.0.0.1:54321'
+DEST_ADDR='127.0.0.1:12345'
 TIMEOUT = 0.25
 CONTROLLER = 405419896
 CARD = 8165538
@@ -31,30 +31,39 @@ NO_TIMEOUT = struct.pack('ll', 0, 0)  # (infinite)
 
 def handle(sock, bind, debug):
     '''
-    Replies to received UDP packets with the matching response after 0.5s delay.
+    Replies to received TCP packets with the matching response after 0.5s delay.
     '''
     never = struct.pack('ll', 0, 0)  # (infinite)
 
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    sock.bind(bind)
+    sock.listen(1)
+
     try:
-        sock.bind(bind)
-        sock.setsockopt(socket.SOL_SOCKET, socket.SO_RCVTIMEO, never)
-
         while True:
-            (message,addr) = sock.recvfrom(1024)
-            if len(message) == 64:
-                if debug:
-                    dump(message)
-                for m in messages():
-                    if bytes(m['request']) == message:
-                        time.sleep(0.5)
-                        sock.sendto(bytes(m['response']), addr)
-                        break
-    except Exception as x:
-        pass
-    finally:
-        sock.close()
+            (connection,addr) = sock.accept()
+            try:
+                connection.settimeout(0.5)
+                message = connection.recv(1024)
 
-class TestUDPWithTimeout(unittest.TestCase):
+                if len(message) == 64:
+                    if debug:
+                        dump(message)
+                    for m in messages():
+                        if bytes(m['request']) == message:
+                            time.sleep(0.5)
+                            connection.sendall(bytes(m['response']))
+                            break
+
+            except Exception as x:
+                print('WARN',x)
+            finally:
+                connection.close()
+    except Exception as xx:
+        pass
+
+
+class TestTCPWithTimeout(unittest.TestCase):
     @classmethod
     def setUpClass(clazz):
         bind = '0.0.0.0'
@@ -63,45 +72,27 @@ class TestUDPWithTimeout(unittest.TestCase):
         debug = False
 
         clazz.u = uhppote.Uhppote(bind, broadcast, listen, debug)
-        clazz._sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, 0)
-        clazz._thread = threading.Thread(target = handle, args = (clazz._sock,('127.0.0.1', 54321), False))
+        clazz._sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
+        clazz._thread = threading.Thread(target = handle, args = (clazz._sock,('', 12345), False))
 
         clazz._thread.start()
         time.sleep(1)
+
 
     @classmethod
     def tearDownClass(clazz):
         clazz._sock.close()
         clazz._sock = None
 
-    def test_get_all_controllers(self):
-        '''
-        Tests the get-all-controllers function with a timeout.
-        '''
-        controller = CONTROLLER
-        dest = DEST_ADDR
-        timeout = TIMEOUT
-
-        start = time.time()
-        self.u.get_all_controllers()
-        dt = time.time() - start
-        self.assertTrue(dt < 2.6)
-
-        start = time.time()
-        self.u.get_all_controllers(timeout=timeout)
-        dt = time.time() - start
-        self.assertTrue(dt < 0.35)
-
     def test_get_controller(self):
         '''
         Tests the get-controller function with a timeout.
         '''
         controller = CONTROLLER
-        dest = DEST_ADDR
         timeout = TIMEOUT
 
-        self.u.get_controller(controller, dest_addr=dest)
-        self.assertRaises(socket.timeout, self.u.get_controller,controller, dest_addr=dest, timeout=timeout)
+        self.u.get_controller(controller, dest_addr=DEST_ADDR, protocol='tcp')
+        self.assertRaises(socket.timeout, self.u.get_controller,controller, dest_addr=DEST_ADDR, protocol='tcp', timeout=timeout)
 
     def test_set_ip(self):
         '''
@@ -111,21 +102,19 @@ class TestUDPWithTimeout(unittest.TestCase):
         address = IPv4Address('192.168.1.100')
         netmask = IPv4Address('255.255.255.0')
         gateway = IPv4Address('192.168.1.1')
-        dest = DEST_ADDR
         timeout = TIMEOUT
 
-        self.u.set_ip(controller, address, netmask, gateway, dest_addr=dest, timeout=timeout)
+        self.u.set_ip(controller, address, netmask, gateway, dest_addr=DEST_ADDR, protocol='tcp', timeout=timeout)
 
     def test_get_time(self):
         '''
         Tests the get-time function with a timeout.
         '''
         controller = CONTROLLER
-        dest = DEST_ADDR
         timeout = TIMEOUT
 
-        self.u.get_time(controller, dest_addr=dest)
-        self.assertRaises(socket.timeout, self.u.get_time, controller, dest_addr=dest, timeout=timeout)
+        self.u.get_time(controller, dest_addr=DEST_ADDR, protocol='tcp')
+        self.assertRaises(socket.timeout, self.u.get_time, controller, dest_addr=DEST_ADDR, protocol='tcp', timeout=timeout)
 
     def test_set_time(self):
         '''
@@ -136,8 +125,8 @@ class TestUDPWithTimeout(unittest.TestCase):
         dest = DEST_ADDR
         timeout = TIMEOUT
 
-        self.u.set_time(controller, time, dest_addr=dest)
-        self.assertRaises(socket.timeout, self.u.set_time,controller, time, dest_addr=dest, timeout=timeout)
+        self.u.set_time(controller, time, dest_addr=DEST_ADDR, protocol='tcp')
+        self.assertRaises(socket.timeout, self.u.set_time,controller, time, dest_addr=DEST_ADDR, protocol='tcp', timeout=timeout)
 
     def test_get_status(self):
         '''
@@ -147,8 +136,8 @@ class TestUDPWithTimeout(unittest.TestCase):
         dest = DEST_ADDR
         timeout = TIMEOUT
 
-        self.u.get_status(controller, dest_addr=dest)
-        self.assertRaises(socket.timeout, self.u.get_status, controller, dest_addr=dest, timeout=timeout)
+        self.u.get_status(controller, dest_addr=DEST_ADDR, protocol='tcp')
+        self.assertRaises(socket.timeout, self.u.get_status, controller, dest_addr=DEST_ADDR, protocol='tcp', timeout=timeout)
         
     def test_get_listener(self):
         '''
@@ -158,8 +147,8 @@ class TestUDPWithTimeout(unittest.TestCase):
         dest = DEST_ADDR
         timeout = TIMEOUT
 
-        self.u.get_listener(controller, dest_addr=dest)
-        self.assertRaises(socket.timeout, self.u.get_listener,controller, dest_addr=dest, timeout=timeout)
+        self.u.get_listener(controller, dest_addr=DEST_ADDR, protocol='tcp')
+        self.assertRaises(socket.timeout, self.u.get_listener,controller, dest_addr=DEST_ADDR, protocol='tcp', timeout=timeout)
 
     def test_set_listener(self):
         '''
@@ -171,8 +160,8 @@ class TestUDPWithTimeout(unittest.TestCase):
         dest = DEST_ADDR
         timeout = TIMEOUT
 
-        self.u.set_listener(controller, address, port, dest_addr=dest)
-        self.assertRaises(socket.timeout, self.u.set_listener, controller, address, port, dest_addr=dest, timeout=timeout)
+        self.u.set_listener(controller, address, port, dest_addr=DEST_ADDR, protocol='tcp')
+        self.assertRaises(socket.timeout, self.u.set_listener, controller, address, port, dest_addr=DEST_ADDR, protocol='tcp', timeout=timeout)
 
     def test_get_door_control(self):
         '''
@@ -183,8 +172,8 @@ class TestUDPWithTimeout(unittest.TestCase):
         dest = DEST_ADDR
         timeout = TIMEOUT
 
-        self.u.get_door_control(controller, door, dest_addr=dest)
-        self.assertRaises(socket.timeout, self.u.get_door_control, controller, door, dest_addr=dest, timeout=timeout)
+        self.u.get_door_control(controller, door, dest_addr=DEST_ADDR, protocol='tcp')
+        self.assertRaises(socket.timeout, self.u.get_door_control, controller, door, dest_addr=DEST_ADDR, protocol='tcp', timeout=timeout)
 
     def test_set_door_control(self):
         '''
@@ -197,8 +186,18 @@ class TestUDPWithTimeout(unittest.TestCase):
         dest = DEST_ADDR
         timeout = TIMEOUT
 
-        self.u.set_door_control(controller, door, mode, delay, dest_addr=dest)
-        self.assertRaises(socket.timeout, self.u.set_door_control, controller, door, mode, delay, dest_addr=dest, timeout=timeout)
+        self.u.set_door_control(controller, door, mode, delay, dest_addr=DEST_ADDR, protocol='tcp')
+
+        self.assertRaises(
+            socket.timeout, 
+            self.u.set_door_control, 
+            controller, 
+            door, 
+            mode, 
+            delay, 
+            dest_addr=DEST_ADDR, 
+            protocol='tcp', 
+            timeout=timeout)
 
     def test_open_door(self):
         '''
@@ -209,8 +208,8 @@ class TestUDPWithTimeout(unittest.TestCase):
         dest = DEST_ADDR
         timeout = TIMEOUT
 
-        self.u.open_door(controller, door, dest_addr=dest)
-        self.assertRaises(socket.timeout, self.u.open_door, controller, door, dest_addr=dest, timeout=timeout)
+        self.u.open_door(controller, door, dest_addr=DEST_ADDR, protocol='tcp')
+        self.assertRaises(socket.timeout, self.u.open_door, controller, door, dest_addr=DEST_ADDR, protocol='tcp', timeout=timeout)
 
     def test_open_door(self):
         '''
@@ -221,8 +220,8 @@ class TestUDPWithTimeout(unittest.TestCase):
         dest = DEST_ADDR
         timeout = TIMEOUT
 
-        self.u.open_door(controller, door, dest_addr=dest)
-        self.assertRaises(socket.timeout, self.u.open_door, controller, door, dest_addr=dest, timeout=timeout)
+        self.u.open_door(controller, door, dest_addr=DEST_ADDR, protocol='tcp')
+        self.assertRaises(socket.timeout, self.u.open_door, controller, door, dest_addr=DEST_ADDR, protocol='tcp', timeout=timeout)
 
     def test_get_cards(self):
         '''
@@ -232,8 +231,8 @@ class TestUDPWithTimeout(unittest.TestCase):
         dest = DEST_ADDR
         timeout = TIMEOUT
 
-        self.u.get_cards(controller, dest_addr=dest)
-        self.assertRaises(socket.timeout, self.u.get_cards, controller, dest_addr=dest, timeout=timeout)
+        self.u.get_cards(controller, dest_addr=DEST_ADDR, protocol='tcp')
+        self.assertRaises(socket.timeout, self.u.get_cards, controller, dest_addr=DEST_ADDR, protocol='tcp', timeout=timeout)
 
     def test_get_card(self):
         '''
@@ -244,8 +243,8 @@ class TestUDPWithTimeout(unittest.TestCase):
         dest = DEST_ADDR
         timeout = TIMEOUT
 
-        self.u.get_card(controller, card, dest_addr=dest)
-        self.assertRaises(socket.timeout, self.u.get_card, controller, card, dest_addr=dest, timeout=timeout)
+        self.u.get_card(controller, card, dest_addr=DEST_ADDR, protocol='tcp')
+        self.assertRaises(socket.timeout, self.u.get_card, controller, card, dest_addr=DEST_ADDR, protocol='tcp', timeout=timeout)
 
     def test_get_card_by_index(self):
         '''
@@ -256,8 +255,8 @@ class TestUDPWithTimeout(unittest.TestCase):
         dest = DEST_ADDR
         timeout = TIMEOUT
 
-        self.u.get_card_by_index(controller, index, dest_addr=dest)
-        self.assertRaises(socket.timeout, self.u.get_card_by_index, controller, index, dest_addr=dest, timeout=timeout)
+        self.u.get_card_by_index(controller, index, dest_addr=DEST_ADDR, protocol='tcp')
+        self.assertRaises(socket.timeout, self.u.get_card_by_index, controller, index, dest_addr=DEST_ADDR, protocol='tcp', timeout=timeout)
 
     def test_put_card(self):
         '''
@@ -275,8 +274,19 @@ class TestUDPWithTimeout(unittest.TestCase):
         dest = DEST_ADDR
         timeout = TIMEOUT
 
-        self.u.put_card(controller, card, start, end, door1, door2, door3, door4, PIN, dest_addr=dest)
-        self.assertRaises(socket.timeout, self.u.put_card, controller, card, start, end, door1, door2, door3, door4, PIN, dest_addr=dest, timeout=timeout)
+        self.u.put_card(controller, card, start, end, door1, door2, door3, door4, PIN, dest_addr=DEST_ADDR, protocol='tcp')
+
+        self.assertRaises(
+            socket.timeout, 
+            self.u.put_card, 
+            controller, 
+            card, 
+            start, end, 
+            door1, door2, door3, door4, 
+            PIN, 
+            dest_addr=DEST_ADDR, 
+            protocol='tcp', 
+            timeout=timeout)
 
     def test_delete_card(self):
         '''
@@ -287,8 +297,8 @@ class TestUDPWithTimeout(unittest.TestCase):
         dest = DEST_ADDR
         timeout = TIMEOUT
 
-        self.u.delete_card(controller, card, dest_addr=dest)
-        self.assertRaises(socket.timeout, self.u.delete_card, controller, card, dest_addr=dest, timeout=timeout)
+        self.u.delete_card(controller, card, dest_addr=DEST_ADDR, protocol='tcp')
+        self.assertRaises(socket.timeout, self.u.delete_card, controller, card, dest_addr=DEST_ADDR, protocol='tcp', timeout=timeout)
 
     def test_delete_all_cards(self):
         '''
@@ -298,8 +308,8 @@ class TestUDPWithTimeout(unittest.TestCase):
         dest = DEST_ADDR
         timeout = TIMEOUT
 
-        self.u.delete_all_cards(controller, dest_addr=dest)
-        self.assertRaises(socket.timeout, self.u.delete_all_cards, controller, dest_addr=dest, timeout=timeout)
+        self.u.delete_all_cards(controller, dest_addr=DEST_ADDR, protocol='tcp')
+        self.assertRaises(socket.timeout, self.u.delete_all_cards, controller, dest_addr=DEST_ADDR, protocol='tcp', timeout=timeout)
 
     def test_get_event(self):
         '''
@@ -310,8 +320,8 @@ class TestUDPWithTimeout(unittest.TestCase):
         dest = DEST_ADDR
         timeout = TIMEOUT
 
-        self.u.get_event(controller, index, dest_addr=dest)
-        self.assertRaises(socket.timeout, self.u.get_event, controller, index, dest_addr=dest, timeout=timeout)
+        self.u.get_event(controller, index, dest_addr=DEST_ADDR, protocol='tcp')
+        self.assertRaises(socket.timeout, self.u.get_event, controller, index, dest_addr=DEST_ADDR, protocol='tcp', timeout=timeout)
 
     def test_get_event_index(self):
         '''
@@ -321,8 +331,8 @@ class TestUDPWithTimeout(unittest.TestCase):
         dest = DEST_ADDR
         timeout = TIMEOUT
 
-        self.u.get_event_index(controller, dest_addr=dest)
-        self.assertRaises(socket.timeout, self.u.get_event_index, controller, dest_addr=dest, timeout=timeout)
+        self.u.get_event_index(controller, dest_addr=DEST_ADDR, protocol='tcp')
+        self.assertRaises(socket.timeout, self.u.get_event_index, controller, dest_addr=DEST_ADDR, protocol='tcp', timeout=timeout)
 
     def test_set_event_index(self):
         '''
@@ -333,8 +343,8 @@ class TestUDPWithTimeout(unittest.TestCase):
         dest = DEST_ADDR
         timeout = TIMEOUT
 
-        self.u.set_event_index(controller, index, dest_addr=dest)
-        self.assertRaises(socket.timeout, self.u.set_event_index, controller, index, dest_addr=dest, timeout=timeout)
+        self.u.set_event_index(controller, index, dest_addr=DEST_ADDR, protocol='tcp')
+        self.assertRaises(socket.timeout, self.u.set_event_index, controller, index, dest_addr=DEST_ADDR, protocol='tcp', timeout=timeout)
 
     def test_record_special_events(self):
         '''
@@ -345,8 +355,16 @@ class TestUDPWithTimeout(unittest.TestCase):
         dest = DEST_ADDR
         timeout = TIMEOUT
 
-        self.u.record_special_events(controller, enabled, dest_addr=dest)
-        self.assertRaises(socket.timeout, self.u.record_special_events, controller, enabled, dest_addr=dest, timeout=timeout)
+        self.u.record_special_events(controller, enabled, dest_addr=DEST_ADDR, protocol='tcp')
+
+        self.assertRaises(
+            socket.timeout, 
+            self.u.record_special_events, 
+            controller, 
+            enabled, 
+            dest_addr=DEST_ADDR, 
+            protocol='tcp', 
+            timeout=timeout)
 
     def test_get_time_profile(self):
         '''
@@ -357,8 +375,16 @@ class TestUDPWithTimeout(unittest.TestCase):
         dest = DEST_ADDR
         timeout = TIMEOUT
 
-        self.u.get_time_profile(controller, profile, dest_addr=dest)
-        self.assertRaises(socket.timeout, self.u.get_time_profile, controller, profile, dest_addr=dest, timeout=timeout)
+        self.u.get_time_profile(controller, profile, dest_addr=DEST_ADDR, protocol='tcp')
+
+        self.assertRaises(
+            socket.timeout, 
+            self.u.get_time_profile, 
+            controller, 
+            profile, 
+            dest_addr=DEST_ADDR, 
+            protocol='tcp', 
+            timeout=timeout)
 
     def test_set_time_profile(self):
         '''
@@ -404,7 +430,8 @@ class TestUDPWithTimeout(unittest.TestCase):
             segment_3_start,
             segment_3_end,
             linked_profile_id,
-            dest_addr=dest)
+            dest_addr=DEST_ADDR, 
+            protocol='tcp')
 
         self.assertRaises(socket.timeout, self.u.set_time_profile,
             controller,
@@ -425,7 +452,8 @@ class TestUDPWithTimeout(unittest.TestCase):
             segment_3_start,
             segment_3_end,
             linked_profile_id,
-            dest_addr=dest,
+            dest_addr=DEST_ADDR, 
+            protocol='tcp',
             timeout=timeout)
 
     def test_delete_all_time_profiles(self):
@@ -436,8 +464,8 @@ class TestUDPWithTimeout(unittest.TestCase):
         dest = DEST_ADDR
         timeout = TIMEOUT
 
-        self.u.delete_all_time_profiles(controller, dest_addr=dest)
-        self.assertRaises(socket.timeout, self.u.delete_all_time_profiles, controller, dest_addr=dest, timeout=timeout)
+        self.u.delete_all_time_profiles(controller, dest_addr=DEST_ADDR, protocol='tcp')
+        self.assertRaises(socket.timeout, self.u.delete_all_time_profiles, controller, dest_addr=DEST_ADDR, protocol='tcp', timeout=timeout)
 
     def test_add_task(self):
         '''
@@ -468,7 +496,7 @@ class TestUDPWithTimeout(unittest.TestCase):
             door, 
             task_type, 
             more_cards,
-            dest_addr=dest)
+            dest_addr=DEST_ADDR, protocol='tcp')
 
         self.assertRaises(socket.timeout, self.u.add_task,
             controller,
@@ -478,7 +506,7 @@ class TestUDPWithTimeout(unittest.TestCase):
             door, 
             task_type, 
             more_cards,
-            dest_addr=dest,
+            dest_addr=DEST_ADDR, protocol='tcp',
             timeout=timeout)
 
     def test_refresh_tasklist(self):
@@ -489,8 +517,8 @@ class TestUDPWithTimeout(unittest.TestCase):
         dest = DEST_ADDR
         timeout = TIMEOUT
 
-        self.u.refresh_tasklist(controller, dest_addr=dest)
-        self.assertRaises(socket.timeout, self.u.refresh_tasklist, controller, dest_addr=dest, timeout=timeout)
+        self.u.refresh_tasklist(controller, dest_addr=DEST_ADDR, protocol='tcp')
+        self.assertRaises(socket.timeout, self.u.refresh_tasklist, controller, dest_addr=DEST_ADDR, protocol='tcp', timeout=timeout)
 
     def test_clear_tasklist(self):
         '''
@@ -500,8 +528,8 @@ class TestUDPWithTimeout(unittest.TestCase):
         dest = DEST_ADDR
         timeout = TIMEOUT
 
-        self.u.clear_tasklist(controller, dest_addr=dest)
-        self.assertRaises(socket.timeout, self.u.clear_tasklist, controller, dest_addr=dest, timeout=timeout)
+        self.u.clear_tasklist(controller, dest_addr=DEST_ADDR, protocol='tcp')
+        self.assertRaises(socket.timeout, self.u.clear_tasklist, controller, dest_addr=DEST_ADDR, protocol='tcp', timeout=timeout)
 
     def test_set_pc_control(self):
         '''
@@ -512,8 +540,8 @@ class TestUDPWithTimeout(unittest.TestCase):
         dest = DEST_ADDR
         timeout = TIMEOUT
 
-        self.u.set_pc_control(controller, enable, dest_addr=dest)
-        self.assertRaises(socket.timeout, self.u.set_pc_control, controller, enable, dest_addr=dest, timeout=timeout)
+        self.u.set_pc_control(controller, enable, dest_addr=DEST_ADDR, protocol='tcp')
+        self.assertRaises(socket.timeout, self.u.set_pc_control, controller, enable, dest_addr=DEST_ADDR, protocol='tcp', timeout=timeout)
 
     def test_set_pc_control(self):
         '''
@@ -523,7 +551,7 @@ class TestUDPWithTimeout(unittest.TestCase):
         enable = True
         dest = DEST_ADDR
 
-        response = self.u.set_pc_control(controller, enable, dest_addr=dest)
+        response = self.u.set_pc_control(controller, enable, dest_addr=DEST_ADDR, protocol='tcp')
 
         self.assertEqual(response, SetPCControlResponse)
 
@@ -536,8 +564,8 @@ class TestUDPWithTimeout(unittest.TestCase):
         dest = DEST_ADDR
         timeout = TIMEOUT
 
-        self.u.set_interlock(controller, interlock, dest_addr=dest)
-        self.assertRaises(socket.timeout, self.u.set_interlock, controller, interlock, dest_addr=dest, timeout=timeout)
+        self.u.set_interlock(controller, interlock, dest_addr=DEST_ADDR, protocol='tcp')
+        self.assertRaises(socket.timeout, self.u.set_interlock, controller, interlock, dest_addr=DEST_ADDR, protocol='tcp', timeout=timeout)
 
     def test_activate_keypads(self):
         '''
@@ -551,8 +579,16 @@ class TestUDPWithTimeout(unittest.TestCase):
         dest = DEST_ADDR
         timeout = TIMEOUT
 
-        self.u.activate_keypads(controller, reader1, reader2, reader3, reader4, dest_addr=dest)
-        self.assertRaises(socket.timeout, self.u.activate_keypads, controller, reader1, reader2, reader3, reader4, dest_addr=dest, timeout=timeout)
+        self.u.activate_keypads(controller, reader1, reader2, reader3, reader4, dest_addr=DEST_ADDR, protocol='tcp')
+
+        self.assertRaises(
+            socket.timeout, 
+            self.u.activate_keypads, 
+            controller, 
+            reader1, reader2, reader3, reader4, 
+            dest_addr=DEST_ADDR, 
+            protocol='tcp', 
+            timeout=timeout)
 
     def test_set_door_passcodes(self):
         '''
@@ -567,8 +603,17 @@ class TestUDPWithTimeout(unittest.TestCase):
         dest = DEST_ADDR
         timeout = TIMEOUT
 
-        self.u.set_door_passcodes(controller, door, passcode1,  passcode2, passcode3, passcode4, dest_addr=dest)
-        self.assertRaises(socket.timeout, self.u.set_door_passcodes, controller, door, passcode1,  passcode2, passcode3, passcode4, dest_addr=dest, timeout=timeout)
+        self.u.set_door_passcodes(controller, door, passcode1,  passcode2, passcode3, passcode4, dest_addr=DEST_ADDR, protocol='tcp')
+
+        self.assertRaises(
+            socket.timeout, 
+            self.u.set_door_passcodes, 
+            controller, 
+            door, 
+            passcode1,  passcode2, passcode3, passcode4, 
+            dest_addr=DEST_ADDR, 
+            protocol='tcp', 
+            timeout=timeout)
 
     def test_restore_default_parameters(self):
         '''
@@ -578,7 +623,13 @@ class TestUDPWithTimeout(unittest.TestCase):
         dest = DEST_ADDR
         timeout = TIMEOUT
 
-        self.u.restore_default_parameters(controller, dest_addr=dest)
-        self.assertRaises(socket.timeout, self.u.restore_default_parameters, controller, dest_addr=dest, timeout=timeout)
+        self.u.restore_default_parameters(controller, dest_addr=DEST_ADDR, protocol='tcp')
+        self.assertRaises(
+            socket.timeout, 
+            self.u.restore_default_parameters, 
+            controller, 
+            dest_addr=DEST_ADDR, 
+            protocol='tcp', 
+            timeout=timeout)
 
 
