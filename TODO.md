@@ -1,6 +1,6 @@
 # TODO
 
-- [ ] TCP/IP protocol (cf. https://github.com/uhppoted/uhppote-core/issues/17)
+- [x] TCP/IP protocol (cf. https://github.com/uhppoted/uhppote-core/issues/17)
       - [x] TCP implementation
             - [x] Set SO_REUSEADDR option
       - [x] Update all functions:
