@@ -1,15 +1,20 @@
-import os
-import ipaddress
 import datetime
-import pprint
-import sys
+import ipaddress
+import os
 import pathlib
+import pprint
+import queue
+import sys
+import threading
+import time
 
-if os.environ['UHPPOTED_ENV'] == 'DEV':
+if os.environ.get('UHPPOTED_ENV','') == 'DEV':
     root = pathlib.Path(__file__).resolve().parents[2]
     sys.path.append(os.path.join(root, 'src'))
 
 from uhppoted import uhppote
+
+QUEUE_SIZE = 8
 
 def main():
     controller = 405419896                             # controller serial number
@@ -19,7 +24,7 @@ def main():
     bind_addr = '0.0.0.0'                              # either INADDR_ANY (0.0.0.0) or the host IPv4 address
     broadcast_addr = '255.255.255.255:60000'           # either the broadcast address for INADDR_ANY or the host IP broadcast address
     listen_addr = f'0.0.0.0:{host_port}'               # either INADDR_ANY (0.0.0.0) or the host IP IPv4 address
-    debug = True
+    debug = False
 
     try:
         # base configuration for UHPPOTE driver
@@ -31,8 +36,16 @@ def main():
         # enable door open/close/unlock events
         record_special_events(u,controller)
 
+        # initialise work queue
+        q = queue.Queue()
+
+        # start processing thread
+        t = threading.Thread(target=process_events, name='processing', args = [q])
+        t.daemon = True
+        t.start()
+
         # listen for incoming controller events
-        listen(u)
+        listen(u,q)
 
     except Exception as x:
         print()
@@ -40,28 +53,32 @@ def main():
         print()
 
 def set_listener(u, controller, address, port):
-    print('-- set-listener')
-    
-    response = u.set_listener(controller, address, port)
-    
-    print('  ', response)
-    print()
+    u.set_listener(controller, address, port)
 
 def record_special_events(u, controller):
-    print('-- record-special-events')
-    
-    response = u.record_special_events(controller, True)
-    
-    print('  ', response)
-    print()
+    u.record_special_events(controller, True)
 
-def listen(u):
+def listen(u,q):
     print('-- listening for events')
-    u.listen(onEvent)
+    u.listen(lambda e: on_event(e,q))
 
-def onEvent(event):
+def on_event(event,q):
     if event != None:
-        pprint.pprint(event.__dict__, indent=2, width=1)
+        print(f'DEBUG  event queue: {q.qsize()} entries')
+        if q.qsize() < QUEUE_SIZE:
+            q.put(event)
+        else:
+            print('WARN   *** event queue full - discarding event {event.event_index}')
+
+def process_events(q):
+    while True:
+        event = q.get()
+        process_event(event)
+
+def process_event(event):
+    print(f'INFO   processing event {event.event_index}')
+    pprint.pprint(event.__dict__, indent=2, width=1)
+    time.sleep(5)
 
 if __name__ == '__main__':
     main()

@@ -136,8 +136,7 @@ class UDP:
             while True:
                 message = sock.recv(1024)
                 if len(message) == 64:
-                    if self._debug:
-                        dump(message)
+                    self.dump(message)
                     onEvent(message)
         finally:
             sock.close()
@@ -154,7 +153,7 @@ class UDP:
                None.
         '''
         if self._debug:
-            dump(packet)
+            net.dump(packet)
 
 
 # TODO convert to asyncio
