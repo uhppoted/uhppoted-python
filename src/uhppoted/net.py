@@ -9,6 +9,10 @@ import re
 import time
 import ipaddress
 
+from collections import namedtuple
+
+Controller = namedtuple('Controller', 'id address protocol')
+
 READ_TIMEOUT = struct.pack('ll', 5, 0)  # 5 seconds
 WRITE_TIMEOUT = struct.pack('ll', 1, 0)  # 1 second
 NO_TIMEOUT = struct.pack('ll', 0, 0)  # (infinite)
@@ -54,6 +58,37 @@ def timeout_to_seconds(val, defval=2.5):
         pass
 
     return defval
+
+
+def disambiguate(v):
+    '''
+    Resolves a controller value that may be a uint32 or a (id,address,protocol) tuple to a
+    Controller named tuple.
+
+        Parameters:
+            v  (int | tuple | Controller)  Controller serial number, tuple with (id,address,protocol) fields or
+                                           Controller named tuple.
+
+        Returns:
+            (id, address, protocol) Controller named tuple. address defaults to None and protocol defaults to 'udp'.
+    '''
+    if isinstance(v, int):
+        return Controller(v, None, 'udp')
+
+    if isinstance(v, tuple):
+        id = v[0]
+        address = None
+        protocol = 'udp'
+
+        if len(v) > 1 and isinstance(v[1], str):
+            address = v[1]
+
+        if len(v) > 2 and (v[2] == 'tcp' or v[2] == 'TCP'):
+            protocol = 'tcp'
+
+        return Controller(id, address, protocol)
+
+    return Controller(None, None, 'udp')
 
 
 def dump(packet):

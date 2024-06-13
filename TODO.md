@@ -9,6 +9,44 @@
       - [x] Documentation
       - [x] CHANGELOG
       - [x] README
+      - [ ] Rework with disambiguated controller arg:
+            - [x] get_controller
+            - [x] set_ip
+            - [ ] get_time
+            - [ ] set_time
+            - [ ] get_listener
+            - [ ] set_listener
+            - [ ] get_door_control
+            - [ ] set_door_control
+            - [ ] get_status
+            - [ ] open_door
+            - [ ] get_cards
+            - [ ] get_card
+            - [ ] get_card_by_index
+            - [ ] put_card
+            - [ ] delete_card
+            - [ ] delete_all_cards
+            - [ ] get_event
+            - [ ] get_event_index
+            - [ ] set_event_index
+            - [ ] record_special_events
+            - [ ] get_time_profile
+            - [ ] set_time_profile
+            - [ ] clear_time_profiles
+            - [ ] add_task
+            - [ ] refresh_tasklist
+            - [ ] clear_tasklist
+            - [ ] set_pc_control
+            - [ ] set_interlock
+            - [ ] activate_keypads
+            - [ ] set_door_passcodes
+            - [ ] restore_default_parameters
+            - [ ] listen
+
+def onEvent(event):
+    if event != None:
+        pprint.pprint(event.__dict__, indent=2, width=1)
+
 
 - [ ] Use site-specific configuration to run examples locally
       - https://docs.python.org/3/library/site.html

@@ -88,23 +88,21 @@ class TestTCPWithTimeout(unittest.TestCase):
         '''
         Tests the get-controller function with a timeout.
         '''
-        controller = CONTROLLER
-        timeout = TIMEOUT
+        controller = (CONTROLLER,DEST_ADDR,'tcp')
 
-        self.u.get_controller(controller, dest_addr=DEST_ADDR, protocol='tcp')
-        self.assertRaises(socket.timeout, self.u.get_controller,controller, dest_addr=DEST_ADDR, protocol='tcp', timeout=timeout)
+        self.u.get_controller(controller)
+        self.assertRaises(socket.timeout, self.u.get_controller,controller, timeout=TIMEOUT)
 
     def test_set_ip(self):
         '''
         Tests the set-ip function with a timeout.
         '''
-        controller = CONTROLLER
+        controller = (CONTROLLER,DEST_ADDR,'tcp')
         address = IPv4Address('192.168.1.100')
         netmask = IPv4Address('255.255.255.0')
         gateway = IPv4Address('192.168.1.1')
-        timeout = TIMEOUT
 
-        self.u.set_ip(controller, address, netmask, gateway, dest_addr=DEST_ADDR, protocol='tcp', timeout=timeout)
+        self.u.set_ip(controller, address, netmask, gateway, timeout=TIMEOUT)
 
     def test_get_time(self):
         '''

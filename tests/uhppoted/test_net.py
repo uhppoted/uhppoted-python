@@ -7,12 +7,14 @@ Tests the internal conversion functions.
 import unittest
 
 from uhppoted.net import timeout_to_seconds
+from uhppoted.net import disambiguate
+from uhppoted.net import Controller
 
 class TestNet(unittest.TestCase):
 
     def test_timeout_to_seconds(self):
         '''
-        Tests a the conversion of valid and invalid timeout values.
+        Tests the conversion of valid and invalid timeout values.
         '''
         tests = [
            (1,1),
@@ -28,6 +30,29 @@ class TestNet(unittest.TestCase):
 
         for test in tests:
             self.assertEqual(timeout_to_seconds(test[0]), test[1])
+
+    def test_disambiguate(self):
+        '''
+        Tests disambiguating a controller arg to a 'Controller' named tuple with id, address and
+        protocol fields.
+        '''
+        tests = [
+           (405419896,Controller(405419896,None,'udp')),
+
+           ((405419896, '192.168.1.100', 'udp') ,Controller(405419896,'192.168.1.100','udp')),
+           ((405419896, '192.168.1.100', 'UDP') ,Controller(405419896,'192.168.1.100','udp')),
+           ((405419896, '192.168.1.100', 'tcp') ,Controller(405419896,'192.168.1.100','tcp')),
+           ((405419896, '192.168.1.100', 'TCP') ,Controller(405419896,'192.168.1.100','tcp')),
+           ((405419896, '192.168.1.100', 'noeyedeer') ,Controller(405419896,'192.168.1.100','udp')),
+           ((405419896, '192.168.1.100') ,Controller(405419896,'192.168.1.100','udp')),
+           ((405419896) ,Controller(405419896,None,'udp')),
+
+           (Controller(405419896, '192.168.1.100', 'udp') ,Controller(405419896,'192.168.1.100','udp')),
+           (Controller(405419896, '192.168.1.100', 'tcp') ,Controller(405419896,'192.168.1.100','tcp')),
+        ]
+
+        for test in tests:
+            self.assertEqual(disambiguate(test[0]), test[1])
 
 if __name__ == '__main__':
     unittest.main()

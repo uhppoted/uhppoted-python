@@ -78,17 +78,13 @@ class TestUDPWithTimeout(unittest.TestCase):
         '''
         Tests the get-all-controllers function with a timeout.
         '''
-        controller = CONTROLLER
-        dest = DEST_ADDR
-        timeout = TIMEOUT
-
         start = time.time()
         self.u.get_all_controllers()
         dt = time.time() - start
         self.assertTrue(dt < 2.6)
 
         start = time.time()
-        self.u.get_all_controllers(timeout=timeout)
+        self.u.get_all_controllers(timeout=TIMEOUT)
         dt = time.time() - start
         self.assertTrue(dt < 0.35)
 
@@ -96,25 +92,21 @@ class TestUDPWithTimeout(unittest.TestCase):
         '''
         Tests the get-controller function with a timeout.
         '''
-        controller = CONTROLLER
-        dest = DEST_ADDR
-        timeout = TIMEOUT
+        controller = (CONTROLLER, DEST_ADDR)
 
-        self.u.get_controller(controller, dest_addr=dest)
-        self.assertRaises(socket.timeout, self.u.get_controller,controller, dest_addr=dest, timeout=timeout)
+        self.u.get_controller(controller)
+        self.assertRaises(socket.timeout, self.u.get_controller,controller, timeout=TIMEOUT)
 
     def test_set_ip(self):
         '''
         Tests the set-ip function with a timeout.
         '''
-        controller = CONTROLLER
+        controller = (CONTROLLER, DEST_ADDR)
         address = IPv4Address('192.168.1.100')
         netmask = IPv4Address('255.255.255.0')
         gateway = IPv4Address('192.168.1.1')
-        dest = DEST_ADDR
-        timeout = TIMEOUT
 
-        self.u.set_ip(controller, address, netmask, gateway, dest_addr=dest, timeout=timeout)
+        self.u.set_ip(controller, address, netmask, gateway, timeout=TIMEOUT)
 
     def test_get_time(self):
         '''

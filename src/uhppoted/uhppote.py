@@ -6,6 +6,7 @@ from . import decode
 from . import encode
 from . import tcp
 from . import udp
+from .net import disambiguate
 
 
 class Uhppote:
@@ -54,15 +55,21 @@ class Uhppote:
 
         return list
 
-    def get_controller(self, controller, dest_addr=None, timeout=2.5, protocol='udp'):
+    def get_controller(self, controller, timeout=2.5):
         '''
         Retrieves the controller information for an access controller.
 
             Parameters:
-               controller (uint32)  Controller serial number (expected to be greater than 0).
-               dest_addr  (string)  Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
+               controller (uint32|tuple)  Controller serial number or tuple with (id,address,protocol fields). 
+                                          The controller serial number is expected to be greater than 0.
+                                          If the controller is a tuple:
+                                          - 'id' is the controller serial number
+                                          - 'address' is the optional controller IPv4 addess:port. Defaults to the
+                                             UDP broadcast address and port 60000.
+                                          - 'protocol' is an optional transport protocol ('udp' or 'tcp'). Defaults 
+                                             to 'udp'.
+
                timeout    (float)   Optional operation timeout (in seconds). Defaults to 2.5s.
-               protocol   (string)  Optional protocol ('tcp' or 'udp'). Defaults to 'udp'.
 
             Returns:
                GetControllerResponse  Response from access controller to the get-controller request.
@@ -70,26 +77,33 @@ class Uhppote:
             Raises:
                Exception  If the response from the access controller cannot be decoded.
         '''
-        request = encode.get_controller_request(controller)
-        reply = self._send(request, dest_addr, timeout, protocol)
+        (id, addr, protocol) = disambiguate(controller)
+        request = encode.get_controller_request(id)
+        reply = self._send(request, addr, timeout, protocol)
 
         if reply != None:
             return decode.get_controller_response(reply)
 
         return None
 
-    def set_ip(self, controller, address, netmask, gateway, dest_addr=None, timeout=2.5, protocol='udp'):
+    def set_ip(self, controller, address, netmask, gateway, timeout=2.5):
         '''
         Sets the controller IPv4 address, netmask and gateway address.
 
             Parameters:
-               controller (uint32)       Controller serial number (expected to be greater than 0).
+               controller (uint32|tuple)  Controller serial number or tuple with (id,address,protocol fields). 
+                                          The controller serial number is expected to be greater than 0.
+                                          If the controller is a tuple:
+                                          - 'id' is the controller serial number
+                                          - 'address' is the optional controller IPv4 addess:port. Defaults to the
+                                             UDP broadcast address and port 60000.
+                                          - 'protocol' is an optional transport protocol ('udp' or 'tcp'). Defaults 
+                                             to 'udp'.
+
                address    (IPv4Address)  Controller IPv4 address.
                netmask    (IPv4Address)  Controller IPv4 subnet mask.
                gateway    (IPv4Address)  Controller IPv4 gateway address.
-               dest_addr  (string)       Optional controller IPv4 addess:port. Defaults to broadcast address and port 60000.
                timeout    (float)        Optional operation timeout (in seconds). Defaults to 2.5s.
-               protocol   (string)       Optional protocol ('tcp' or 'udp'). Defaults to 'udp'.
 
             Returns:
                True  For (probably) internal reasons the access controller does not respond to this command.
@@ -97,8 +111,9 @@ class Uhppote:
             Raises:
                Exception  If the response from the access controller cannot be decoded.
         '''
-        request = encode.set_ip_request(controller, address, netmask, gateway)
-        reply = self._send(request, dest_addr, timeout, protocol)
+        (id, addr, protocol) = disambiguate(controller)
+        request = encode.set_ip_request(id, address, netmask, gateway)
+        reply = self._send(request, addr, timeout, protocol)
 
         return True
 

@@ -99,7 +99,7 @@ def get_all_controllers(u, dest, timeout, args, protocol='udp'):
 def get_controller(u, dest, timeout, args, protocol='udp'):
     controller = CONTROLLER
 
-    return u.get_controller(controller, dest_addr=dest, timeout=timeout, protocol=protocol)
+    return u.get_controller((controller, dest, protocol), timeout=timeout)
 
 
 def set_ip(u, dest, timeout, args, protocol='udp'):
@@ -108,7 +108,7 @@ def set_ip(u, dest, timeout, args, protocol='udp'):
     netmask = NETMASK
     gateway = GATEWAY
 
-    return u.set_ip(controller, address, netmask, gateway, dest_addr=dest, timeout=timeout, protocol=protocol)
+    return u.set_ip((controller, dest, protocol), address, netmask, gateway, timeout=timeout)
 
 
 def get_time(u, dest, timeout, args, protocol='udp'):

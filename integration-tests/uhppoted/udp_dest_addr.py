@@ -76,9 +76,8 @@ class TestUDPWithDestAddr(unittest.TestCase):
         '''
         Tests the get-controller function with a valid dest_addr.
         '''
-        controller = CONTROLLER
-        dest = DEST_ADDR
-        response = self.u.get_controller(controller, dest_addr=dest)
+        controller = (CONTROLLER, DEST_ADDR)
+        response = self.u.get_controller(controller)
 
         self.assertEqual(response, GetControllerResponse)
 
@@ -86,13 +85,12 @@ class TestUDPWithDestAddr(unittest.TestCase):
         '''
         Tests the set-ip function with a valid dest_addr.
         '''
-        controller = CONTROLLER
+        controller = (CONTROLLER, DEST_ADDR)
         address = IPv4Address('192.168.1.100')
         netmask = IPv4Address('255.255.255.0')
         gateway = IPv4Address('192.168.1.1')
-        dest = DEST_ADDR
 
-        response = self.u.set_ip(controller, address, netmask, gateway, dest_addr=dest)
+        response = self.u.set_ip(controller, address, netmask, gateway)
 
         self.assertEqual(response, SetIPResponse)
 
