@@ -86,23 +86,25 @@ pprint(record.__dict__, indent=2, width=1)
 ### Notes
 1. All API functions raise an `Exception` if the call fails for any reason whatsoever.
 2. All API functions (other than `get_controllers` and `listen`) take a `controller` that may be either:
-   - a uint32 controller serial number
-   - a tuple comprising (id,address,protocol), where
+   - a _uint32_s controller serial number (legacy)
+   - a tuple comprising `(id,address,protocol)`, where
        - `id` is the (required) controller serial number
        - `address` is the (optional) controller IPv4 address or address:port
        - `protocol` is the (optional) transport protocol ('udp' or 'tcp')
    e.g.:
 ```
    get_controller(405419896)
-   get_controlelr((405419896, '192.168.1.100:60000', 'tcp'))
-   get_controlelr((405419896, '192.168.1.100:60000'))
-   get_controlelr((405419896, '192.168.1.100'))
-   get_controlelr((405419896)
-```
-   Defaults to UDP and udp broadcast if the controller cannot be disambiguated.
+   get_controller((405419896, '192.168.1.100', 'tcp'))
+   get_controller((405419896, '192.168.1.100:60000', 'tcp'))
+   get_controller((405419896, '192.168.1.100'))
+   get_controller((405419896, '192.168.1.100:60000'))
+   get_controller((405419896)
 
-3. All API functions (other than `listen`) take an optional `timeout` kwarg that sets the time limit for the 
-   request (in seconds), e.g.:
+   Defaults to UDP and udp broadcast if the controller cannot be disambiguated.
+```
+
+3. All API functions (other than `listen`) take an optional `timeout` kwarg that sets the time limit (in seconds)
+   for the request (the default timeout is 2.5s) , e.g.:
 ```
    get_controller(controller, dest_addr='192.168.1.100:60000', protocol='udp', timeout=0.75)
 ```
@@ -118,9 +120,9 @@ Raises an Exception if the call failed for any reason.
 
 ### `get_controller`
 ```
-get_controller(ID)
+get_controller(controller)
 
-ID  uint32  controller serial number 
+controller  uint32|tuple  controller serial number or (id, address, protocol) tuple
 
 Returns a `GetControllerResponse` with the controller device information.
 
@@ -131,19 +133,19 @@ Raises an Exception if the call failed for any reason.
 ```
 set_address(self, ID, address, subnet, gateway)
 
-ID       uint32  controller serial number 
-address  string  controller IPv4 address
-subnet   string  controller IPv4 subnet mask
-gateway  string  controller gateway IPv4 address
+controller  uint32|tuple  controller serial number or (id, address, protocol) tuple
+address     string        controller IPv4 address
+subnet      string        controller IPv4 subnet mask
+gateway     string        controller gateway IPv4 address
 
 Raises an Exception if the call failed for any reason.
 ```
 
 ### `get_status`
 ```
-get_status(ID)
+get_status(controller)
 
-ID  uint32  controller serial number 
+controller  uint32|tuple  controller serial number or (id, address, protocol) tuple
 
 Returns a `GetStatusResponse` with the controller status information. If the response does not contain a
 valid event, the event fields are set to `None`.
@@ -153,9 +155,9 @@ Raises an Exception if the call failed for any reason.
 
 ### `get_time`
 ```
-get_time(ID)
+get_time(controller)
 
-ID  uint32  controller serial number 
+controller  uint32|tuple  controller serial number or (id, address, protocol) tuple
 
 Returns a `GetTimeResponse` with the current controller date and time..
 
@@ -164,10 +166,10 @@ Raises an Exception if the call failed for any reason.
 
 ### `set_time`
 ```
-set_time(ID, datetime)
+set_time(controller, datetime)
 
-ID        uint32    controller serial number 
-datetime  datetime  date/time
+controller  uint32|tuple  controller serial number or (id, address, protocol) tuple
+datetime    datetime      date/time
 
 Returns a `SetTimeResponse` with the current controller date and time.
 
@@ -176,9 +178,9 @@ Raises an Exception if the call failed for any reason.
 
 ### `get_listener`
 ```
-get_listener(ID)
+get_listener(controller)
 
-ID  uint32  controller serial number 
+controller  uint32|tuple  controller serial number or (id, address, protocol) tuple
 
 Returns a `GetListener` with the configured controller event listener IPv4 address and UDP port.
 
@@ -187,20 +189,20 @@ Raises an Exception if the call failed for any reason.
 
 ### `set_listener`
 ```
-set_listener(ID, listener)
+set_listener(controller, listener)
 
-ID        uint32  controller serial number 
-listener  string  listener IPv4 address:port string
+controller  uint32|tuple  controller serial number or (id, address, protocol) tuple
+listener   string  listener IPv4 address:port string
 
 Raises an Exception if the call failed for any reason.
 ```
 
 ### `get_door_control`
 ```
-get_door_control(ID, door)
+get_door_control(controller, door)
 
-ID    uint32  controller serial number 
-door  uint8   door ID [1..4]
+controller  uint32|tuple  controller serial number or (id, address, protocol) tuple
+door        uint8         door ID [1..4]
 
 Returns a DoorControl dataclass instance populated with the controller door configuration if the call succeeded.
 
@@ -209,19 +211,19 @@ Raises an Exception if the call failed for any reason.
 
 ### `set_door_control`
 ```
-set_door_control(ID, door, mode, delay)
+set_door_control(controller, door, mode, delay)
 
-ID    uint32  controller serial number 
-door  uint8   door ID [1..4]
-mode  uint8   normally open (1), normally closed (2) or controlled (3)
-delay uintt8  door open delay in seconds
+controller  uint32|tuple  controller serial number or (id, address, protocol) tuple
+door        uint8         door ID [1..4]
+mode        uint8         normally open (1), normally closed (2) or controlled (3)
+delay       uintt8        door open delay in seconds
 
 Raises an Exception if the call failed for any reason.
 ```
 
 ### `open_door`
 ```
-open_door(ID, door)
+open_door(controller, door)
 
 ID    uint32  controller serial number 
 door  uint8   door ID [1..4]
@@ -231,9 +233,9 @@ Raises an Exception if the call failed for any reason.
 
 ### `get_cards`
 ```
-get_cards(ID)
+get_cards(controller)
 
-ID  uint32  controller serial number 
+controller  uint32|tuple  controller serial number or (id, address, protocol) tuple
 
 Returns the number of cards stored on the controller if the call succeeded.
 
@@ -242,10 +244,10 @@ Raises an Exception if the call failed for any reason.
 
 ### `get_card`
 ```
-get_card(ID, cardNumber)
+get_card(controller, card)
 
-ID          uint32  controller serial number 
-cardNumber  uint32  card number
+controller  uint32|tuple  controller serial number or (id, address, protocol) tuple
+card        uint32        card number
 
 Returns a Card dataclass instance with the controller card information if the call succeeded.
 
@@ -254,10 +256,10 @@ Raises an Exception if the call failed for any reason.
 
 ### `get_card_by_index`
 ```
-get_card_by_index(ID, index)
+get_card_by_index(controller, index)
 
-ID     uint32  controller serial number 
-index  uint32  index of card to retrieve
+controller  uint32|tuple  controller serial number or (id, address, protocol) tuple
+index       uint32        index of card to retrieve
 
 Returns a Card dataclass instance with the controller card information if the call succeeded.
 
@@ -266,44 +268,44 @@ Raises an Exception if the call failed for any reason.
 
 ### `put_card`
 ```
-put_card(ID, cardNumber, start, end, door1, door2, door3, door4)
+put_card(controller, card, start, end, door1, door2, door3, door4)
 
-ID           uint32     controller serial number 
-card_number  uint32     card number
-from         datetime   card valid from date, inclusive (YYYY-MM-dd)
-to           datetime   card valid until, inclusive (YYYY-MM-dd)
-door1        uint8      Door 1 access (0: none, 1: all, 2-254: time profile)
-door2        uint8      Door 2 access (0: none, 1: all, 2-254: time profile)
-door3        uint8      Door 3 access (0: none, 1: all, 2-254: time profile)
-door4        uint8      Door 4 access (0: none, 1: all, 2-254: time profile)
+controller  uint32|tuple  controller serial number or (id, address, protocol) tuple
+card        uint32        card number
+from        datetime      card valid from date, inclusive (YYYY-MM-dd)
+to          datetime      card valid until, inclusive (YYYY-MM-dd)
+door1       uint8         Door 1 access (0: none, 1: all, 2-254: time profile)
+door2       uint8         Door 2 access (0: none, 1: all, 2-254: time profile)
+door3       uint8         Door 3 access (0: none, 1: all, 2-254: time profile)
+door4       uint8         Door 4 access (0: none, 1: all, 2-254: time profile)
 
 Raises an Exception if the call failed for any reason.
 ```
 
 ### `delete_card`
 ```
-delete_card(ID, cardNumber)
+delete_card(controller, card)
 
-ID          uint32  controller serial number 
-cardNumber  uint32  card number
+controller  uint32|tuple  controller serial number or (id, address, protocol) tuple
+card        uint32        card number
 
 Raises an Exception if the call failed for any reason.
 ```
 
 ### `delete_cards`
 ```
-delete_cards(ID)
+delete_cards(controller)
 
-ID  uint32  controller serial number 
+controller  uint32|tuple  controller serial number or (id, address, protocol) tuple
 
 Raises an Exception if the call failed for any reason.
 ```
 
 ### `get_event_index`
 ```
-get_event_index(ID)
+get_event_index(controller)
 
-ID  uint32  controller serial number 
+controller  uint32|tuple  controller serial number or (id, address, protocol) tuple
 
 Returns the controller event index if the call succeeded.
 
@@ -312,20 +314,20 @@ Raises an Exception if the call failed for any reason.
 
 ### `set_event_index`
 ```
-set_event_index(ID, index)
+set_event_index(controller, index)
 
-ID     uint32  controller serial number 
-index  uint32  controller event index
+controller  uint32|tuple  controller serial number or (id, address, protocol) tuple
+index       uint32        controller event index
 
 Raises an Exception if the call failed for any reason.
 ```
 
 ### `get_event`
 ```
-get_event(ID, index)
+get_event(controller, index)
 
-ID     uint32  controller serial number 
-index  uint32  index of event to retrieve
+controller  uint32|tuple  controller serial number or (id, address, protocol) tuple
+index       uint32        index of event to retrieve
 
 Returns an event dataclass instance with the controller event stored at the index.
 
@@ -334,20 +336,20 @@ Raises an Exception if the call failed for any reason.
 
 ### `record_special_events`
 ```
-record_special_events(ID, enabled)
+record_special_events(controller, enabled)
 
-ID       uint32  controller serial number 
-enabled  bool    Enables/disables recording of door, etc events
+controller  uint32|tuple  controller serial number or (id, address, protocol) tuple
+enabled     bool          Enables/disables recording of door, etc events
 
 Raises an Exception if the call failed for any reason.
 ```
 
 ### `get_time_profile`
 ```
-get_time_profile(ID, profileID)
+get_time_profile(controller, profileID)
 
-ID          uint32  controller serial number 
-profile_ID  uint8   ID [2..254] of time profile to retrieve
+controller  uint32|tuple  controller serial number or (id, address, protocol) tuple
+profile_ID  uint8         ID [2..254] of time profile to retrieve
 
 Returns a TimeProfile dataclass instance with the time profile stored at the profile ID on the controller.
 
@@ -356,73 +358,73 @@ Raises an Exception if the call failed for any reason.
 
 ### `set_time_profile`
 ```
-set_time_profile(ID, profile)
+set_time_profile(controller, profile)
 
-ID       uint32  controller serial number 
-profile  uint8   TimeProfile dataclass instance initialised with the time profile to store on the controller.
+controller  uint32|tuple  controller serial number or (id, address, protocol) tuple
+profile     uint8         TimeProfile dataclass instance initialised with the time profile to store on the controller.
 
 Raises an Exception if the call failed for any reason.
 ```
 
 ### `clear_time_profiles`
 ```
-clear_time_profiles(ID)
+clear_time_profiles(controller)
 
-ID  uint32  controller serial number 
+controller  uint32|tuple  controller serial number or (id, address, protocol) tuple
 
 Raises an Exception if the call failed for any reason.
 ```
 
 ### `add_task`
 ```
-add_task(ID, task)
+add_task(controller, task)
 
-ID    uint32  controller serial number 
-task  uint8   Task dataclass instance initialised with the task to store on the controller.
+controller  uint32|tuple  controller serial number or (id, address, protocol) tuple
+task        uint8         Task dataclass instance initialised with the task to store on the controller.
 
 Raises an Exception if the call failed for any reason.
 ```
 
 ### `refresh_tasklist`
 ```
-refresh_tasklist(ID)
+refresh_tasklist(controller)
 
-ID  uint32  controller serial number 
+controller  uint32|tuple  controller serial number or (id, address, protocol) tuple
 
 Raises an Exception if the call failed for any reason.
 ```
 
 ### `clear_tasklist`
 ```
-clear_tasklist(ID)
+clear_tasklist(controller)
 
-ID  uint32  controller serial number 
+controller  uint32|tuple  controller serial number or (id, address, protocol) tuple
 
 Raises an Exception if the call failed for any reason.
 ```
 
 ### `set_pc_control`
 ```
-set_pc_control(ID, enabled)
+set_pc_control(controller, enabled)
 
-ID       uint32  controller serial number 
-enabled  bool    enables/disables host control
+controller  uint32|tuple  controller serial number or (id, address, protocol) tuple
+enabled     bool          enables/disables host control
 
 Raises an Exception if the call failed for any reason.
 ```
 
 ### `set_interlock`
 ```
-set_interlock(ID, interlock)
+set_interlock(controller, interlock)
 
-ID        uint32  controller serial number 
-interlock uint8   controller door interlock mode
-                  0: no interlock
-                  1: doors 1&2
-                  2: doors 3&4
-                  3: doors 1&2,3&4
-                  4: doors 1&2&3
-                  8: doors 1&2&3&4
+controller  uint32|tuple  controller serial number or (id, address, protocol) tuple
+interlock   uint8         controller door interlock mode
+                          0: no interlock
+                          1: doors 1&2
+                          2: doors 3&4
+                          3: doors 1&2,3&4
+                          4: doors 1&2&3
+                          8: doors 1&2&3&4
 
 
 Raises an Exception if the call failed for any reason.
@@ -430,13 +432,13 @@ Raises an Exception if the call failed for any reason.
 
 ### `activate_keypads`
 ```
-activate_keypads(ID, reader1, reader2, reader3, reader4)
+activate_keypads(controller, reader1, reader2, reader3, reader4)
 
-ID      uint32  controller serial number 
-reader1 bool    activates/deactivates reader 1 access keypad
-reader2 bool    activates/deactivates reader 2 access keypad
-reader3 bool    activates/deactivates reader 3 access keypad
-reader4 bool    activates/deactivates reader 4 access keypad
+controller  uint32|tuple  controller serial number or (id, address, protocol) tuple
+reader1     bool          activates/deactivates reader 1 access keypad
+reader2     bool          activates/deactivates reader 2 access keypad
+reader3     bool          activates/deactivates reader 3 access keypad
+reader4     bool          activates/deactivates reader 4 access keypad
 
 
 Raises an Exception if the call failed for any reason.
@@ -444,14 +446,14 @@ Raises an Exception if the call failed for any reason.
 
 ### `set_door_passcodes`
 ```
-set_door_passcodes(ID, door, passcode1, passcode2, passcode3, passcode4)
+set_door_passcodes(controller, door, passcode1, passcode2, passcode3, passcode4)
 
-ID        uint32  controller serial number 
-door      uint8   door ID [1..4]
-passcode1 uint32  supervisor passcode 1 [0..999999] (0 is 'no code')
-passcode2 uint32  supervisor passcode 2 [0..999999] (0 is 'no code')
-passcode3 uint32  supervisor passcode 3 [0..999999] (0 is 'no code')
-passcode4 uint32  supervisor passcode 4 [0..999999] (0 is 'no code')
+controller  uint32|tuple  controller serial number or (id, address, protocol) tuple
+door        uint8         door ID [1..4]
+passcode1   uint32        supervisor passcode 1 [0..999999] (0 is 'no code')
+passcode2   uint32        supervisor passcode 2 [0..999999] (0 is 'no code')
+passcode3   uint32        supervisor passcode 3 [0..999999] (0 is 'no code')
+passcode4   uint32        supervisor passcode 4 [0..999999] (0 is 'no code')
 
 
 Raises an Exception if the call failed for any reason.
@@ -459,9 +461,9 @@ Raises an Exception if the call failed for any reason.
 
 ### `restore_default_parameters`
 ```
-restore_default_parameters(ID)
+restore_default_parameters(controller)
 
-ID  uint32  controller serial number 
+controller  uint32|tuple  controller serial number or (id, address, protocol) tuple
 
 
 Raises an Exception if the call failed for any reason.
