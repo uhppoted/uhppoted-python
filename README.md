@@ -104,9 +104,11 @@ pprint(record.__dict__, indent=2, width=1)
 ```
 
 3. All API functions (other than `listen`) take an optional `timeout` kwarg that sets the time limit (in seconds)
-   for the request (the default timeout is 2.5s) , e.g.:
+   for the request, e.g.:
 ```
    get_controller(controller, dest_addr='192.168.1.100:60000', protocol='udp', timeout=0.75)
+
+   Defaults to 2.5s.
 ```
 
 ### `get_controllers`
