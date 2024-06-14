@@ -85,18 +85,23 @@ pprint(record.__dict__, indent=2, width=1)
 
 ### Notes
 1. All API functions raise an `Exception` if the call fails for any reason whatsoever.
-2. All API functions (other than `get_controllers` and `listen`) take an optional `dest_addr` kwarg that sets the
-   IP address to which to send the request, e.g.:
+2. All API functions (other than `get_controllers` and `listen`) take a `controller` that may be either:
+   - a uint32 controller serial number
+   - a tuple comprising (id,address,protocol), where
+       - `id` is the (required) controller serial number
+       - `address` is the (optional) controller IPv4 address or address:port
+       - `protocol` is the (optional) transport protocol ('udp' or 'tcp')
+   e.g.:
 ```
-   get_controller(controller, dest_addr='192.168.1.100:60000')
+   get_controller(405419896)
+   get_controlelr((405419896, '192.168.1.100:60000', 'tcp'))
+   get_controlelr((405419896, '192.168.1.100:60000'))
+   get_controlelr((405419896, '192.168.1.100'))
+   get_controlelr((405419896)
 ```
-3. All API functions (other than `get_controllers` and `listen`) take an optional `protocol` kwarg that specifies the 
-   connection type (either _'udp'_ or _'tcp'_). Defaults to _'udp'_ if not specified. e.g.:
-```
-   get_controller(controller, dest_addr='192.168.1.100:60000', protocol='tcp')
-```
+   Defaults to UDP and udp broadcast if the controller cannot be disambiguated.
 
-4. All API functions (other than `listen`) take an optional `timeout` kwarg that sets the time limit for the 
+3. All API functions (other than `listen`) take an optional `timeout` kwarg that sets the time limit for the 
    request (in seconds), e.g.:
 ```
    get_controller(controller, dest_addr='192.168.1.100:60000', protocol='udp', timeout=0.75)

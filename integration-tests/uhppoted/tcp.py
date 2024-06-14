@@ -107,9 +107,8 @@ class TestUhppoteWithTCP(unittest.TestCase):
         '''
         Tests the get-time function with defaults.
         '''
-        controller = CONTROLLER
-
-        response = self.u.get_time(controller, dest_addr=DEST_ADDR, protocol='tcp')
+        controller = (CONTROLLER, DEST_ADDR, 'tcp')
+        response = self.u.get_time(controller)
 
         self.assertEqual(response, GetTimeResponse)
 
@@ -117,10 +116,9 @@ class TestUhppoteWithTCP(unittest.TestCase):
         '''
         Tests the set-time function with defaults.
         '''
-        controller = CONTROLLER
+        controller = (CONTROLLER, DEST_ADDR, 'tcp')
         time = datetime.datetime(2021, 5, 28, 14, 56, 14)
-
-        response = self.u.set_time(controller, time, dest_addr=DEST_ADDR, protocol='tcp')
+        response = self.u.set_time(controller, time)
 
         self.assertEqual(response, SetTimeResponse)
 
@@ -128,9 +126,8 @@ class TestUhppoteWithTCP(unittest.TestCase):
         '''
         Tests the get-status function with defaults.
         '''
-        controller = CONTROLLER
-
-        response = self.u.get_status(controller, dest_addr=DEST_ADDR, protocol='tcp')
+        controller = (CONTROLLER, DEST_ADDR, 'tcp')
+        response = self.u.get_status(controller)
 
         self.assertEqual(response, GetStatusResponse)
 
@@ -138,9 +135,8 @@ class TestUhppoteWithTCP(unittest.TestCase):
         '''
         Tests the get-listener function with defaults.
         '''
-        controller = CONTROLLER
-
-        response = self.u.get_listener(controller, dest_addr=DEST_ADDR, protocol='tcp')
+        controller = (CONTROLLER, DEST_ADDR, 'tcp')
+        response = self.u.get_listener(controller)
 
         self.assertEqual(response, GetListenerResponse)
 
@@ -148,11 +144,11 @@ class TestUhppoteWithTCP(unittest.TestCase):
         '''
         Tests the set-listener function with defaults.
         '''
-        controller = CONTROLLER
+        controller = (CONTROLLER, DEST_ADDR, 'tcp')
         address = IPv4Address('192.168.1.100')
         port = 60001
 
-        response = self.u.set_listener(controller, address, port, dest_addr=DEST_ADDR, protocol='tcp')
+        response = self.u.set_listener(controller, address, port)
 
         self.assertEqual(response, SetListenerResponse)
 
@@ -160,10 +156,9 @@ class TestUhppoteWithTCP(unittest.TestCase):
         '''
         Tests the get-door-control function with defaults.
         '''
-        controller = CONTROLLER
+        controller = (CONTROLLER, DEST_ADDR, 'tcp')
         door = 3
-
-        response = self.u.get_door_control(controller, door, dest_addr=DEST_ADDR, protocol='tcp')
+        response = self.u.get_door_control(controller, door)
 
         self.assertEqual(response, GetDoorControlResponse)
 
@@ -171,12 +166,12 @@ class TestUhppoteWithTCP(unittest.TestCase):
         '''
         Tests the set-door-control function with defaults.
         '''
-        controller = CONTROLLER
+        controller = (CONTROLLER, DEST_ADDR, 'tcp')
         door = 3
         delay = 4
         mode = 2
 
-        response = self.u.set_door_control(controller, door, mode, delay, dest_addr=DEST_ADDR, protocol='tcp')
+        response = self.u.set_door_control(controller, door, mode, delay)
 
         self.assertEqual(response, SetDoorControlResponse)
 
@@ -184,10 +179,9 @@ class TestUhppoteWithTCP(unittest.TestCase):
         '''
         Tests the open-door function with defaults.
         '''
-        controller = CONTROLLER
+        controller = (CONTROLLER, DEST_ADDR, 'tcp')
         door = 3
-
-        response = self.u.open_door(controller, door, dest_addr=DEST_ADDR, protocol='tcp')
+        response = self.u.open_door(controller, door)
 
         self.assertEqual(response, OpenDoorResponse)
 
@@ -195,9 +189,8 @@ class TestUhppoteWithTCP(unittest.TestCase):
         '''
         Tests the get-cards function with defaults.
         '''
-        controller = CONTROLLER
-
-        response = self.u.get_cards(controller, dest_addr=DEST_ADDR, protocol='tcp')
+        controller = (CONTROLLER, DEST_ADDR, 'tcp')
+        response = self.u.get_cards(controller)
 
         self.assertEqual(response, GetCardsResponse)
 
@@ -205,10 +198,9 @@ class TestUhppoteWithTCP(unittest.TestCase):
         '''
         Tests the get-card function with defaults.
         '''
-        controller = CONTROLLER
+        controller = (CONTROLLER, DEST_ADDR, 'tcp')
         card = CARD
-
-        response = self.u.get_card(controller, card, dest_addr=DEST_ADDR, protocol='tcp')
+        response = self.u.get_card(controller, card)
 
         self.assertEqual(response, GetCardResponse)
 
@@ -216,10 +208,9 @@ class TestUhppoteWithTCP(unittest.TestCase):
         '''
         Tests the get-card-by-index function with defaults.
         '''
-        controller = CONTROLLER
+        controller = (CONTROLLER, DEST_ADDR, 'tcp')
         index = CARD_INDEX
-
-        response = self.u.get_card_by_index(controller, index, dest_addr=DEST_ADDR, protocol='tcp')
+        response = self.u.get_card_by_index(controller, index)
 
         self.assertEqual(response, GetCardByIndexResponse)
 
@@ -227,7 +218,7 @@ class TestUhppoteWithTCP(unittest.TestCase):
         '''
         Tests the put-card function with defaults.
         '''
-        controller = CONTROLLER
+        controller = (CONTROLLER, DEST_ADDR, 'tcp')
         card = 123456789
         start = datetime.date(2023,1,1)
         end = datetime.date(2025,12,31)
@@ -237,18 +228,7 @@ class TestUhppoteWithTCP(unittest.TestCase):
         door4 = 1
         PIN = 7531
 
-        response = self.u.put_card(
-            controller, 
-            card, 
-            start, 
-            end, 
-            door1, 
-            door2, 
-            door3, 
-            door4, 
-            PIN, 
-            dest_addr=DEST_ADDR, 
-            protocol='tcp')
+        response = self.u.put_card(controller, card, start, end, door1, door2, door3, door4, PIN)
 
         self.assertEqual(response, PutCardResponse)
 
@@ -256,10 +236,9 @@ class TestUhppoteWithTCP(unittest.TestCase):
         '''
         Tests the delete-card function with defaults.
         '''
-        controller = CONTROLLER
+        controller = (CONTROLLER, DEST_ADDR, 'tcp')
         card = CARD
-
-        response = self.u.delete_card(controller, card, dest_addr=DEST_ADDR, protocol='tcp')
+        response = self.u.delete_card(controller, card)
 
         self.assertEqual(response, DeleteCardResponse)
 
@@ -267,9 +246,8 @@ class TestUhppoteWithTCP(unittest.TestCase):
         '''
         Tests the delete-all-cards function with defaults.
         '''
-        controller = CONTROLLER
-
-        response = self.u.delete_all_cards(controller, dest_addr=DEST_ADDR, protocol='tcp')
+        controller = (CONTROLLER, DEST_ADDR, 'tcp')
+        response = self.u.delete_all_cards(controller)
 
         self.assertEqual(response, DeleteAllCardsResponse)
 
@@ -277,10 +255,9 @@ class TestUhppoteWithTCP(unittest.TestCase):
         '''
         Tests the get-event function with defaults.
         '''
-        controller = CONTROLLER
+        controller = (CONTROLLER, DEST_ADDR, 'tcp')
         index = EVENT_INDEX
-
-        response = self.u.get_event(controller, index, dest_addr=DEST_ADDR, protocol='tcp')
+        response = self.u.get_event(controller, index)
 
         self.assertEqual(response, GetEventResponse)
 
@@ -288,9 +265,8 @@ class TestUhppoteWithTCP(unittest.TestCase):
         '''
         Tests the get-event-index function with defaults.
         '''
-        controller = CONTROLLER
-
-        response = self.u.get_event_index(controller, dest_addr=DEST_ADDR, protocol='tcp')
+        controller = (CONTROLLER, DEST_ADDR, 'tcp')
+        response = self.u.get_event_index(controller)
 
         self.assertEqual(response, GetEventIndexResponse)
 
@@ -298,10 +274,9 @@ class TestUhppoteWithTCP(unittest.TestCase):
         '''
         Tests the set-event-index function with defaults.
         '''
-        controller = CONTROLLER
+        controller = (CONTROLLER, DEST_ADDR, 'tcp')
         index = EVENT_INDEX
-
-        response = self.u.set_event_index(controller, index, dest_addr=DEST_ADDR, protocol='tcp')
+        response = self.u.set_event_index(controller, index)
 
         self.assertEqual(response, SetEventIndexResponse)
 
@@ -309,10 +284,9 @@ class TestUhppoteWithTCP(unittest.TestCase):
         '''
         Tests the record-special-events function with defaults.
         '''
-        controller = CONTROLLER
+        controller = (CONTROLLER, DEST_ADDR, 'tcp')
         enabled = True
-
-        response = self.u.record_special_events(controller, enabled, dest_addr=DEST_ADDR, protocol='tcp')
+        response = self.u.record_special_events(controller, enabled)
 
         self.assertEqual(response, RecordSpecialEventsResponse)
 
@@ -320,10 +294,9 @@ class TestUhppoteWithTCP(unittest.TestCase):
         '''
         Tests the get-time-profile function with defaults.
         '''
-        controller = CONTROLLER
+        controller = (CONTROLLER, DEST_ADDR, 'tcp')
         profile = TIME_PROFILE
-
-        response = self.u.get_time_profile(controller, profile, dest_addr=DEST_ADDR, protocol='tcp')
+        response = self.u.get_time_profile(controller, profile)
 
         self.assertEqual(response, GetTimeProfileResponse)
 
@@ -331,7 +304,7 @@ class TestUhppoteWithTCP(unittest.TestCase):
         '''
         Tests the set-time-profile function with defaults.
         '''
-        controller = CONTROLLER
+        controller = (CONTROLLER, DEST_ADDR, 'tcp')
         profile_id = TIME_PROFILE
         start_date = datetime.date(2021,1,1)
         end_date = datetime.date(2021,12,31)
@@ -368,9 +341,7 @@ class TestUhppoteWithTCP(unittest.TestCase):
             segment_2_end,
             segment_3_start,
             segment_3_end,
-            linked_profile_id, 
-            dest_addr=DEST_ADDR, 
-            protocol='tcp')
+            linked_profile_id)
 
         self.assertEqual(response, SetTimeProfileResponse)
 
@@ -378,9 +349,8 @@ class TestUhppoteWithTCP(unittest.TestCase):
         '''
         Tests the delete-all-time-profiles function with defaults.
         '''
-        controller = CONTROLLER
-
-        response = self.u.delete_all_time_profiles(controller, dest_addr=DEST_ADDR, protocol='tcp')
+        controller = (CONTROLLER, DEST_ADDR, 'tcp')
+        response = self.u.delete_all_time_profiles(controller)
 
         self.assertEqual(response, DeleteAllTimeProfilesResponse)
 
@@ -388,7 +358,7 @@ class TestUhppoteWithTCP(unittest.TestCase):
         '''
         Tests the add-task function with defaults.
         '''
-        controller = CONTROLLER
+        controller = (CONTROLLER, DEST_ADDR, 'tcp')
         start_date = datetime.date(2021,1,1)
         end_date = datetime.date(2021,12,31)
         monday = True
@@ -410,8 +380,7 @@ class TestUhppoteWithTCP(unittest.TestCase):
             start_time, 
             door, 
             task_type, 
-            more_cards, 
-            dest_addr=DEST_ADDR, protocol='tcp')
+            more_cards)
 
         self.assertEqual(response, AddTaskResponse)
 
@@ -419,9 +388,8 @@ class TestUhppoteWithTCP(unittest.TestCase):
         '''
         Tests the refresh-tasklist function with defaults.
         '''
-        controller = CONTROLLER
-
-        response = self.u.refresh_tasklist(controller, dest_addr=DEST_ADDR, protocol='tcp')
+        controller = (CONTROLLER, DEST_ADDR, 'tcp')
+        response = self.u.refresh_tasklist(controller)
 
         self.assertEqual(response, RefreshTaskListResponse)
 
@@ -429,9 +397,8 @@ class TestUhppoteWithTCP(unittest.TestCase):
         '''
         Tests the clear-tasklist function with defaults.
         '''
-        controller = CONTROLLER
-
-        response = self.u.clear_tasklist(controller, dest_addr=DEST_ADDR, protocol='tcp')
+        controller = (CONTROLLER, DEST_ADDR, 'tcp')
+        response = self.u.clear_tasklist(controller)
 
         self.assertEqual(response, ClearTaskListResponse)
 
@@ -439,10 +406,9 @@ class TestUhppoteWithTCP(unittest.TestCase):
         '''
         Tests the set-pc-control function with defaults.
         '''
-        controller = CONTROLLER
+        controller = (CONTROLLER, DEST_ADDR, 'tcp')
         enable = True
-
-        response = self.u.set_pc_control(controller, enable, dest_addr=DEST_ADDR, protocol='tcp')
+        response = self.u.set_pc_control(controller, enable)
 
         self.assertEqual(response, SetPCControlResponse)
 
@@ -450,10 +416,9 @@ class TestUhppoteWithTCP(unittest.TestCase):
         '''
         Tests the set-interlock function with defaults.
         '''
-        controller = CONTROLLER
+        controller = (CONTROLLER, DEST_ADDR, 'tcp')
         interlock = 8
-
-        response = self.u.set_interlock(controller, interlock, dest_addr=DEST_ADDR, protocol='tcp')
+        response = self.u.set_interlock(controller, interlock)
 
         self.assertEqual(response, SetInterlockResponse)
 
@@ -461,20 +426,13 @@ class TestUhppoteWithTCP(unittest.TestCase):
         '''
         Tests the activate-keypads function with defaults.
         '''
-        controller = CONTROLLER
+        controller = (CONTROLLER, DEST_ADDR, 'tcp')
         reader1 = True
         reader2 = True
         reader3 = False
         reader4 = True
 
-        response = self.u.activate_keypads(
-            controller, 
-            reader1, 
-            reader2, 
-            reader3, 
-            reader4, 
-            dest_addr=DEST_ADDR, 
-            protocol='tcp')
+        response = self.u.activate_keypads(controller, reader1, reader2, reader3, reader4)
 
         self.assertEqual(response, ActivateKeypadsResponse)
 
@@ -482,7 +440,7 @@ class TestUhppoteWithTCP(unittest.TestCase):
         '''
         Tests the set-door-passcodes function with defaults.
         '''
-        controller = CONTROLLER
+        controller = (CONTROLLER, DEST_ADDR, 'tcp')
         door = 3
         passcode1 = 12345
         passcode2 = 0
@@ -495,9 +453,7 @@ class TestUhppoteWithTCP(unittest.TestCase):
             passcode1,  
             passcode2, 
             passcode3, 
-            passcode4, 
-            dest_addr=DEST_ADDR, 
-            protocol='tcp')
+            passcode4)
 
         self.assertEqual(response, SetDoorPasscodesResponse)
 
@@ -505,8 +461,7 @@ class TestUhppoteWithTCP(unittest.TestCase):
         '''
         Tests the restore-default-parameters function with defaults.
         '''
-        controller = CONTROLLER
-
-        response = self.u.restore_default_parameters(controller, dest_addr=DEST_ADDR, protocol='tcp')
+        controller = (CONTROLLER, DEST_ADDR, 'tcp')
+        response = self.u.restore_default_parameters(controller)
 
         self.assertEqual(response, RestoreDefaultParametersResponse)

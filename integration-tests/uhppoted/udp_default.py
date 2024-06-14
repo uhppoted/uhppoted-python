@@ -98,7 +98,6 @@ class TestUDPWithDestAddr(unittest.TestCase):
         Tests the get-time function with defaults.
         '''
         controller = CONTROLLER
-
         response = self.u.get_time(controller)
 
         self.assertEqual(response, GetTimeResponse)
