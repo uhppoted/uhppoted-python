@@ -9,7 +9,8 @@
       - [x] Documentation
       - [x] CHANGELOG
       - [x] README
-      - [x] Rework with disambiguated controller arg:
+      - [x] Rework with disambiguated controller arg
+      - [ ] Verify still using controllers list for ID only requests
 
 def onEvent(event):
     if event != None:
