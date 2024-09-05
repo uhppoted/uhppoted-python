@@ -13,6 +13,16 @@ folder.
 pip install uhppoted
 ```
 
+## Release Notes
+
+#### Current Release
+
+**[v0.8.9](https://github.com/uhppoted/uhppoted-python/releases/tag/v0.8.9) - 2024-09-06**
+
+1. Enabled per-controller operation timeout configuration.
+2. Added support for TCP connections.
+
+
 ## API
 
 Invoking an API function requires an instance of the `Uhppote` class initialised with the information required

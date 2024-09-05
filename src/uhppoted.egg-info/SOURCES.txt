@@ -3,7 +3,9 @@ README.md
 pyproject.toml
 src/uhppoted/decode.py
 src/uhppoted/encode.py
+src/uhppoted/net.py
 src/uhppoted/structs.py
+src/uhppoted/tcp.py
 src/uhppoted/udp.py
 src/uhppoted/uhppote.py
 src/uhppoted.egg-info/PKG-INFO
