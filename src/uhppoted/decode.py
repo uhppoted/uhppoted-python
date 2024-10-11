@@ -251,6 +251,7 @@ def get_listener_response(packet):
         unpack_uint32(packet, 4),
         unpack_ipv4(packet, 8),
         unpack_uint16(packet, 12),
+        unpack_uint8(packet, 14),
     )
 
 

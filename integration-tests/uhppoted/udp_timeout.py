@@ -152,8 +152,9 @@ class TestUDPWithTimeout(unittest.TestCase):
         controller = (CONTROLLER, DEST_ADDR)
         address = IPv4Address('192.168.1.100')
         port = 60001
+        interval = 15
 
-        self.u.set_listener(controller, address, port)
+        self.u.set_listener(controller, address, port, interval)
         self.assertRaises(socket.timeout, self.u.set_listener, controller, address, port,timeout=TIMEOUT)
 
     def test_get_door_control(self):

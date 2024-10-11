@@ -14,8 +14,9 @@ update-release:
 
 format: 
 	yapf -ri src
-	# yapf -ri tests
-	# yapf -ri examples
+	yapf -ri examples/cli
+	yapf -ri examples/event-listener
+	yapf -ri tests
 
 build: format
 	python3 -m compileall .

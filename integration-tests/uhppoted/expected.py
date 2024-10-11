@@ -55,7 +55,8 @@ GetStatusResponse = structs.GetStatusResponse(
 GetListenerResponse = structs.GetListenerResponse(
     controller=405419896, 
     address=ipaddress.IPv4Address('192.168.1.100'), 
-    port=60001)
+    port=60001,
+    interval=15)
 
 SetListenerResponse = structs.SetListenerResponse(
     controller=405419896, 

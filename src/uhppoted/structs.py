@@ -128,10 +128,12 @@ class GetListenerResponse:
           controller  (uint32)       Controller serial number.
           address     (IPv4Address)  Configured event listener IP address.
           port        (uint16)       Configured event listener UDP port.
+          interval    (uint8)        Auto-send interval (seconds).
     '''
     controller: int
     address: IPv4Address
     port: int
+    interval: int
 
 
 @dataclass

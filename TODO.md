@@ -1,29 +1,13 @@
 # TODO
 
-- [x] TCP/IP protocol (cf. https://github.com/uhppoted/uhppote-core/issues/17)
-      - [x] TCP implementation
-      - [x] Update all functions:
-      - [x] Integration tests
-      - [x] commonalise utility functions
-      - [x] Update UDP tests to use setUpClass and tearDownClass
-      - [x] Documentation
+- [x] event listener: add listen auto-send interval (cf. https://github.com/uhppoted/uhppote-core/issues/21)
+      - [x] set-event-listener
+      - [x] get-event-listener
       - [x] CHANGELOG
       - [x] README
-      - [x] Rework with disambiguated controller arg
-      - [ ] Verify still using controllers list for ID only requests
-
-def onEvent(event):
-    if event != None:
-        pprint.pprint(event.__dict__, indent=2, width=1)
-
 
 - [ ] Use site-specific configuration to run examples locally
       - https://docs.python.org/3/library/site.html
-
-- [x] Fix examples so that they run locally
-- [x] Added `listen` to README and event-listenener examples (cf. https://github.com/uhppoted/uhppoted-python/issues/6)
-- [x] UDP send (cf. https://github.com/uhppoted/uhppoted-app-home-assistant/issues/3)
-- [x] Configurable call timeouts (cf. https://github.com/uhppoted/uhppoted-python/issues/5)
 
 ## TODO
 

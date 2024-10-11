@@ -141,7 +141,7 @@ def get_listener_request(controller):
     return packet
 
 
-def set_listener_request(controller, address, port):
+def set_listener_request(controller, address, port, interval=0):
     '''
     Encodes a set-listener request.
 
@@ -149,6 +149,7 @@ def set_listener_request(controller, address, port):
             controller (uint32)                 Controller serial number.
             address    (ipaddress.IPv4Address)  IP address of event listener.
             port       (uint16)                 UDP port of event listener.
+            interval   (uint8)                  Auto-send interval (seconds) Defaults to 0 (disabled).
  
         Returns:
             64 byte UDP packet.
@@ -161,6 +162,7 @@ def set_listener_request(controller, address, port):
     pack_uint32(controller, packet, 4)
     pack_IPv4(address, packet, 8)
     pack_uint16(port, packet, 12)
+    pack_uint8(interval, packet, 14)
 
     return packet
 

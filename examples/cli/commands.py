@@ -19,6 +19,7 @@ CARD = 8165538
 CARD_INDEX = 3
 EVENT_INDEX = 37
 TIME_PROFILE_ID = 29
+AUTO_SEND = 15
 
 ADDRESS = ipaddress.IPv4Address('192.168.1.100')
 NETMASK = ipaddress.IPv4Address('255.255.255.0')
@@ -80,7 +81,7 @@ def exec(f, args):
         protocol = 'tcp'
 
     u = uhppote.Uhppote(bind, broadcast, listen, debug)
-    response = f(u, dest, timeout, args,protocol=protocol)
+    response = f(u, dest, timeout, args, protocol=protocol)
 
     if response != None:
         if type(response).__name__ == 'list':
@@ -133,8 +134,9 @@ def get_listener(u, dest, timeout, args, protocol='udp'):
 def set_listener(u, dest, timeout, args, protocol='udp'):
     controller = (CONTROLLER, dest, protocol)
     (address, port) = LISTENER
+    interval = AUTO_SEND
 
-    return u.set_listener(controller, address, port,timeout=timeout)
+    return u.set_listener(controller, address, port, interval, timeout=timeout)
 
 
 def get_door_control(u, dest, timeout, args, protocol='udp'):
@@ -187,7 +189,7 @@ def get_card_by_index(u, dest, timeout, args, protocol='udp'):
     controller = (CONTROLLER, dest, protocol)
     index = CARD_INDEX
 
-    response = u.get_card_by_index(controller, index,  timeout=timeout)
+    response = u.get_card_by_index(controller, index, timeout=timeout)
     if response.card_number == 0:
         raise ValueError(f'card @ index {index} not found')
     elif response.card_number == 0xffffffff:
@@ -201,10 +203,10 @@ def put_card(u, dest, timeout, args, protocol='udp'):
     card = CARD
     start = datetime.datetime.strptime("2024-01-01", '%Y-%m-%d').date()
     end = datetime.datetime.strptime("2024-12-31", '%Y-%m-%d').date()
-    door1 = 0    # no access
-    door2 = 1    # 24/7 access
-    door3 = 29   # time_profile
-    door4 = 0    # no access
+    door1 = 0  # no access
+    door2 = 1  # 24/7 access
+    door3 = 29  # time_profile
+    door4 = 0  # no access
     PIN = 7531
 
     return u.put_card(controller, card, start, end, door1, door2, door3, door4, PIN, timeout=timeout)
@@ -227,7 +229,7 @@ def get_event(u, dest, timeout, args, protocol='udp'):
     controller = (CONTROLLER, dest, protocol)
     index = EVENT_INDEX
 
-    response = u.get_event(controller, index,  timeout=timeout)
+    response = u.get_event(controller, index, timeout=timeout)
     if response.event_type == 0xff:
         raise ValueError(f'event @ index {index} overwritten')
     elif response.index == 0:
@@ -288,16 +290,17 @@ def set_time_profile(u, dest, timeout, args, protocol='udp'):
     linked_profile_ID = 23
 
     # yapf: disable
-    return u.set_time_profile(controller, 
-                              profile_id, 
-                              start, end, 
-                              monday, tuesday, wednesday, thursday, friday, saturday, sunday, 
-                              segment1start, segment1end, 
-                              segment2start, segment2end, 
-                              segment3start, segment3end, 
-                              linked_profile_ID, 
+    return u.set_time_profile(controller,
+                              profile_id,
+                              start, end,
+                              monday, tuesday, wednesday, thursday, friday, saturday, sunday,
+                              segment1start, segment1end,
+                              segment2start, segment2end,
+                              segment3start, segment3end,
+                              linked_profile_ID,
                               timeout=timeout)
     # yapf: enable
+
 
 def clear_time_profiles(u, dest, timeout, args, protocol='udp'):
     controller = (CONTROLLER, dest, protocol)
@@ -322,12 +325,12 @@ def add_task(u, dest, timeout, args, protocol='udp'):
     more_cards = 0
 
     # yapf: disable
-    return u.add_task(controller, 
-                      start_date, end_date, 
+    return u.add_task(controller,
+                      start_date, end_date,
                       monday, tuesday, wednesday, thursday, friday, saturday, sunday,
-                      start_time, 
-                      door, 
-                      task_type, 
+                      start_time,
+                      door,
+                      task_type,
                       more_cards,
                       timeout=timeout)
     # yapf: enable
@@ -336,7 +339,7 @@ def add_task(u, dest, timeout, args, protocol='udp'):
 def refresh_tasklist(u, dest, timeout, args, protocol='udp'):
     controller = (CONTROLLER, dest, protocol)
 
-    return u.refresh_tasklist(controller,timeout=timeout)
+    return u.refresh_tasklist(controller, timeout=timeout)
 
 
 def clear_tasklist(u, dest, timeout, args, protocol='udp'):
@@ -383,7 +386,7 @@ def set_door_passcodes(u, dest, timeout, args, protocol='udp'):
 def restore_default_parameters(u, dest, timeout, args, protocol='udp'):
     controller = (CONTROLLER, dest, protocol)
 
-    return u.restore_default_parameters(controller,timeout=timeout)
+    return u.restore_default_parameters(controller, timeout=timeout)
 
 
 def listen(u, dest, timeout, args, protocol='udp'):

@@ -193,17 +193,21 @@ get_listener(controller)
 
 controller  uint32|tuple  controller serial number or (id, address, protocol) tuple
 
-Returns a `GetListener` with the configured controller event listener IPv4 address and UDP port.
+Returns a `GetListener` with the configured controller event listener IPv4 address and UDP port, as well
+as the controller auto-send interval. The auto-send interval is the interval (in seconds) at which the 
+controller sends the current status and most recent event (events are still sent as and when they occur).
+Auto-send is disabled if the _interval_ is 0.
 
 Raises an Exception if the call failed for any reason.
 ```
 
 ### `set_listener`
 ```
-set_listener(controller, listener)
+set_listener(controller, listener, interval)
 
 controller  uint32|tuple  controller serial number or (id, address, protocol) tuple
-listener   string  listener IPv4 address:port string
+listener    string        listener IPv4 address:port string
+interval    uint8         Auto-send interval (seconds). Defaults to 0 (disabled)
 
 Raises an Exception if the call failed for any reason.
 ```

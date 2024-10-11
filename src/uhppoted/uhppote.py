@@ -243,7 +243,7 @@ class Uhppote:
 
         return None
 
-    def set_listener(self, controller, address, port, timeout=2.5):
+    def set_listener(self, controller, address, port, interval=0, timeout=2.5):
         '''
         Sets an access controller event listener IPv4 address and port.
 
@@ -259,6 +259,7 @@ class Uhppote:
 
                address    (IPv4Address)  IPv4 address of event listener.
                port       (uint16)       UDP port of event listener.
+               interval   (uint8)        Auto-send interval (seconds). Defaults t0 0 (disabled).
                timeout    (float)        Optional operation timeout (in seconds). Defaults to 2.5s.
 
             Returns:
@@ -268,7 +269,7 @@ class Uhppote:
                Exception  If the response from the access controller cannot be decoded.
         '''
         (id, addr, protocol) = disambiguate(controller)
-        request = encode.set_listener_request(id, address, port)
+        request = encode.set_listener_request(id, address, port, interval)
         reply = self._send(request, addr, timeout, protocol)
 
         if reply != None:

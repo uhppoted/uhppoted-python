@@ -141,6 +141,19 @@ class TestUDPWithDestAddr(unittest.TestCase):
         controller = (CONTROLLER, DEST_ADDR)
         address = IPv4Address('192.168.1.100')
         port = 60001
+        interval = 15
+
+        response = self.u.set_listener(controller, address, port, interval)
+
+        self.assertEqual(response, SetListenerResponse)
+
+    def test_set_listener_without_interval(self):
+        '''
+        Tests the set-listener function with a valid dest_addr.
+        '''
+        controller = (CONTROLLER, DEST_ADDR)
+        address = IPv4Address('192.168.1.100')
+        port = 60001
 
         response = self.u.set_listener(controller, address, port)
 

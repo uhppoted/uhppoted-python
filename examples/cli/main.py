@@ -47,15 +47,9 @@ def main():
                         default=2.5,
                         help='(optional) operation timeout (in seconds). Defaults to 2.5.')
 
-    parser.add_argument('--udp',
-                        action=argparse.BooleanOptionalAction,
-                        default=False,
-                        help='use UDP protocol')
+    parser.add_argument('--udp', action=argparse.BooleanOptionalAction, default=False, help='use UDP protocol')
 
-    parser.add_argument('--tcp',
-                        action=argparse.BooleanOptionalAction,
-                        default=False,
-                        help='use TCP protocol')
+    parser.add_argument('--tcp', action=argparse.BooleanOptionalAction, default=False, help='use TCP protocol')
 
     args = parser.parse_args()
     cmd = args.command
@@ -66,7 +60,7 @@ def main():
         print(f'*** ERROR  conflicting UDP/TCP flags - choose one or the other (default is UDP)')
         print()
         sys.exit(1)
-    
+
     if cmd == 'all':
         for c, fn in commands().items():
             if c != 'listen':
