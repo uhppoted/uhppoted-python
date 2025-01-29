@@ -34,13 +34,13 @@ lint:
 build-all: test vet lint
 
 release: build-all integration-tests
-	source .venv/bin/activate
+	. .venv/bin/activate
 	rm -rf dist/*
 	python3 -m build
 	python3 -m twine check dist/* 
 
 publish: release
-	source .venv/bin/activate
+	. .venv/bin/activate
 	echo "Releasing version $(VERSION)"
 	gh release create "$(VERSION)" dist/*.tar.gz --draft --prerelease --title "$(VERSION)-beta" --notes-file release-notes.md
 	python3 -m twine upload --repository testpypi -u __token__ --skip-existing --verbose dist/*
