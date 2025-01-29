@@ -16,7 +16,7 @@ pip install uhppoted
 
 #### Current Release
 
-**[v0.8.10](https://github.com/uhppoted/uhppoted-lib-python/releases/tag/v0.8.10) - 2025-01-30**
+**[v0.8.10](https://github.com/uhppoted/uhppoted-lib-python/releases/tag/v0.8.10) - 2025-01-29**
 
 1. Added event _auto-send interval_ to the `get-listener` and `set-listener` API function.
 

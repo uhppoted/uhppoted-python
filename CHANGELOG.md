@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## [0.8.10](https://github.com/uhppoted/uhppoted-lib-python/releases/tag/v0.8.10) - 2025-01-30
+## [0.8.10](https://github.com/uhppoted/uhppoted-lib-python/releases/tag/v0.8.10) - 2025-01-29
 
 ### Updated
 1. Added auto-send interval to get/set-listener API function.
