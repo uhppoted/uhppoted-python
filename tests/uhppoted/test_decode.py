@@ -339,7 +339,7 @@ class TestDecode(unittest.TestCase):
         self.assertEqual(response.controller, 405419896)
         self.assertEqual(response.reset, True)
 
-    # Ref. https://github.com/uhppoted/uhppoted-python/issues/3
+    # Ref. https://github.com/uhppoted/uhppoted-lib-python/issues/3
     def test_listen_event(self):
         '''
         Tests a listen event.

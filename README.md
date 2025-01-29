@@ -1,10 +1,10 @@
-![build](https://github.com/uhppoted/uhppoted-python/workflows/build/badge.svg)
+![build](https://github.com/uhppoted/uhppoted-lib-python/workflows/build/badge.svg)
 
-# uhppoted-python
+# uhppoted-lib-python
 
 Python wrapper around the request/response API for the UHPPOTE TCP/IP access controllers. 
 
-A demo CLI illustrating the use of the API can be found in the [examples/cli](https://github.com/uhppoted/uhppoted-python/tree/main/examples/cli) folder.
+A demo CLI illustrating the use of the API can be found in the [examples/cli](https://github.com/uhppoted/uhppoted-lib-python/tree/main/examples/cli) folder.
 
 ## Installation
 
@@ -16,11 +16,9 @@ pip install uhppoted
 
 #### Current Release
 
-**[v0.8.9](https://github.com/uhppoted/uhppoted-python/releases/tag/v0.8.9) - 2024-09-06**
+**[v0.8.10](https://github.com/uhppoted/uhppoted-lib-python/releases/tag/v0.8.10) - 2025-01-30**
 
-1. Enabled per-controller operation timeout configuration.
-2. Added support for TCP connections.
-
+1. Added event _auto-send interval_ to the `get-listener` and `set-listener` API function.
 
 ## API
 
