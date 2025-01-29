@@ -1,6 +1,7 @@
 LICENSE
 README.md
 pyproject.toml
+src/uhppoted/__init__.py
 src/uhppoted/decode.py
 src/uhppoted/encode.py
 src/uhppoted/net.py
