@@ -34,6 +34,7 @@ lint:
 build-all: test vet lint
 
 release: build-all integration-tests
+	source .venv/bin/activate
 	rm -rf dist/*
 	python3 -m build
 	python3 -m twine check dist/* 
